@@ -1,0 +1,47 @@
+{
+  "name": "inventory",
+  "version": "0.0.1",
+  "description": "Componwnts inventory",
+  "main": "main.js",
+  "type": "commonjs",
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "start": "electron .",
+    "clean": "rm -rf ./dist",
+    "clean:win": "rm -rf ./dist",
+    "pack": "npm run clean && npm run pack:win",
+    "pack:win": "npm run clean:win && electron-packager . \"inventory\" --out=dist --appname=inventory --app-copyright=\"(c) 2021 Muchirijohn\" --platform=win32 --arch=x64 --app-version=1.0.0 --electron-version=16.0.0 --ignore=versions --ignore=release --ignore=docs --win32metadata.CompanyName=\"muchiris\" --win32metadata.ProductName=\"inventory\" --win32metadata.FileDescription=\"inventory\" --win32metadata.OriginalFilename=\"inventory.exe\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muchirijohn/inventory.git"
+  },
+  "keywords": [
+    "home",
+    "planning",
+    "calendar"
+  ],
+  "author": "muchirijohn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/muchirijohn/inventory/issues"
+  },
+  "homepage": "https://github.com/muchirijohn/inventory#readme",
+  "devDependencies": {
+    "electron": "^16.0.8",
+    "electron-builder": "^22.14.13",
+    "electron-packager": "^15.4.0",
+    "electron-rebuild": "^3.2.7"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.4",
+    "chance": "^1.1.8",
+    "fs-extra": "^8.1.0",
+    "jquery": "^3.6.0",
+    "mkdirp": "^0.5.5",
+    "moment": "^2.29.1",
+    "os-homedir": "^2.0.0",
+    "sqlite3": "^5.0.2",
+    "sweetalert": "^2.1.2"
+  }
+}
