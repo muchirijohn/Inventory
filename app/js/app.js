@@ -456,24 +456,43 @@ const { off } = require('process');
         }
 
         /**
+         * get tehe file names from dialog filepaths
+         * @param {array} filepaths 
+         * @returns filenames
+         */
+        var getFilesNames = (filepaths) => {
+            var files = [];
+            filepaths.forEach(filepath => {
+                files.push(filepath.substring(filepath.lastIndexOf('\\') + 1, filepath.length));
+            });
+            return files;
+        }
+
+        /**
          * get filename - helper function
          * @param {element} el 
          */
         function getFilename(el, fts, msel = false) {
             var props = ['openFile'];
             if (msel) props.push('multiSelections');
-            dialog.showOpenDialog({
+            var filepaths = dialog.showOpenDialogSync({
                 title: 'Select file',
                 filters: fts,
                 properties: props
-            }).then(result => {
+            });
+            if (filepaths !== undefined) {
+                var filenames = getFilesNames(filepaths);
+                if (msel) el.val(JSON.stringify(filenames));
+                else el.val(filenames[0]);
+            }
+            /*.then(result => {
                 if (!result.canceled) {
                     if (msel) el.val(result.filePaths);
                     else el.val(result.filePaths[0]);
                 }
             }).catch(err => {
                 console.log(err)
-            })
+            });*/
         }
 
         var unique_ids = [];
@@ -890,7 +909,7 @@ const { off } = require('process');
         /**
          * init preferences modal fields
          */
-        function initPrefsFields(){
+        function initPrefsFields() {
             $('#app-config-dir').val(''); //app directory
             $('#app-config-cat').val(''); //categories
             $('#app-config-pkg').val(''); //packages
