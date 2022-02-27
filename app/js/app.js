@@ -1012,6 +1012,8 @@ const { off } = require('process');
      * on window load
      */
     $(function () {
+       // $('.column.dev-desc').hide();
+       // $('.column.dev-logs').hide();
         mainUi.init();
     });
 })({});
