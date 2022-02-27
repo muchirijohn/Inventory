@@ -190,6 +190,7 @@ const { off } = require('process');
                         prevListClicked.setAttribute("style", "background-color: transparent");
                     }
                     prevListClicked = par;
+                    mainUi.showUi(true);
 
                 });
 
@@ -906,10 +907,25 @@ const { off } = require('process');
             $('#app-config-cat').val(''); //categories
             $('#app-config-pkg').val(''); //packages
         }
+
+        /**
+         * show or hide ui
+         * @param {boolean} show 
+         */
+        function showUi(show) {
+            if (show) {
+                $('.column.dev-desc .column').show();
+                $('.column.dev-logs .column').show();
+            } else {
+                $('.column.dev-desc .column').hide();
+                $('.column.dev-logs .column').hide();
+            }
+        }
         /**
          * init ui
          */
         function init() {
+            showUi(false);
             //modal preferences
             $('#modal-app-pref.ui.modal').modal({
                 blurring: false,
@@ -1004,7 +1020,8 @@ const { off } = require('process');
         }
 
         return {
-            init: init
+            init: init,
+            showUi: showUi
         }
     })();
 
@@ -1012,8 +1029,6 @@ const { off } = require('process');
      * on window load
      */
     $(function () {
-       // $('.column.dev-desc').hide();
-       // $('.column.dev-logs').hide();
         mainUi.init();
     });
 })({});
