@@ -19,18 +19,18 @@ body {
 
 /**scroll style**/
 
-.scroll-style-4d::-webkit-scrollbar-track {
+.scroll-style::-webkit-scrollbar-track {
     background-color: transparent !important;
     /*background-image: url('../images/scrollbar_bg.png');*/
     background-repeat: repeat;
 }
 
-.scroll-style-4d::-webkit-scrollbar {
+.scroll-style::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
 
-.scroll-style-4d::-webkit-scrollbar-thumb {
+.scroll-style::-webkit-scrollbar-thumb {
     border-radius: 3px;
     background-color: #666;
 }
@@ -299,7 +299,7 @@ button[type=button]:focus, button[type=button]:active{
     background-color: transparent;
 }
 
-#e-list-panel.scroll-style-4d::-webkit-scrollbar-thumb {
+#e-list-panel.scroll-style::-webkit-scrollbar-thumb {
     background-color: #fff;
 }
 

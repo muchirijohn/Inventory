@@ -166,7 +166,7 @@ p{
     background-color: #011835;
 }
 
-#list-panel.scroll-style-4d::-webkit-scrollbar-thumb {
+#list-panel.scroll-style::-webkit-scrollbar-thumb {
     background-color: #eee;
 }
 
@@ -180,7 +180,7 @@ p{
     box-shadow: 0px 2px 0px 2px rgba(133, 229, 253, 0.35);
 }
 
-.column.dev-desc.scroll-style-4d::-webkit-scrollbar-thumb {
+.column.dev-desc.scroll-style::-webkit-scrollbar-thumb {
     background-color: rgb(167, 167, 167);
     width: 2px;
 }
@@ -303,7 +303,7 @@ p{
     color: #f8f4e8 !important;
 }
 
-/*.column.dev-logs.scroll-style-4d .log-table::-webkit-scrollbar-thumb {
+/*.column.dev-logs.scroll-style .log-table::-webkit-scrollbar-thumb {
     background-color: rgb(98, 98, 98);
 }*/
     

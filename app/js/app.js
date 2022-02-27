@@ -485,14 +485,6 @@ const { off } = require('process');
                 if (msel) el.val(JSON.stringify(filenames));
                 else el.val(filenames[0]);
             }
-            /*.then(result => {
-                if (!result.canceled) {
-                    if (msel) el.val(result.filePaths);
-                    else el.val(result.filePaths[0]);
-                }
-            }).catch(err => {
-                console.log(err)
-            });*/
         }
 
         var unique_ids = [];
