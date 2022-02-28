@@ -15,7 +15,11 @@ const { off } = require('process');
         moment = require('moment');
 
     //app dir
-    const app_dir = __dirname;
+    const app_dir = __dirname,
+        pref_default_path = `${app_dir}/res/data/pref_default.json`,
+        pref_user_path = `${app_dir}/res/data/pref_user.json`;
+    //var to hold app preferences
+    var app_prefs = Object.create(null);
 
     /**
      * database
@@ -268,16 +272,13 @@ const { off } = require('process');
          * @param {*} options 
          * @returns none
          */
-        var createCategoriesOptions = (options) => {
-            if (catJson === null) return;
+        var createCategoriesOptions = (catgs) => {
             var parent = $('#sel-device');
             parent.empty();
-            var cts = Object.keys(catJson);
-            cts.forEach(cts => {
-                //console.log(cts);
+            catgs.forEach(cts => {
                 var opt = document.createElement('option');
                 opt.setAttribute('value', cts);
-                opt.innerText = catJson[cts];
+                opt.innerText = cts;
                 parent.append(opt);
             });
             partAddEditUi.partCategoriesInit();
@@ -287,14 +288,9 @@ const { off } = require('process');
          * read categories
          */
         var readCategories = () => {
-            fs.readFile(__dirname + '/res/data/inv_cat.json', 'utf-8', function (err, data) {
-                if (err) {
-                    swal('error', 'Failed to read categories ' + err);
-                    return '';
-                }
-                catJson = JSON.parse(data);
-                createCategoriesOptions(catJson);
-            });
+            var cats = app_prefs.categories;
+            if(cats === undefined) return;
+            createCategoriesOptions(cats);
         }
 
         /**
@@ -856,11 +852,11 @@ const { off } = require('process');
             prefs["dir"] = dir;
             //categories
             if (cats.length > 0) {
-               /* var ctgs = cats.trim().split('\n');
-                ctgs.forEach(ctg => {
-                    var in_ = ctg.split(',');
-                    categories[in_[0].trim()] = in_[1].trim();
-                });*/
+                /* var ctgs = cats.trim().split('\n');
+                 ctgs.forEach(ctg => {
+                     var in_ = ctg.split(',');
+                     categories[in_[0].trim()] = in_[1].trim();
+                 });*/
                 var catgs = cats.trim().split(',');
                 catgs.forEach(catg => {
                     categories.push(catg.trim());
@@ -1032,10 +1028,24 @@ const { off } = require('process');
         }
     })();
 
+    async function readPreferences() {
+        const exists = await fs.pathExists(pref_default_path);
+        if (exists === true) {
+            try {
+                app_prefs = await fs.readJson(pref_default_path);
+                app_prefs['default'] = true;
+                console.log(app_prefs);
+                mainUi.init();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
     /**
      * on window load
      */
     $(function () {
-        mainUi.init();
+        readPreferences();
     });
 })({});

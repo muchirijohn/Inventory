@@ -1,0 +1,23 @@
+{
+    "dir": "res",
+    "categories": [
+      "Capacitors",
+      "Connectors",
+      "Diodes",
+      "Displays",
+      "LED"
+    ],
+    "packages": [
+      "DIP",
+      "TQFP",
+      "QFN",
+      "DFN",
+      "HTSSOP",
+      "SOT323",
+      "MLCC",
+      "CASE-B_3528",
+      "CASE-D_7343",
+      "Machine",
+      "Tool"
+    ]
+  }
