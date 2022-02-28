@@ -1,6 +1,7 @@
 {
     "dir": "res",
     "categories": [
+      "All",
       "Capacitors",
       "Connectors",
       "Diodes",
@@ -18,5 +19,6 @@
       "MLCC",
       "CASE-B_3528",
       "CASE-D_7343"
-    ]
+    ],
+    "default": false
   }

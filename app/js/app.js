@@ -158,7 +158,7 @@ const { off } = require('process');
          * @returns 
          */
         function generateList(list_data) {
-            var a_dir = app_prefs.default ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir;
+            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
             if (list_data.length == 0) {
                 swal("Search", "Part(s) not found!", "error");
                 return;
@@ -262,18 +262,28 @@ const { off } = require('process');
 
         /**
          * create categories
-         * @param {*} options 
          * @returns none
          */
         var createCategoriesOptions = () => {
             var parent = $('#sel-device'),
                 catgs = app_prefs.categories;
             if (catgs === undefined) return;
-            parent.empty();
+            var options = [];
+            var all = true;
+            //get categories and format to selection values
             catgs.forEach(cts => {
-                parent.append($("<option></option>")
-                    .attr("value", cts)
-                    .text(cts));
+                var item = { name: cts, value: cts, selected: all };
+                options.push(item);
+                all = false;
+            });
+            //create category selection list
+            parent.dropdown({
+                values: options,
+                onChange: function (value, text, $selectedItem) {
+                    if (value != undefined) {
+                        database.dbSearch(false, value);
+                    }
+                }
             });
         }
 
@@ -282,16 +292,7 @@ const { off } = require('process');
          * read its selected value when changed
          */
         function init() {
-            //init selection element
-            $('#sel-device.dropdown').dropdown({
-                onChange: function (value, text, $selectedItem) {
-                    console.log(value)
-                    if (value != undefined) {
-                        database.dbSearch(false, value);
-                    }
-                }
-            });
-            //read categories
+            //read and create categories
             createCategoriesOptions();
         }
 
@@ -559,7 +560,7 @@ const { off } = require('process');
                     cat = categoriesUi.categories();
                 for (var i = 0; i < keys.length; i++) {
                     if (keys[i] === 'cat' || keys[i] === 'pkg') {
-                        var val = keys[i] === 'cat' ? cat[partsShowJson[pkeys[i]]] : partsShowJson[pkeys[i]];
+                        var val = partsShowJson[pkeys[i]];
                         pEl[keys[i]].dropdown('set exactly', [val]);
                     } else {
                         pEl[keys[i]].val(partsShowJson[pkeys[i]]);
@@ -660,16 +661,13 @@ const { off } = require('process');
          * init
          */
         function init() {
-            //init part selection modal fields
-            $('#part-add-cat.dropdown').dropdown();
-            $('#part-add-pkg.dropdown').dropdown();
+            var a_dir = (app_prefs.default ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
             //add new part modal
             $('#modal-part-add.ui.modal').modal({
                 //blurring: true,
                 closable: false,
                 onShow: () => {
-                    partCategoriesInit();
-                    partPackagesInit();
+
                 },
                 onDeny: function () {
                     return true;
@@ -694,6 +692,11 @@ const { off } = require('process');
                     return partNewLog();
                 }
             });
+            partCategoriesInit();
+            partPackagesInit();
+            //init part selection modal fields
+            $('#part-add-cat.dropdown').dropdown();
+            $('#part-add-pkg.dropdown').dropdown();
             //init modal tabs
             $('#modal-part-add .ui.tabular.menu .item').tab();
             $('#div-part-img-spec .ui.tabular.menu .item').tab();
@@ -734,7 +737,7 @@ const { off } = require('process');
             $('#part-show-dsheet').on('click', (e) => {
                 try {
                     e.preventDefault();
-                    checkIfFileExists(partsShowJson.datasheet);
+                    checkIfFileExists(a_dir + '\\datasheets\\' + partsShowJson.datasheet);
                 } catch (e) { }
             });
             //show part link
@@ -751,7 +754,7 @@ const { off } = require('process');
             $('#part-show-cad').on('click', (e) => {
                 try {
                     e.preventDefault();
-                    checkIfFileExists(partsShowJson.cad, true);
+                    checkIfFileExists(a_dir + '\\cad\\' + partsShowJson.cad, true);
                 } catch (e) { }
             });
             //delete a log
@@ -807,7 +810,7 @@ const { off } = require('process');
             var prefs = Object.create(null),
                 categories = [],
                 packages = [];
-
+            //check if directory valid
             const exists = fs.pathExistsSync(dir);
             if (exists === false) {
                 swal('Preferences', 'Please set app directory', 'error');
@@ -815,20 +818,15 @@ const { off } = require('process');
             }
             //dir
             prefs["dir"] = dir;
-            //categories
+            //get categories
             if (cats.length > 0) {
-                /* var ctgs = cats.trim().split('\n');
-                 ctgs.forEach(ctg => {
-                     var in_ = ctg.split(',');
-                     categories[in_[0].trim()] = in_[1].trim();
-                 });*/
                 var catgs = cats.trim().split(',');
                 catgs.forEach(catg => {
                     categories.push(catg.trim());
                 });
             }
             prefs["categories"] = categories;
-            //packages
+            //get packages
             if (pkgs.length > 0) {
                 var packs = pkgs.trim().split(',');
                 packs.forEach(pck => {
@@ -836,16 +834,17 @@ const { off } = require('process');
                 });
             }
             prefs["packages"] = packages;
+            prefs['default'] = false;
 
             console.log(prefs);
             //create datasheet folder
             fs.ensureDirSync(dir + '/datasheets/');
             //create images folder
             fs.ensureDirSync(dir + '/images/');
-            //create preferences file
-            fs.ensureFileSync(dir + '/pref.json');
+            //create cad folder
+            fs.ensureDirSync(dir + '/cad/');
             //write to preferencess folder
-            var pref_path = __dirname + '/res/data/pref.json';
+            var pref_path = pref_user_path;
             fs.outputFileSync(pref_path, JSON.stringify(prefs));
             swal('Preferences', 'Successful', 'success');
             //close dialog
@@ -871,9 +870,9 @@ const { off } = require('process');
          * init preferences modal fields
          */
         function initPrefsFields() {
-            $('#app-config-dir').val(''); //app directory
-            $('#app-config-cat').val(''); //categories
-            $('#app-config-pkg').val(''); //packages
+            $('#app-config-dir').val(app_prefs.dir); //app directory
+            $('#app-config-cat').val(app_prefs.categories); //categories
+            $('#app-config-pkg').val(app_prefs.packages); //packages
         }
 
         /**
@@ -994,13 +993,15 @@ const { off } = require('process');
     })();
 
     async function readPreferences() {
-        const exists = await fs.pathExists(pref_default_path);
-        if (exists === true) {
+        const u_path = await fs.pathExists(pref_user_path);
+        var pref_path = u_path ? pref_user_path : pref_default_path;
+        const d_path = await fs.pathExists(pref_path);
+        if (d_path === true) {
             try {
-                app_prefs = await fs.readJson(pref_default_path);
-                app_prefs['default'] = true;
+                app_prefs = await fs.readJson(pref_path);
                 mainUi.init();
             } catch (err) {
+                console.log(err);
                 swal('Error', 'Ops! Something under the hood fried.', 'error');
             }
         } else {
