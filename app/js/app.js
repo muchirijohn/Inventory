@@ -844,7 +844,7 @@ const { off } = require('process');
                 cats = $('#app-config-cat').val(), //categories
                 pkgs = $('#app-config-pkg').val(); //packages
             var prefs = Object.create(null),
-                categories = Object.create(null),
+                categories = [],
                 packages = [];
 
             const exists = fs.pathExistsSync(dir);
@@ -856,10 +856,14 @@ const { off } = require('process');
             prefs["dir"] = dir;
             //categories
             if (cats.length > 0) {
-                var ctgs = cats.trim().split('\n');
+               /* var ctgs = cats.trim().split('\n');
                 ctgs.forEach(ctg => {
                     var in_ = ctg.split(',');
                     categories[in_[0].trim()] = in_[1].trim();
+                });*/
+                var catgs = cats.trim().split(',');
+                catgs.forEach(catg => {
+                    categories.push(catg.trim());
                 });
             }
             prefs["categories"] = categories;
@@ -871,6 +875,8 @@ const { off } = require('process');
                 });
             }
             prefs["packages"] = packages;
+
+            console.log(prefs);
             //create datasheet folder
             fs.ensureDirSync(dir + '/datasheets/');
             //create images folder
@@ -878,7 +884,8 @@ const { off } = require('process');
             //create preferences file
             fs.ensureFileSync(dir + '/pref.json');
             //write to preferencess folder
-            fs.writeFileSync(dir + '/pref.json', JSON.stringify(prefs));
+            var pref_path = __dirname + '/res/data/pref.json';
+            fs.outputFileSync(pref_path, JSON.stringify(prefs));
             swal('Preferences', 'Successful', 'success');
             //close dialog
             return true;
