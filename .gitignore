@@ -1,5 +1,4 @@
 
 node_modules/
 dist/
-resources/
 **/pref_user.json
