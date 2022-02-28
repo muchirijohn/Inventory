@@ -271,13 +271,10 @@ const { off } = require('process');
             if (catgs === undefined) return;
             parent.empty();
             catgs.forEach(cts => {
-                var opt = document.createElement('option');
-                opt.setAttribute('value', cts);
-                opt.innerText = cts;
-                parent.append(opt);
-                console.log()
+                parent.append($("<option></option>")
+                    .attr("value", cts)
+                    .text(cts));
             });
-            partAddEditUi.partCategoriesInit();
         }
 
         /**
@@ -286,16 +283,12 @@ const { off } = require('process');
          */
         function init() {
             //init selection element
-            $('select.dropdown').dropdown();
-            $('select.dropdown').dropdown({
-                on: 'hover'
-            });
-            //create change event
-            cat_el.on('change', (e) => {
-                e.preventDefault();
-                var val = catValue();
-                if (val != undefined) {
-                    database.dbSearch(false, val);
+            $('#sel-device.dropdown').dropdown({
+                onChange: function (value, text, $selectedItem) {
+                    console.log(value)
+                    if (value != undefined) {
+                        database.dbSearch(false, value);
+                    }
                 }
             });
             //read categories
@@ -395,9 +388,9 @@ const { off } = require('process');
             var parent = $('#part-add-cat');
             parent.empty();
             catg.forEach(cts => {
-                var opt = document.createElement('option');
-                opt.setAttribute('value', cts);
-                opt.innerText = cts;
+                parent.append($("<option></option>")
+                    .attr("value", cts)
+                    .text(cts));
             });
             cat_pkg[0] = true;
         }
@@ -412,10 +405,9 @@ const { off } = require('process');
             var parent = $('#part-add-pkg');
             parent.empty();
             packages.forEach(pkg => {
-                var opt = document.createElement('option');
-                opt.setAttribute('value', pkg);
-                opt.innerText = pkg;
-                parent.append(opt);
+                parent.append($("<option></option>")
+                    .attr("value", pkg)
+                    .text(pkg));
             });
             cat_pkg[1] = true
         }
@@ -668,13 +660,16 @@ const { off } = require('process');
          * init
          */
         function init() {
+            //init part selection modal fields
+            $('#part-add-cat.dropdown').dropdown();
+            $('#part-add-pkg.dropdown').dropdown();
             //add new part modal
             $('#modal-part-add.ui.modal').modal({
                 //blurring: true,
                 closable: false,
                 onShow: () => {
-                    //partCategoriesInit();
-                    //partPackagesInit();
+                    partCategoriesInit();
+                    partPackagesInit();
                 },
                 onDeny: function () {
                     return true;
@@ -699,11 +694,7 @@ const { off } = require('process');
                     return partNewLog();
                 }
             });
-            //partCategoriesInit();
-            partPackagesInit();
-
-            $('.ui.dropdown').dropdown();
-
+            //init modal tabs
             $('#modal-part-add .ui.tabular.menu .item').tab();
             $('#div-part-img-spec .ui.tabular.menu .item').tab();
             $('.ui.checkbox').checkbox();
@@ -792,7 +783,6 @@ const { off } = require('process');
 
         return {
             init: init,
-            partCategoriesInit: partCategoriesInit,
             showModal: showModal,
             partClearFields: partClearFields,
             partSaveData: partSaveData,

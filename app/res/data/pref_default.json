@@ -5,7 +5,8 @@
       "Connectors",
       "Diodes",
       "Displays",
-      "LED"
+      "LED",
+      "Sensors"
     ],
     "packages": [
       "DIP",
