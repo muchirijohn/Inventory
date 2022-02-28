@@ -70,7 +70,7 @@ const { off } = require('process');
             if (db === null) dbConnect();
             db.serialize(function () {
                 //search part number and description
-                if (part) sql = `SELECT * FROM parts WHERE manf_part_no LIKE '%${key}%' OR description  LIKE '%${key}%'`;
+                if (part) sql = `SELECT * FROM parts WHERE manf_part_no LIKE '%${key}%' OR description LIKE '%${key}%' OR specs LIKE '%${key}%'`;
                 else sql = `SELECT * FROM parts WHERE type='${key}'`;
                 db.all(sql, [], (err, rows) => {
                     if (!err) {
@@ -227,6 +227,46 @@ const { off } = require('process');
             setListHeight();
             //generate list
             database.dbFetchAllParts();
+            //fetch all parts button event
+            $('#btn-part-all').on('click', (e) => {
+                database.dbFetchAllParts();
+            });
+
+            //search components button event
+            $('#btn-part-sc').on('click', (e) => {
+                swal("Please Enter Search Query", {
+                    content: "input",
+                }).then((val) => {
+                    if (val) {
+                        //search parts - manf and description
+                        database.dbSearch(true, val);
+                    }
+                });
+
+            });
+
+            //add part
+            $('#btn-part-add').on('click', (e) => {
+                partAddEditUi.showModal(true);
+            });
+
+            $('#btn-part-clear').on('click', (e) => {
+                swal({
+                    title: "Clear contents",
+                    text: "Are you sure you want to clear contents?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        partAddEditUi.partClearFields();
+                        swal("Contents cleared!", {
+                            icon: "success",
+                        });
+                    }
+                });
+            });
+
         }
 
         return {
@@ -243,7 +283,8 @@ const { off } = require('process');
      */
     var categoriesUi = (function categoriesUi() {
         //selection element
-        var cat_el = $('#sel-device');
+        var cat_el = $('#sel-device'),
+            init_cat = false;
 
         /**
          * get categpry selection value
@@ -280,8 +321,10 @@ const { off } = require('process');
             parent.dropdown({
                 values: options,
                 onChange: function (value, text, $selectedItem) {
-                    if (value != undefined) {
-                        database.dbSearch(false, value);
+                    if (value !== undefined && init_cat === true) {
+                        if(init_cat) database.dbSearch(false, value);
+                        console.log(value)
+                        init_cat = true;
                     }
                 }
             });
@@ -919,47 +962,6 @@ const { off } = require('process');
                 e.preventDefault();
                 getAppDir();
             });
-
-            //fetch all parts button event
-            $('#btn-part-all').on('click', (e) => {
-                database.dbFetchAllParts();
-            });
-
-            //search components button event
-            $('#btn-part-sc').on('click', (e) => {
-                swal("Enter Manufacturer Part Number", {
-                    content: "input",
-                }).then((val) => {
-                    if (val) {
-                        //search parts - manf and description
-                        database.dbSearch(true, val);
-                    }
-                });
-
-            });
-
-            //add part
-            $('#btn-part-add').on('click', (e) => {
-                partAddEditUi.showModal(true);
-            });
-
-            $('#btn-part-clear').on('click', (e) => {
-                swal({
-                    title: "Clear contents",
-                    text: "Are you sure you want to clear contents?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                }).then((willDelete) => {
-                    if (willDelete) {
-                        partAddEditUi.partClearFields();
-                        swal("Contents cleared!", {
-                            icon: "success",
-                        });
-                    }
-                });
-            });
-
             //on window resize
             $(window).on('resize', function () {
                 if ($(window).height() < 650) $(window).height('50px');
