@@ -374,7 +374,7 @@ const { off } = require('process');
             cad, specs, images, seller, link, cost, stock_limit) VALUES (
                 "${data.id}", "${data.stock}", "${data.cat}", "${data.manf}", "${data.mNum}", "${data.pkg}", "${data.pins}",
                 "${data.dSheet}", "${data.desc}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
-                "${data.dist}", "${data.link}", "${data.cost}")`
+                "${data.dist}", "${data.link}", "${data.cost}", "${data.slimit}")`
             database.dbRunSavePartQuery(sql);
         }
 
