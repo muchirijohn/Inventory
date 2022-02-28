@@ -265,25 +265,19 @@ const { off } = require('process');
          * @param {*} options 
          * @returns none
          */
-        var createCategoriesOptions = (catgs) => {
-            var parent = $('#sel-device');
+        var createCategoriesOptions = () => {
+            var parent = $('#sel-device'),
+                catgs = app_prefs.categories;
+            if (catgs === undefined) return;
             parent.empty();
             catgs.forEach(cts => {
                 var opt = document.createElement('option');
                 opt.setAttribute('value', cts);
                 opt.innerText = cts;
                 parent.append(opt);
+                console.log()
             });
             partAddEditUi.partCategoriesInit();
-        }
-
-        /**
-         * read categories
-         */
-        var readCategories = () => {
-            var cats = app_prefs.categories;
-            if (cats === undefined) return;
-            createCategoriesOptions(cats);
         }
 
         /**
@@ -305,7 +299,7 @@ const { off } = require('process');
                 }
             });
             //read categories
-            readCategories();
+            createCategoriesOptions();
         }
 
         return {
@@ -395,7 +389,7 @@ const { off } = require('process');
          * @returns none 
          */
         function partCategoriesInit() {
-            if(cat_pkg[0] === true) return;
+            if (cat_pkg[0] === true) return;
             var catg = app_prefs.categories;
             if (catg.length === 0) return;
             var parent = $('#part-add-cat');
@@ -412,7 +406,7 @@ const { off } = require('process');
          * get packages
          */
         function partPackagesInit() {
-            if(cat_pkg[1] === true) return;
+            if (cat_pkg[1] === true) return;
             packages = app_prefs.packages;
             if (packages.length === 0) return;
             var parent = $('#part-add-pkg');
