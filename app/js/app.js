@@ -4,6 +4,7 @@ const { UUID } = require('builder-util-runtime');
 const { dir } = require('console');
 const { each, data } = require('jquery');
 const { off } = require('process');
+const internal = require('stream');
 
 (function () {
     const { electron, shell, ipcRenderer } = require('electron');
@@ -85,13 +86,13 @@ const { off } = require('process');
          * execute sql statement
          * @param {sql statement} sql 
          */
-        function dbRunSavePartQuery(sql, error) {
+        function dbRunSavePartQuery(sql, isNew) {
             db.serialize(function () {
                 db.run(sql, [], (err) => {
                     if (err) {
-                        swal("Error", "Failed to save new Part. Please verify all the fields", "error");
+                        swal("Error", "Failed to save Part. Please verify all the fields", "error");
                     } else {
-                        swal("Success", "Successfully added new part", "success");
+                        swal("Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success");
                     }
                 });
             });
@@ -322,7 +323,7 @@ const { off } = require('process');
                 values: options,
                 onChange: function (value, text, $selectedItem) {
                     if (value !== undefined && init_cat === true) {
-                        if(init_cat) database.dbSearch(false, value);
+                        if (init_cat) database.dbSearch(false, value);
                         console.log(value)
                         init_cat = true;
                     }
@@ -349,8 +350,9 @@ const { off } = require('process');
      * part add/edit
      */
     var partAddEditUi = (function partAddEditUi() {
-        var packages = [];
-        var cat_pkg = [false, false];
+        var packages = [],
+            cat_pkg = [false, false],
+            isPartNew = true;
         //modal elemnt
         var ptModal = $('#modal-part-add');
         //parts add modal elements
@@ -407,18 +409,32 @@ const { off } = require('process');
          * save part data
          */
         function partSaveData() {
-            var data = getPartModalFieldsData();
+            var data = getPartModalFieldsData(),
+                sql = '';
             if (data.id.length == 0) {
                 swal('Error', 'Part ID cannot be null!', 'error');
                 return;
             }
-            var sql = `INSERT INTO parts 
-            (id, stock, type, manf, manf_part_no, package, pins_no, datasheet, description, icon, 
-            cad, specs, images, seller, link, cost, stock_limit) VALUES (
-                "${data.id}", "${data.stock}", "${data.cat}", "${data.manf}", "${data.mNum}", "${data.pkg}", "${data.pins}",
-                "${data.dSheet}", "${data.desc}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
-                "${data.dist}", "${data.link}", "${data.cost}", "${data.slimit}")`
-            database.dbRunSavePartQuery(sql);
+            if (isPartNew === true) {
+                sql = `INSERT INTO parts 
+                    (id, stock, type, manf, manf_part_no, package, pins_no, datasheet, description, icon, 
+                    cad, specs, images, seller, link, cost, stock_limit) VALUES (
+                        "${data.id}", "${data.stock}", "${data.cat}", "${data.manf}", "${data.mNum}", "${data.pkg}", "${data.pins}",
+                        "${data.dSheet}", "${data.desc}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
+                        "${data.dist}", "${data.link}", "${data.cost}", "${data.slimit}")`;
+            } else {
+                sql = `UPDATE parts SET 
+                        stock="${data.stock}", type="${data.cat}", manf="${data.manf}", 
+                        manf_part_no="${data.mNum}", package="${data.pkg}", pins_no="${data.pins}",
+                        datasheet="${data.dSheet}", description="${data.desc}", icon="${data.icon}", 
+                        cad="${data.cad}", specs="${data.specs}", images="${data.images}",
+                        seller="${data.dist}", link="${data.link}", cost="${data.cost}", 
+                        stock_limit="${data.slimit}"
+                    WHERE
+                        id="${data.id}"`;
+            }
+            console.log(sql);
+            database.dbRunSavePartQuery(sql, isPartNew);
         }
 
         /**
@@ -458,7 +474,10 @@ const { off } = require('process');
 
         //show modal
         var showModal = (init = false) => {
-            if (init === true) partClearFields();
+            isPartNew = init;
+            if (init === true) {
+                partClearFields();
+            }
             ptModal.modal('show');
         }
 
@@ -701,6 +720,20 @@ const { off } = require('process');
         }
 
         /**
+         * show or hide part add ID field - on new or edit
+         */
+        function showHidePartId() {
+            var btn_auto = $('#part-add-id-auto');
+            if (isPartNew == true) {
+                pEl.id.removeAttr("disabled");
+                btn_auto.removeClass("disabled");
+            } else {
+                pEl.id.attr("disabled", "");
+                btn_auto.addClass("disabled");
+            }
+        }
+
+        /**
          * init
          */
         function init() {
@@ -710,7 +743,7 @@ const { off } = require('process');
                 //blurring: true,
                 closable: false,
                 onShow: () => {
-
+                    showHidePartId();
                 },
                 onDeny: function () {
                     return true;
@@ -745,6 +778,11 @@ const { off } = require('process');
             $('#div-part-img-spec .ui.tabular.menu .item').tab();
             $('.ui.checkbox').checkbox();
 
+            //delete part
+            $('#part-show-btn-del').on('click', (e) => {
+                e.preventDefault();
+                swal('Delete' , 'Not yet!! A cup of coffee and it\'ll be implemented :-)', 'info');
+            });
             //edit part
             $('#part-show-btn-edit').on('click', (e) => {
                 e.preventDefault();
