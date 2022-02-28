@@ -241,9 +241,6 @@ const { off } = require('process');
      * categories
      */
     var categoriesUi = (function categoriesUi() {
-
-        //devices categories
-        var catJson = Object.create(null);
         //selection element
         var cat_el = $('#sel-device');
 
@@ -259,13 +256,8 @@ const { off } = require('process');
          * @returns categories json object ID - Value
          */
         var categories = () => {
-            return catJson;
+            return app_prefs.categories;
         }
-
-        var getCategoryType = (key) => {
-            if (catJson !== null) return catJson[key];
-        }
-
 
         /**
          * create categories
@@ -289,7 +281,7 @@ const { off } = require('process');
          */
         var readCategories = () => {
             var cats = app_prefs.categories;
-            if(cats === undefined) return;
+            if (cats === undefined) return;
             createCategoriesOptions(cats);
         }
 
@@ -319,8 +311,7 @@ const { off } = require('process');
 
         return {
             init: init,
-            categories: categories,
-            getCategoryType: getCategoryType
+            categories: categories
         };
     })();
 
@@ -406,8 +397,8 @@ const { off } = require('process');
          */
         function partCategoriesInit() {
             if (cat_pkg[0] === true) return;
-            var cat = categoriesUi.categories();
-            if (cat === null) return;
+            var cat = app_prefs.categories;
+            if (cat.length === 0) return;
             var parent = $('#part-add-cat');
             parent.empty();
             var cts = Object.keys(cat);
@@ -426,23 +417,16 @@ const { off } = require('process');
          */
         function partPackagesInit() {
             if (cat_pkg[1] === true) return;
-            fs.readFile(__dirname + '/res/data/inv_packages.json', 'utf-8', function (err, data) {
-                if (err) {
-                    swal('error', 'Failed to read packages ' + err);
-                    return [];
-                }
-                packages = JSON.parse(data);
-                if (packages === null) return;
-                var parent = $('#part-add-pkg');
-                parent.empty();
-                packages.forEach(pkg => {
-                    var opt = document.createElement('option');
-                    opt.setAttribute('value', pkg);
-                    opt.innerText = pkg;
-                    parent.append(opt);
-                });
+            packages = app_prefs.packages;
+            if (packages.length === 0) return;
+            var parent = $('#part-add-pkg');
+            parent.empty();
+            packages.forEach(pkg => {
+                var opt = document.createElement('option');
+                opt.setAttribute('value', pkg);
+                opt.innerText = pkg;
+                parent.append(opt);
             });
-
             cat_pkg[1] = true
         }
 
@@ -511,7 +495,7 @@ const { off } = require('process');
          */
         var partShowTable1Html = (data) => {
             return `<tbody>
-            <tr> <td class="two wide column">Type</td><td>${categoriesUi.getCategoryType(data.type)}</td></tr>
+            <tr> <td class="two wide column">Type</td><td>${data.type}</td></tr>
             <tr><td>Manufacturer</td><td>${data.manf}</td></tr>
             <tr><td>Package</td><td>${data.package}</td></tr>
             <tr><td>Pinouts</td><td>${data.pins_no}</td></tr>
