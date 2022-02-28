@@ -158,6 +158,7 @@ const { off } = require('process');
          * @returns 
          */
         function generateList(list_data) {
+            var a_dir = app_prefs.default ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir;
             if (list_data.length == 0) {
                 swal("Search", "Part(s) not found!", "error");
                 return;
@@ -172,7 +173,7 @@ const { off } = require('process');
                 d_.className = 'item';
                 d_.setAttribute("id", part_data.id);
                 //add content
-                d_.innerHTML = `<img class="ui avatar image" src="${part_data.icon}">
+                d_.innerHTML = `<img class="ui avatar image" src="${a_dir}\\images\\${part_data.icon}">
                 <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
                 <div class="description">${part_data.description}</div>
                 </div>`
@@ -300,8 +301,6 @@ const { off } = require('process');
                 e.preventDefault();
                 var val = catValue();
                 if (val != undefined) {
-                    //console.log(val + ':' + catJson[val]);
-                    //search parts - category
                     database.dbSearch(false, val);
                 }
             });
@@ -396,18 +395,15 @@ const { off } = require('process');
          * @returns none 
          */
         function partCategoriesInit() {
-            if (cat_pkg[0] === true) return;
-            var cat = app_prefs.categories;
-            if (cat.length === 0) return;
+            if(cat_pkg[0] === true) return;
+            var catg = app_prefs.categories;
+            if (catg.length === 0) return;
             var parent = $('#part-add-cat');
             parent.empty();
-            var cts = Object.keys(cat);
-            cts.forEach(cts => {
-                //console.log(cts);
+            catg.forEach(cts => {
                 var opt = document.createElement('option');
                 opt.setAttribute('value', cts);
-                opt.innerText = cat[cts];
-                parent.append(opt);
+                opt.innerText = cts;
             });
             cat_pkg[0] = true;
         }
@@ -416,7 +412,7 @@ const { off } = require('process');
          * get packages
          */
         function partPackagesInit() {
-            if (cat_pkg[1] === true) return;
+            if(cat_pkg[1] === true) return;
             packages = app_prefs.packages;
             if (packages.length === 0) return;
             var parent = $('#part-add-pkg');
@@ -532,7 +528,8 @@ const { off } = require('process');
             partShowData = (pData) => {
                 partsShowJson = Object.assign({}, pData);
                 var stock = [['In Stock', '5aff0e'], [`Low Stock - Limit is ${partsShowJson.stock_limit}`, 'ffcb22'], ['Out of Stock', 'ff0e0e']],
-                    slv = 0;
+                    slv = 0,
+                    a_dir = app_prefs.default ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir;
                 //show data only once
                 if (prevID === partsShowJson.id) return;
                 else prevID = partsShowJson.id;
@@ -552,7 +549,7 @@ const { off } = require('process');
                 //seller
                 pElShow.seller.html(`<i class="cart icon"></i> ${partsShowJson.seller}`);
                 //icon
-                pElShow.icon.html(`<img src="${partsShowJson.icon}" class="img-fluid" alt="${partsShowJson.id}">`);
+                pElShow.icon.html(`<img src="${a_dir}\\images\\${partsShowJson.icon}" class="img-fluid" alt="${partsShowJson.id}">`);
                 //description
                 pElShow.desc.html(`<span class="column sixteen wide">${partsShowJson.description}</span>`);
                 //stock
@@ -1018,11 +1015,12 @@ const { off } = require('process');
             try {
                 app_prefs = await fs.readJson(pref_default_path);
                 app_prefs['default'] = true;
-                console.log(app_prefs);
                 mainUi.init();
             } catch (err) {
-                console.error(err);
+                swal('Error', 'Ops! Something under the hood fried.', 'error');
             }
+        } else {
+            swal('Error', 'Application preferences file is missing!', 'error');
         }
     }
 
