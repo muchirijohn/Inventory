@@ -818,7 +818,8 @@ const internal = require('stream');
             $('#part-show-dsheet').on('click', (e) => {
                 try {
                     e.preventDefault();
-                    checkIfFileExists(a_dir + '\\datasheets\\' + partsShowJson.datasheet);
+                    var link = a_dir + '\\datasheets\\' + partsShowJson.datasheet;
+                    checkIfFileExists(link);
                 } catch (e) { }
             });
             //show part link
