@@ -136,6 +136,26 @@ const internal = require('stream');
         }
 
         /**
+         * delete a log from part logs
+         * @param {array} qry 
+         * @param {function} callback 
+         */
+        function dbDeleteLog(qry, callback){
+            var sql = `DELETE FROM logs WHERE
+            part_id='${qry[0]}' AND date='${qry[1]}'`;
+            console.log(sql);
+            db.serialize(function () {
+                db.run(sql, [], (err) => {
+                    if (err) {
+                        swal("Error", "Failed to delete log.", "error");
+                    } else {
+                        callback();
+                    }
+                });
+            });
+        }
+
+        /**
          * close db
          */
         function dbClose() {
@@ -160,6 +180,7 @@ const internal = require('stream');
             dbRunSavePartQuery: dbRunSavePartQuery,
             dbFetchLogs: dbFetchLogs,
             dbRunSaveLog: dbRunSaveLog,
+            dbDeleteLog: dbDeleteLog,
             dbClose: dbClose
         }
     })();
@@ -698,7 +719,7 @@ const internal = require('stream');
          */
         function createlog(log, notify = true) {
             var ttr = document.createElement('tr');
-            ttr.id = 'log-' + log[3];
+            ttr.id = 'log-' + log[2];
             ttr.innerHTML = `<td>${log[1]}</td>
                             <td>${log[2]}</td>
                             <td>${log[3]}</td>
@@ -765,6 +786,47 @@ const internal = require('stream');
             //createlog(log);
             database.dbRunSaveLog(log);
         }
+
+        /**
+         * delete a log
+         * @returns none
+         */
+        var deleteLogNotify = () => {
+            if (prevLogEl === null) {
+                swal('Error', 'Select log to delete', 'error');
+                return;
+            }
+            //show confirmation
+            swal({
+                title: "Delete Log",
+                text: "Are you sure you want to delete log?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    deleteLog();
+                }
+            });
+        },
+            deleteLog = () => {
+
+
+                var id = prevLogEl.id,
+                    qr = [
+                        partsShowJson.id, //part id
+                        id.substring(id.indexOf('-') + 1, id.length) //date
+                    ],
+                    callback = () => {
+                        prevLogEl.remove();
+                        swal(`Log : ${prevLogEl.id
+                            }`, 'Deleted succesfully!', 'success');
+                        swal("Log Deleted!", {
+                            icon: "success",
+                        });
+                    }
+                database.dbDeleteLog(qr, callback);
+            }
 
         /**
          * open datasheet or cad file
@@ -914,22 +976,7 @@ const internal = require('stream');
             //delete a log
             $('#part-log-btn-del').on('click', (e) => {
                 e.preventDefault();
-                if (prevLogEl === null) { return; }
-                swal({
-                    title: "Delete Log",
-                    text: "Are you sure you want to delete log?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                }).then((willDelete) => {
-                    if (willDelete) {
-                        prevLogEl.remove();
-                        swal(`Log : ${prevLogEl.id}`, 'Deleted succesfully!', 'success');
-                        swal("Log Deleted!", {
-                            icon: "success",
-                        });
-                    }
-                });
+                deleteLogNotify();
             });
             //show add log modal
             $('#part-log-btn-add').on('click', (e) => {
