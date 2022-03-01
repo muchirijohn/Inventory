@@ -134,7 +134,7 @@ const internal = require('stream');
                         partAddEditUi.createlog(log);
                     }
                 });
-                if (stock === 0) {
+                if (stock !== 0) {
                     sql = `UPDATE parts SET stock='${stock}' WHERE id='${log[0]}'`;
                     db.run(sql, [], (err) => {
                         if (err) {

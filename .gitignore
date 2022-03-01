@@ -3,3 +3,4 @@ node_modules/
 dist/
 **/pref_user.json
 *.db
+*.db
