@@ -1195,6 +1195,9 @@ const internal = require('stream');
             partAddEditUi.init();
             //init heights
             initHeights();
+            /*$('.dev-desc .part-extra-info').on('scroll', ()=>{
+                $('#part-show-in-stock').css('box-shadow','0px 6px 6px -2px rgba(133, 229, 253, 0.05)')
+            });*/
             //loading complete
             swal("Inventory", "Loaded!", "success");
         }
