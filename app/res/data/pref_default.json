@@ -7,7 +7,8 @@
       "Diodes",
       "Displays",
       "LED",
-      "Sensors"
+      "Sensors",
+      "Microcontrollers"
     ],
     "packages": [
       "DIP",
