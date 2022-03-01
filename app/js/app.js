@@ -647,7 +647,7 @@ const internal = require('stream');
             ttr.innerHTML = `<td>${log[1]}</td>
                             <td>${log[2]}</td>
                             <td>${log[3]}</td>
-                            <td>${log[4]}</td>`;
+                            <td>${log[5]}</td>`;
             //event listeners
             ttr.addEventListener('click', (e) => {
                 var pel = e.target.parentNode;
@@ -668,7 +668,7 @@ const internal = require('stream');
             ttr.scrollIntoView();
             swal('Log', 'log added succesfully', 'success');
             //$('#modal-log-add').modal('hide');
-            return true;
+            //return true;
         };
 
         /**
@@ -706,7 +706,7 @@ const internal = require('stream');
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
-            var log = [partsShowJson.id, uid, date, qty, desc];
+            var log = [partsShowJson.id, uid, date, qty, (trs ? 1: 0), desc];
             console.log(JSON.stringify(log));
             createlog(log);
         }
@@ -771,7 +771,8 @@ const internal = require('stream');
                     return true;
                 },
                 onApprove: function () {
-                    return partNewLog();
+                    partNewLog();
+                    return false;
                 }
             });
             partCategoriesInit();
