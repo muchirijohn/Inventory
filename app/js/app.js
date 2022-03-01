@@ -289,6 +289,18 @@ const internal = require('stream');
         }
 
         /**
+         * edit the list item content
+         * @param {Object} part_data 
+         */
+        function editListItem(part_data) {
+            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
+            $(`#list-panel #${part_data.id}`).empty().html(`<img class="ui avatar image" src="${a_dir}\\images\\${part_data.icon}">
+            <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
+            <div class="description">${part_data.description}</div>
+            </div>`);
+        }
+
+        /**
          * init list ui
          */
         function init() {
@@ -344,7 +356,8 @@ const internal = require('stream');
             init: init,
             getWinHeight: getWinHeight,
             setListHeight: setListHeight,
-            generateList: generateList
+            generateList: generateList,
+            editListItem: editListItem
         }
     })();
 
@@ -506,6 +519,7 @@ const internal = require('stream');
                 //show edits
                 partsJsonDb[data.id] = data;
                 partShowData(partsJsonDb[data.id]);
+                listUi.editListItem(partsJsonDb[data.id]);
             }
             database.dbRunSavePartQuery(sql, isPartNew);
         }
@@ -1118,6 +1132,15 @@ const internal = require('stream');
                 $('.column.dev-logs .column').hide();
             }
         }
+
+        /**
+         * init ui heights
+         */
+        function initHeights() {
+            //log table height
+            $('.dev-desc .part-extra-info').css('height', ($(window).height() - 70) + 'px');
+            $('.log-table tbody').css('height', ($(window).height() - 170) + 'px');
+        }
         /**
          * init ui
          */
@@ -1154,8 +1177,7 @@ const internal = require('stream');
                 if ($(window).height() < 650) $(window).height('50px');
                 //list height
                 listUi.setListHeight();
-                //log table height
-                $('.log-table tbody').css('height', ($(window).height() - 170) + 'px');
+                initHeights();
             });
 
             //on window closing try to close db
@@ -1171,10 +1193,10 @@ const internal = require('stream');
             listUi.init();
             //init modals
             partAddEditUi.init();
+            //init heights
+            initHeights();
             //loading complete
             swal("Inventory", "Loaded!", "success");
-            //log table height
-            $('.log-table tbody').css('height', ($(window).height() - 170) + 'px');
         }
 
         return {
