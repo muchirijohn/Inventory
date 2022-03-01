@@ -185,9 +185,6 @@ p{
     margin-left: 2px;
 }
 
-#part-show-in-stock{
-    z-index: 10000;
-}
 /*
 .column.dev-desc.scroll-style::-webkit-scrollbar-thumb {
     background-color: rgb(167, 167, 167);
