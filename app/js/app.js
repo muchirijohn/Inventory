@@ -678,8 +678,8 @@ const internal = require('stream');
         function partNewLog() {
             var uid = 'Admin',//chance.string({ length: 4, casing: 'upper', alpha: true, numeric: true }),
                 qty = chance.natural({ min: 1, max: 5000 }),
-                dt_ = new Date().toJSON(),
-                date = dt_.substring(0, dt_.lastIndexOf('.'));
+                dt_ = moment().format(),
+                date = dt_.substring(0, dt_.lastIndexOf('+'));
 
             if (partsShowJson === undefined) {
                 swal('', 'Please select part!', 'error');
@@ -707,7 +707,7 @@ const internal = require('stream');
             }
             qty = (trs ? '+' : '-') + qty;
             var log = [partsShowJson.id, uid, date, qty, desc];
-            //console.log(log);
+            console.log(JSON.stringify(log));
             createlog(log);
         }
 
