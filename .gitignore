@@ -2,3 +2,4 @@
 node_modules/
 dist/
 **/pref_user.json
+**/phi_inventory.db
