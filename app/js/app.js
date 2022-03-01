@@ -256,6 +256,7 @@ const internal = require('stream');
                     if (cn === 'description' || cn === 'header') par = par.parentElement.parentNode;
                     else if (cn.indexOf('image') !== -1) par = par.parentElement;
                     id = par.id;
+                    if (prevListClicked !== null && id === prevListClicked.id) return;
                     if (partsJsonDb !== null) {
                         partAddEditUi.partShowData(partsJsonDb[id]);
                     }
@@ -270,7 +271,7 @@ const internal = require('stream');
                 });
 
                 d_.addEventListener('mouseover', (e) => {
-                    if (prevListClicked !== null && d_.id != prevListClicked.id) {
+                    if (prevListClicked !== null && d_.id !== prevListClicked.id) {
                         d_.setAttribute("style", "background-color: rgb(55, 55, 55");
                     }
                 });
@@ -428,21 +429,21 @@ const internal = require('stream');
         var pEl = {
             id: $('#part-add-id'),
             stock: $('#part-add-stock'),
-            cat: $('#part-add-cat'),
+            type: $('#part-add-cat'),
             manf: $('#part-add-manf'),
-            mNum: $('#part-add-num'),
-            pkg: $('#part-add-pkg'),
-            pins: $('#part-add-pins'),
-            dSheet: $('#part-add-dsheet'),
-            desc: $('#part-add-desc'),
+            manf_part_no: $('#part-add-num'),
+            package: $('#part-add-pkg'),
+            pins_no: $('#part-add-pins'),
+            datasheet: $('#part-add-dsheet'),
+            description: $('#part-add-desc'),
             icon: $('#part-add-icon'),
             cad: $('#part-add-cad'),
             specs: $('#part-add-spec'),
             images: $('#part-add-images'),
-            dist: $('#part-add-dist'),
+            seller: $('#part-add-dist'),
             link: $('#part-add-link'),
             cost: $('#part-add-cost'),
-            slimit: $('#part-add-slimit')
+            stock_limit: $('#part-add-slimit')
         };
         //preiovus shown id
         var selectedID = '';
@@ -456,8 +457,8 @@ const internal = require('stream');
                 if (key === 'id' && !isPartNew) return;
                 pEl[key].val('');
             });
-            pEl.cat.dropdown('clear');
-            pEl.pkg.dropdown('clear');
+            pEl.type.dropdown('clear');
+            pEl.package.dropdown('clear');
         }
 
 
@@ -469,7 +470,7 @@ const internal = require('stream');
             var fields = Object.create(null),
                 keys = Object.keys(pEl);
             keys.forEach(key => {
-                if (key === 'id' || key === 'mNum') fields[key] = (pEl[key].val().toUpperCase());
+                if (key === 'id' || key === 'manf_part_no') fields[key] = (pEl[key].val().toUpperCase());
                 else fields[key] = (pEl[key].val());
             });
             return fields;
@@ -489,21 +490,23 @@ const internal = require('stream');
                 sql = `INSERT INTO parts 
                     (id, stock, type, manf, manf_part_no, package, pins_no, datasheet, description, icon, 
                     cad, specs, images, seller, link, cost, stock_limit) VALUES (
-                        "${data.id}", "${data.stock}", "${data.cat}", "${data.manf}", "${data.mNum}", "${data.pkg}", "${data.pins}",
-                        "${data.dSheet}", "${data.desc}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
-                        "${data.dist}", "${data.link}", "${data.cost}", "${data.slimit}")`;
+                        "${data.id}", "${data.stock}", "${data.type}", "${data.manf}", "${data.manf_part_no}", "${data.package}", "${data.pins_no}",
+                        "${data.datasheet}", "${data.description}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
+                        "${data.seller}", "${data.link}", "${data.cost}", "${data.stock_limit}")`;
             } else {
                 sql = `UPDATE parts SET 
-                        stock="${data.stock}", type="${data.cat}", manf="${data.manf}", 
-                        manf_part_no="${data.mNum}", package="${data.pkg}", pins_no="${data.pins}",
-                        datasheet="${data.dSheet}", description="${data.desc}", icon="${data.icon}", 
+                        stock="${data.stock}", type="${data.type}", manf="${data.manf}", 
+                        manf_part_no="${data.manf_part_no}", package="${data.package}", pins_no="${data.pins_no}",
+                        datasheet="${data.datasheet}", description="${data.description}", icon="${data.icon}", 
                         cad="${data.cad}", specs="${data.specs}", images="${data.images}",
-                        seller="${data.dist}", link="${data.link}", cost="${data.cost}", 
-                        stock_limit="${data.slimit}"
+                        seller="${data.seller}", link="${data.link}", cost="${data.cost}", 
+                        stock_limit="${data.stock_limit}"
                     WHERE
                         id="${data.id}"`;
+                //show edits
+                partsJsonDb[data.id] = data;
+                partShowData(partsJsonDb[data.id]);
             }
-            console.log(sql);
             database.dbRunSavePartQuery(sql, isPartNew);
         }
 
@@ -645,6 +648,7 @@ const internal = require('stream');
          */
         var partsShowJson = Object.null,
             partShowData = (pData) => {
+                //if (selectedID === pData.id) return;
                 partsShowJson = Object.assign({}, pData);
                 var stock = [['In Stock', '5aff0e'], [`Low Stock - Limit is ${partsShowJson.stock_limit}`, 'ffcb22'], ['Out of Stock', 'ff0e0e']],
                     slv = 0,
@@ -681,7 +685,6 @@ const internal = require('stream');
                 pElShow.table1.html(partShowTable1Html(partsShowJson));
                 //table 2 specs
                 pElShow.table2.html(partShowTable2Html(partsShowJson));
-                console.log(partsShowJson.stock)
             },
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
@@ -692,7 +695,7 @@ const internal = require('stream');
                     pkeys = Object.keys(partsShowJson),
                     cat = categoriesUi.categories();
                 for (var i = 0; i < keys.length; i++) {
-                    if (keys[i] === 'cat' || keys[i] === 'pkg') {
+                    if (keys[i] === 'type' || keys[i] === 'package') {
                         var val = partsShowJson[pkeys[i]];
                         pEl[keys[i]].dropdown('set exactly', [val]);
                     } else {
@@ -867,7 +870,7 @@ const internal = require('stream');
         }
 
         /**
-         * show or hide part add ID field - on new or edit
+         * enable or disable part add ID field - on new or edit
          */
         function showHidePartId() {
             var btn_auto = $('#part-add-id-auto');
@@ -938,9 +941,9 @@ const internal = require('stream');
             });
 
             //get datasheet from local file
-            pEl.dSheet.on('dblclick', (e) => {
+            pEl.datasheet.on('dblclick', (e) => {
                 e.preventDefault();
-                getFilename(pEl.dSheet, [{ name: 'PDF', extensions: ['pdf'] }]);
+                getFilename(pEl.datasheet, [{ name: 'PDF', extensions: ['pdf'] }]);
             });
             //get image/icon from local file
             pEl.icon.on('dblclick', (e) => {
