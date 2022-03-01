@@ -691,7 +691,7 @@ const internal = require('stream');
                 pElShow.desc.html(`<span class="column sixteen wide">${partsShowJson.description}</span>`);
                 //stock
                 if (partsShowJson.stock == 0) slv = 2;
-                else if (partsShowJson.stock < partsShowJson.stock_limit) slv = 1;
+                else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
                 pElShow.inStock.html(`<span style="color:#${stock[slv][1]}">${stock[slv][0]}</span>`);
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
                                         <i class="dollar icon" style="color: #ff2335"></i>${partsShowJson.cost}`);
