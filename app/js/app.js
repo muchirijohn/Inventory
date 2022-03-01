@@ -20,7 +20,9 @@ const internal = require('stream');
         pref_default_path = `${app_dir}/res/data/pref_default.json`,
         pref_user_path = `${app_dir}/res/data/pref_user.json`;
     //var to hold app preferences
-    var app_prefs = Object.create(null);
+    var app_prefs = Object.create(null),
+        //temp pats db -- global
+        partsJsonDb = Object.create(null);
 
     /**
      * database
@@ -132,6 +134,14 @@ const internal = require('stream');
                         partAddEditUi.createlog(log);
                     }
                 });
+                sql = ''
+                db.run(sql, [], (err) => {
+                    if (err) {
+                        swal("Error", "Failed to save log.", "error");
+                    } else {
+                        partAddEditUi.createlog(log);
+                    }
+                });
             });
         }
 
@@ -140,7 +150,7 @@ const internal = require('stream');
          * @param {array} qry 
          * @param {function} callback 
          */
-        function dbDeleteLog(qry, callback){
+        function dbDeleteLog(qry, callback) {
             var sql = `DELETE FROM logs WHERE
             part_id='${qry[0]}' AND date='${qry[1]}'`;
             console.log(sql);
@@ -192,8 +202,6 @@ const internal = require('stream');
         var list_elm = $('#list-panel');
         //windows height
         var win_height = 0,
-            //temp pats db -- global
-            partsJsonDb = Object.create(null),
             prevListClicked = null;
 
         /**
@@ -437,7 +445,7 @@ const internal = require('stream');
             slimit: $('#part-add-slimit')
         };
         //preiovus shown id
-        var prevID = '';
+        var selectedID = '';
 
         /**
          * clear modal part fields
@@ -642,8 +650,8 @@ const internal = require('stream');
                     slv = 0,
                     a_dir = app_prefs.default ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir;
                 //show data only once
-                if (prevID === partsShowJson.id) return;
-                else prevID = partsShowJson.id;
+                //if (prevID === partsShowJson.id) return;
+                selectedID = partsShowJson.id;
                 //elements
                 var pElShow = {
                     id: $('#part-show-id'),
@@ -673,6 +681,7 @@ const internal = require('stream');
                 pElShow.table1.html(partShowTable1Html(partsShowJson));
                 //table 2 specs
                 pElShow.table2.html(partShowTable2Html(partsShowJson));
+                console.log(partsShowJson.stock)
             },
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
@@ -712,12 +721,19 @@ const internal = require('stream');
                 createlog(data, false);
             });
         }
-        var prevLogEl = null;
+        var prevLogEl = null,
+            filterInt = (value) => {
+                if (/^[-+]?(\d+|Infinity)$/.test(value)) {
+                    return Number(value)
+                } else {
+                    return NaN
+                }
+            }
         /**
          * create log
          * @param {array} log 
          */
-        function createlog(log, notify = true) {
+        function createlog(log, new_log = true) {
             var ttr = document.createElement('tr');
             ttr.id = 'log-' + log[2];
             ttr.innerHTML = `<td>${log[1]}</td>
@@ -742,8 +758,17 @@ const internal = require('stream');
             });
             $('#part-log-table tbody').append(ttr);
             ttr.scrollIntoView();
-            if (notify === true)
+            //edit part stock
+            if (new_log === true) {
+                var lstk = filterInt(log[3]);
+                if (lstk !== NaN) {
+                    var stock = partsJsonDb[log[0]].stock;
+                    stock = stock + lstk;
+                    partsJsonDb[log[0]].stock = stock;
+                    partShowData(partsJsonDb[log[0]]);
+                }
                 swal('Log', 'log added succesfully', 'success');
+            }
         };
 
         /**
@@ -782,8 +807,6 @@ const internal = require('stream');
             }
             qty = (trs ? '+' : '-') + qty;
             var log = [partsShowJson.id, uid, date, qty, (trs ? 1 : 0), desc];
-            console.log(JSON.stringify(log));
-            //createlog(log);
             database.dbRunSaveLog(log);
         }
 
@@ -942,7 +965,7 @@ const internal = require('stream');
             $('#part-show-dsheet').on('click', (e) => {
                 try {
                     e.preventDefault();
-                    if (partsShowJson.cad.indexOf('.') === -1) {
+                    if (partsShowJson.datasheet.indexOf('.') === -1) {
                         swal('Datasheet', 'Datasheet File not set', 'error');
                         return;
                     }
