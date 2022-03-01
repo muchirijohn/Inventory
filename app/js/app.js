@@ -384,6 +384,7 @@ const internal = require('stream');
         function partClearFields() {
             var keys = Object.keys(pEl);
             keys.forEach(key => {
+                if (key === 'id' && !isPartNew) return;
                 pEl[key].val('');
             });
             pEl.cat.dropdown('clear');
@@ -641,16 +642,13 @@ const internal = require('stream');
          * create new log - modal elements
          */
         function createlog(log) {
-            var uid = chance.string({ length: 4, casing: 'upper', alpha: true, numeric: true }),
-                qty = chance.natural({ min: 1, max: 5000 }),
-                ttr = document.createElement('tr'),
-                dt_ = new Date().toJSON(),
-                date = dt_.substring(0, dt_.lastIndexOf(':'));
-            ttr.id = uid;
-            ttr.innerHTML = `<td>${uid}</td>
-                            <td>${date}</td>
-                            <td>${log[0]}</td>
-                            <td>${log[1]}</td>`
+            var ttr = document.createElement('tr');
+            ttr.id = 'log-' + log[3];
+            ttr.innerHTML = `<td>${log[1]}</td>
+                            <td>${log[2]}</td>
+                            <td>${log[3]}</td>
+                            <td>${log[4]}</td>`;
+            //event listeners
             ttr.addEventListener('click', (e) => {
                 var pel = e.target.parentNode;
                 pel.setAttribute('style', 'color: #bafbf8');
@@ -659,14 +657,18 @@ const internal = require('stream');
                 prevLogEl = pel;
             });
             ttr.addEventListener('mouseover', (e) => {
-                if (ttr.id != prevLogEl.id)
+                if (prevLogEl !== null && ttr.id != prevLogEl.id)
                     ttr.setAttribute("style", "color: #a7d0d4");
             });
             ttr.addEventListener('mouseleave', (e) => {
-                if (ttr.id != prevLogEl.id)
+                if (prevLogEl !== null && ttr.id != prevLogEl.id)
                     ttr.setAttribute("style", "color: #81a3a7");
             });
-            return ttr;
+            $('#part-log-table tbody').append(ttr);
+            ttr.scrollIntoView();
+            swal('Log', 'log added succesfully', 'success');
+            //$('#modal-log-add').modal('hide');
+            return true;
         };
 
         /**
@@ -674,6 +676,11 @@ const internal = require('stream');
          * @returns none
          */
         function partNewLog() {
+            var uid = 'Admin',//chance.string({ length: 4, casing: 'upper', alpha: true, numeric: true }),
+                qty = chance.natural({ min: 1, max: 5000 }),
+                dt_ = new Date().toJSON(),
+                date = dt_.substring(0, dt_.lastIndexOf('.'));
+
             if (partsShowJson === undefined) {
                 swal('', 'Please select part!', 'error');
                 return false;
@@ -699,10 +706,9 @@ const internal = require('stream');
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
-            var ltr = createlog([qty, desc]);
-            $('#part-log-table tbody').append(ltr);
-            ltr.scrollIntoView();
-            return true;
+            var log = [partsShowJson.id, uid, date, qty, desc];
+            //console.log(log);
+            createlog(log);
         }
 
         /**
@@ -715,7 +721,7 @@ const internal = require('stream');
             if (exists === true) {
                 (cad === false) ? shell.openPath(file) : shell.openExternal(file);
             } else {
-                swal('', name + ' not found', 'error');
+                swal('', 'file not found', 'error');
             }
         }
 
@@ -781,7 +787,7 @@ const internal = require('stream');
             //delete part
             $('#part-show-btn-del').on('click', (e) => {
                 e.preventDefault();
-                swal('Delete' , 'Not yet!! A cup of coffee and it\'ll be implemented :-)', 'info');
+                swal('Delete', 'Not yet!! A cup of coffee and it\'ll be implemented :-)', 'info');
             });
             //edit part
             $('#part-show-btn-edit').on('click', (e) => {
@@ -818,6 +824,10 @@ const internal = require('stream');
             $('#part-show-dsheet').on('click', (e) => {
                 try {
                     e.preventDefault();
+                    if (partsShowJson.cad.indexOf('.') === -1) {
+                        swal('Datasheet', 'Datasheet File not set', 'error');
+                        return;
+                    }
                     var link = a_dir + '\\datasheets\\' + partsShowJson.datasheet;
                     checkIfFileExists(link);
                 } catch (e) { }
@@ -836,6 +846,12 @@ const internal = require('stream');
             $('#part-show-cad').on('click', (e) => {
                 try {
                     e.preventDefault();
+                    if (partsShowJson.cad.indexOf('.') === -1) {
+                        swal('CAD', 'Cad File not set', 'error');
+                        return;
+                    }
+                    var link = a_dir + '\\cad\\' + partsShowJson.cad;
+                    console.log(link);
                     checkIfFileExists(a_dir + '\\cad\\' + partsShowJson.cad, true);
                 } catch (e) { }
             });
