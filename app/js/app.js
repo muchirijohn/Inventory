@@ -84,7 +84,7 @@ const internal = require('stream');
 
         /**
          * execute sql statement
-         * @param {sql statement} sql 
+         * @param {string} sql 
          */
         function dbRunSavePartQuery(sql, isNew) {
             db.serialize(function () {
@@ -93,6 +93,43 @@ const internal = require('stream');
                         swal("Error", "Failed to save Part. Please verify all the fields", "error");
                     } else {
                         swal("Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success");
+                    }
+                });
+            });
+        }
+
+
+        /**
+         * fetch log from db matching the given id
+         * @param {string} id 
+         */
+        function dbFetchLogs(id) {
+            if (db === null) dbConnect();
+            db.serialize(function () {
+                let sql = `SELECT * FROM logs WHERE part_id='${id}'`;
+                db.all(sql, [], (err, rows) => {
+                    if (!err) {
+                        partAddEditUi.createDBLogs(rows);
+                    }
+                });
+            });
+        }
+
+        /**
+         * save part log
+         * @param {sql statement} sql 
+         */
+        function dbRunSaveLog(log) {
+            var sql = `INSERT INTO logs
+                (part_id,user,date,quantity,state,desc)
+                VALUES
+                ('${log[0]}','${log[1]}','${log[2]}','${log[3]}','${log[4]}','${log[5]}')`;
+            db.serialize(function () {
+                db.run(sql, [], (err) => {
+                    if (err) {
+                        swal("Error", "Failed to save log.", "error");
+                    } else {
+                        partAddEditUi.createlog(log);
                     }
                 });
             });
@@ -121,6 +158,8 @@ const internal = require('stream');
             dbFetchAllParts: dbFetchAllParts,
             dbSearch: dbSearch,
             dbRunSavePartQuery: dbRunSavePartQuery,
+            dbFetchLogs: dbFetchLogs,
+            dbRunSaveLog: dbRunSaveLog,
             dbClose: dbClose
         }
     })();
@@ -197,7 +236,8 @@ const internal = require('stream');
                     }
                     prevListClicked = par;
                     mainUi.showUi(true);
-
+                    //fetch logs from db
+                    database.dbFetchLogs(id);
                 });
 
                 d_.addEventListener('mouseover', (e) => {
@@ -637,11 +677,26 @@ const internal = require('stream');
         /**
          * show/create log data
          */
+        function createDBLogs(logs) {
+            if (logs.length > 0) $('#part-log-table tbody').empty();
+            logs.forEach(log => {
+                var data = [
+                    log.part_id,
+                    log.user,
+                    log.date,
+                    (log.state === 1 ? '+' : '') + log.quantity,
+                    log.state,
+                    log.desc
+                ];
+                createlog(data, false);
+            });
+        }
         var prevLogEl = null;
         /**
-         * create new log - modal elements
+         * create log
+         * @param {array} log 
          */
-        function createlog(log) {
+        function createlog(log, notify = true) {
             var ttr = document.createElement('tr');
             ttr.id = 'log-' + log[3];
             ttr.innerHTML = `<td>${log[1]}</td>
@@ -666,9 +721,8 @@ const internal = require('stream');
             });
             $('#part-log-table tbody').append(ttr);
             ttr.scrollIntoView();
-            swal('Log', 'log added succesfully', 'success');
-            //$('#modal-log-add').modal('hide');
-            //return true;
+            if (notify === true)
+                swal('Log', 'log added succesfully', 'success');
         };
 
         /**
@@ -706,9 +760,10 @@ const internal = require('stream');
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
-            var log = [partsShowJson.id, uid, date, qty, (trs ? 1: 0), desc];
+            var log = [partsShowJson.id, uid, date, qty, (trs ? 1 : 0), desc];
             console.log(JSON.stringify(log));
-            createlog(log);
+            //createlog(log);
+            database.dbRunSaveLog(log);
         }
 
         /**
@@ -888,7 +943,9 @@ const internal = require('stream');
             showModal: showModal,
             partClearFields: partClearFields,
             partSaveData: partSaveData,
-            partShowData: partShowData
+            partShowData: partShowData,
+            createlog: createlog,
+            createDBLogs: createDBLogs
         }
     })();
 
