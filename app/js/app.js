@@ -121,7 +121,7 @@ const internal = require('stream');
          * save part log
          * @param {sql statement} sql 
          */
-        function dbRunSaveLog(log) {
+        function dbRunSaveLog(log, stock = 0) {
             var sql = `INSERT INTO logs
                 (part_id,user,date,quantity,state,desc)
                 VALUES
@@ -134,14 +134,14 @@ const internal = require('stream');
                         partAddEditUi.createlog(log);
                     }
                 });
-                sql = ''
-                db.run(sql, [], (err) => {
-                    if (err) {
-                        swal("Error", "Failed to save log.", "error");
-                    } else {
-                        partAddEditUi.createlog(log);
-                    }
-                });
+                if (stock === 0) {
+                    sql = `UPDATE parts SET stock='${stock}' WHERE id='${log[0]}'`;
+                    db.run(sql, [], (err) => {
+                        if (err) {
+                            swal("Error", "Failed to update stock.", "error");
+                        }
+                    });
+                }
             });
         }
 
@@ -757,16 +757,9 @@ const internal = require('stream');
                     ttr.setAttribute("style", "color: #81a3a7");
             });
             $('#part-log-table tbody').append(ttr);
-            ttr.scrollIntoView();
             //edit part stock
             if (new_log === true) {
-                var lstk = filterInt(log[3]);
-                if (lstk !== NaN) {
-                    var stock = partsJsonDb[log[0]].stock;
-                    stock = stock + lstk;
-                    partsJsonDb[log[0]].stock = stock;
-                    partShowData(partsJsonDb[log[0]]);
-                }
+                ttr.scrollIntoView();
                 swal('Log', 'log added succesfully', 'success');
             }
         };
@@ -806,8 +799,16 @@ const internal = require('stream');
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
-            var log = [partsShowJson.id, uid, date, qty, (trs ? 1 : 0), desc];
-            database.dbRunSaveLog(log);
+            var id_ = partsShowJson.id,
+                log = [id_, uid, date, qty, (trs ? 1 : 0), desc],
+                lstk = filterInt(qty);
+            if (lstk !== NaN) {
+                var stock = partsJsonDb[id_].stock;
+                stock = stock + lstk;
+                partsJsonDb[id_].stock = stock;
+                partShowData(partsJsonDb[id_]);
+            }
+            database.dbRunSaveLog(log, stock);
         }
 
         /**
@@ -1169,6 +1170,8 @@ const internal = require('stream');
             partAddEditUi.init();
             //loading complete
             swal("Inventory", "Loaded!", "success");
+            //log table height
+            $('.log-table tbody').css('height', ($(window).height() - 170) + 'px');
         }
 
         return {
