@@ -858,6 +858,7 @@ const internal = require('stream');
                 partsJsonDb[id_].stock = stock;
                 partShowData(partsJsonDb[id_], false);
             }
+            //createlog(log, true);
             database.dbRunSaveLog(log, stock);
         }
 
@@ -1171,7 +1172,7 @@ const internal = require('stream');
          */
         function initHeights() {
             //log table height
-            $('.dev-desc .part-extra-info').css('height', ($(window).height() - 70) + 'px');
+            $('.dev-desc .part-extra-info').css('height', ($(window).height() - 90) + 'px');
             $('.log-table tbody').css('height', ($(window).height() - 170) + 'px');
         }
         /**
