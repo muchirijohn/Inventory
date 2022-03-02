@@ -451,7 +451,7 @@ const internal = require('stream');
                     if (value !== undefined && init_cat === true) {
                         if (init_cat) database.dbSearch(false, value);
                     }
-                    if(value.length > 0) init_cat = true;
+                    if (value.length > 0) init_cat = true;
                 }
             });
         }
@@ -1233,10 +1233,18 @@ const internal = require('stream');
             partAddEditUi.init();
             //init heights
             initHeights();
-            $('.dev-desc .part-extra-info').on('scroll', (e)=>{
+            //enables a shadow on scroll parts specs
+            var scr = false;
+            $('.dev-desc .part-extra-info').on('scroll', (e) => {
                 var scroll = e.target.scrollTop;
-                $('#part-stock-files').css('box-shadow',
-                scroll > 26 ? '0px 6px 10px -6px rgba(133, 229, 253, 0.45)': 'none');
+                if (scroll === 0 && scr){
+                    $('#part-stock-files').css('box-shadow','none');
+                    scr = false;
+                } 
+                else if (scroll > 26 && !scr) {
+                    $('#part-stock-files').css('box-shadow','0px 6px 10px -6px rgba(133, 229, 253, 0.45)');
+                    scr = true;
+                }
             });
             //loading complete
             swal("Inventory", "Loaded!", "success");
