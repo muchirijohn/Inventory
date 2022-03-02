@@ -1236,7 +1236,7 @@ const internal = require('stream');
             $('.dev-desc .part-extra-info').on('scroll', (e)=>{
                 var scroll = e.target.scrollTop;
                 $('#part-stock-files').css('box-shadow',
-                scroll > 20 ? '0px 6px 10px -6px rgba(133, 229, 253, 0.45)': 'none');
+                scroll > 26 ? '0px 6px 10px -6px rgba(133, 229, 253, 0.45)': 'none');
             });
             //loading complete
             swal("Inventory", "Loaded!", "success");
