@@ -228,6 +228,10 @@ p{
     margin-bottom: 14px;
 }
 
+#part-show-images-info .buttons{
+    font-weight: bold;
+}
+
 #part-show-images{
     height: 460px !important;
     margin-bottom: 10px;
