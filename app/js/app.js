@@ -54,7 +54,7 @@ const internal = require('stream');
             var db_url = `${app_dir}/res/data/${db_name}`;
             var file = `${app_dir}/res/data/phi_inventory_user.db`;
             const exists = fs.pathExistsSync(file);
-            if(exists) db_url = file;
+            if (exists) db_url = file;
             //connect db
             db = new sqlite3.Database(db_url, (err) => {
                 if (err) {
@@ -175,7 +175,6 @@ const internal = require('stream');
             if (db === null) dbConnect();
             var sql = `DELETE FROM logs WHERE
             part_id='${qry[0]}' AND date='${qry[1]}'`;
-            console.log(sql);
             db.serialize(function () {
                 db.run(sql, [], (err) => {
                     if (err) {
@@ -255,7 +254,7 @@ const internal = require('stream');
             if (win_height != $(window).height()) {
                 win_height = $(window).height();
             }
-            list_elm.css('height', (win_height - 160) + 'px');
+            list_elm.css('height', (win_height - 152) + 'px');
         }
 
         /**
@@ -809,7 +808,7 @@ const internal = require('stream');
             $('#part-log-table tbody').append(ttr);
             //edit part stock
             if (new_log === true) {
-                ttr.scrollIntoView();
+                //ttr.scrollIntoView();
                 swal('Log', 'log added succesfully', 'success');
             }
         };
@@ -1172,8 +1171,8 @@ const internal = require('stream');
          */
         function initHeights() {
             //log table height
-            $('.dev-desc .part-extra-info').css('height', ($(window).height() - 90) + 'px');
-            $('.log-table tbody').css('height', ($(window).height() - 170) + 'px');
+            $('.dev-desc .part-extra-info').css('height', ($(window).height() - 70) + 'px');
+            $('.log-table tbody').css('height', ($(window).height() - 162) + 'px');
         }
         /**
          * init ui
