@@ -2,6 +2,7 @@
 
 const { UUID } = require('builder-util-runtime');
 const { dir } = require('console');
+const { create } = require('domain');
 const { each, data } = require('jquery');
 const { off } = require('process');
 const internal = require('stream');
@@ -31,7 +32,8 @@ const internal = require('stream');
         var sqlite3 = require('sqlite3').verbose();
         //{ open } = require('sqlite');
         var db = null,
-            db_url = `${app_dir}/res/data/phi_inventory.db`;
+            db_name = 'phi_inventory.db',
+            db_url = `${app_dir}/res/data/${db_name}`;
 
         /**
          * connect database
@@ -89,6 +91,7 @@ const internal = require('stream');
          * @param {string} sql 
          */
         function dbRunSavePartQuery(sql, isNew) {
+            if (db === null) dbConnect();
             db.serialize(function () {
                 db.run(sql, [], (err) => {
                     if (err) {
@@ -122,6 +125,7 @@ const internal = require('stream');
          * @param {sql statement} sql 
          */
         function dbRunSaveLog(log, stock = 0) {
+            if (db === null) dbConnect();
             var sql = `INSERT INTO logs
                 (part_id,user,date,quantity,state,desc)
                 VALUES
@@ -151,6 +155,7 @@ const internal = require('stream');
          * @param {function} callback 
          */
         function dbDeleteLog(qry, callback) {
+            if (db === null) dbConnect();
             var sql = `DELETE FROM logs WHERE
             part_id='${qry[0]}' AND date='${qry[1]}'`;
             console.log(sql);
@@ -180,7 +185,18 @@ const internal = require('stream');
             }
         }
 
-        function init() { }
+        async function createUserDb() {
+            var exists = `${app_dir}/res/data/phi_inventory_user.db`;
+            const exists = await fs.pathExists(file);
+            if (exists !== true) {
+                await fs.copy(`${app_dir}/res/data/phi_inventory.db`, `${app_dir}/res/data/phi_inventory_user.db`);
+                db_name = 'phi_inventory_user.db';
+            }
+        }
+
+        function init() {
+            createUserDb();
+        }
 
         return {
             init: init,
@@ -1185,10 +1201,9 @@ const internal = require('stream');
                 database.dbClose();
                 console.log("Handler for .unload() called.");
             });
-
+            database.init();
             //init main categories
             categoriesUi.init();
-
             //init categories ui
             listUi.init();
             //init modals
