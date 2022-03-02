@@ -707,24 +707,21 @@ const internal = require('stream');
         var partsShowJson = Object.null,
             //append image to view element
             appendPartImage = (src) => {
-                var imgEl = $('#part-show-images');
-                var url = `${app_prefs.dir}\\images\\${src}`,
-                    img = `<img src="${url}" class="ui medium image">`;
-                imgEl.append(img);
+                var imgEl = $('#part-show-images img');
+                var url = `${app_prefs.dir}\\images\\${src}`;
+                imgEl.attr('src', `${url}`);
             },
             //navigate images
             partShowImageNav = (nav) => {
-                var imgEl = $('#part-show-images');
-                imgEl.empty();
                 var len = partImages.length - 1,
                     index = partImagesIndex;
-                    
+
                 if (nav === 'next') {
                     index++;
-                    if(index >= len) index = len;
+                    if (index >= len) index = len;
                 } else if (nav === 'prev') {
                     index--;
-                    if(index <= 0) index = 0;
+                    if (index <= 0) index = 0;
                 }
                 console.log([len, index])
                 partImagesIndex = index;
@@ -732,8 +729,6 @@ const internal = require('stream');
             },
             /*show images*/
             partShowImages = (images_info) => {
-                var imgEl = $('#part-show-images');
-                imgEl.empty();
                 if (images_info.length === 0) {
                     $('#part-show-images-info').hide();
                     console.log('no images');
@@ -742,12 +737,10 @@ const internal = require('stream');
                 partImages = images_info.split(',');
                 partImagesIndex = 0;
                 $('#part-show-images-info').show();
-                //images.forEach(img => {
                 var img = partImages[partImagesIndex].trim();
                 if (img.length > 0) {
                     appendPartImage(img);
                 }
-                //});
             },
             /*show part info */
             partShowData = (pData, tb_update = true) => {

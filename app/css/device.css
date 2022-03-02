@@ -229,28 +229,18 @@ p{
 }
 
 #part-show-images{
-    height: 420px !important;
-    width: 100%;
-    overflow-y: hidden;
-    overflow-x: auto;
-    scrollbar-width: none;
+    height: 460px !important;
     margin-bottom: 10px;
-    border: 2px solid rgb(85, 83, 83);
+    border: 0px solid rgb(85, 83, 83);
     border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #part-show-images img{
-    display: block;
-    max-height: 400px !important;
-    max-width: 400px !important;
-    width: auto;
-    height: auto;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 6px !important;
+    max-height: 450px !important;
+    max-width: 450px !important;
 }
 
 #part-icon-info #part-show-stock{
