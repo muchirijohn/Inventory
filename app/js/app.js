@@ -1177,8 +1177,8 @@ const internal = require('stream');
          */
         function initHeights() {
             //log table height
-            $('.dev-desc .part-extra-info').css('height', ($(window).height() - 85) + 'px');
-            $('.log-table tbody').css('height', ($(window).height() - 165) + 'px');
+            $('.dev-desc .part-extra-info').css('height', ($(window).height() - 128) + 'px');
+            $('.log-table tbody').css('height', ($(window).height() - 175) + 'px');
         }
         /**
          * init ui
