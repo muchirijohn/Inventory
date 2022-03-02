@@ -637,7 +637,7 @@ const internal = require('stream');
             });
             if (filepaths !== undefined) {
                 var filenames = getFilesNames(filepaths);
-                if (msel) el.val(JSON.stringify(filenames));
+                if (msel) el.val(filenames);
                 else el.val(filenames[0]);
             }
         }
@@ -703,6 +703,23 @@ const internal = require('stream');
          * show part info - view port
          */
         var partsShowJson = Object.null,
+            /*show images*/
+            partShowImages = (images_info) => {
+                var imgEl = $('#part-show-images');
+                imgEl.empty();
+                var images = images_info.split(',');
+                if(images.length == 0) return;
+                images.forEach(img => {
+                    img = img.trim();
+                    if (img.length > 0) {
+                        var url = `${app_prefs.dir}\\images\\${img}`;
+                        console.log(url)
+                        img = `<img src="${url}" class="ui small image">`;
+                        imgEl.append(img);
+                    }
+                });
+            },
+            /*show part info */
             partShowData = (pData, tb_update = true) => {
                 //if (selectedID === pData.id) return;
                 partsShowJson = Object.assign({}, pData);
@@ -742,6 +759,8 @@ const internal = require('stream');
                     pElShow.table1.html(partShowTable1Html(partsShowJson));
                     //table 2 specs
                     pElShow.table2.html(partShowTable2Html(partsShowJson));
+                    //show images
+                    partShowImages(partsShowJson.images);
                 }
             },
             partEditData = () => { //edit part
@@ -1237,12 +1256,12 @@ const internal = require('stream');
             var scr = false;
             $('.dev-desc .part-extra-info').on('scroll', (e) => {
                 var scroll = e.target.scrollTop;
-                if (scroll === 0 && scr){
-                    $('#part-stock-files').css('box-shadow','none');
+                if (scroll === 0 && scr) {
+                    $('#part-stock-files').css('box-shadow', 'none');
                     scr = false;
-                } 
+                }
                 else if (scroll > 26 && !scr) {
-                    $('#part-stock-files').css('box-shadow','0px 6px 10px -6px rgba(133, 229, 253, 0.45)');
+                    $('#part-stock-files').css('box-shadow', '0px 6px 10px -6px rgba(133, 229, 253, 0.45)');
                     scr = true;
                 }
             });
