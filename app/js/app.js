@@ -185,12 +185,16 @@ const internal = require('stream');
             }
         }
 
+        /**
+         * create user db
+         */
         async function createUserDb() {
             var file = `${app_dir}/res/data/phi_inventory_user.db`;
             const exists = await fs.pathExists(file);
             if (exists !== true) {
                 await fs.copy(`${app_dir}/res/data/phi_inventory.db`, `${app_dir}/res/data/phi_inventory_user.db`);
                 db_name = 'phi_inventory_user.db';
+                db = null;
             }
         }
 
