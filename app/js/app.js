@@ -27,8 +27,16 @@ const internal = require('stream');
     //var to hold app preferences
     var app_prefs = Object.create(null),
         //temp pats db -- global
-        partsJsonDb = Object.create(null);
-
+        partsJsonDb = Object.create(null),
+        //parse ints
+        filterInt = (value) => {
+            if (/^[-+]?(\d+|Infinity)$/.test(value)) {
+                return Number(value)
+            } else {
+                return NaN
+            }
+        }
+        
     /**
      * database
      */
@@ -762,14 +770,8 @@ const internal = require('stream');
                 createlog(data, false);
             });
         }
-        var prevLogEl = null,
-            filterInt = (value) => {
-                if (/^[-+]?(\d+|Infinity)$/.test(value)) {
-                    return Number(value)
-                } else {
-                    return NaN
-                }
-            }
+        var prevLogEl = null;
+
         /**
          * create log
          * @param {array} log 
