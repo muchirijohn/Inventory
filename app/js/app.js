@@ -717,13 +717,12 @@ const internal = require('stream');
                     index = partImagesIndex;
 
                 if (nav === 'next') {
-                    index++;
-                    if (index >= len) index = len;
+                    //index++;
+                    (index >= len) ? index = len : index += 1;
                 } else if (nav === 'prev') {
-                    index--;
-                    if (index <= 0) index = 0;
+                    //index--;
+                    (index <= 0) ? index = 0 : index -= 1;
                 }
-                console.log([len, index])
                 partImagesIndex = index;
                 appendPartImage(partImages[index]);
             },
