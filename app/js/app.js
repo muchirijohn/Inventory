@@ -348,11 +348,15 @@ const internal = require('stream');
             database.dbFetchAllParts();
             //fetch all parts button event
             $('#btn-part-all').on('click', (e) => {
+                e.preventDefault();
+                prevListClicked = null;
                 database.dbFetchAllParts();
             });
 
             //search components button event
             $('#btn-part-sc').on('click', (e) => {
+                e.preventDefault();
+                prevListClicked = null;
                 swal("Please Enter Search Query", {
                     content: "input",
                 }).then((val) => {
@@ -366,10 +370,12 @@ const internal = require('stream');
 
             //add part
             $('#btn-part-add').on('click', (e) => {
+                e.preventDefault();
                 partAddEditUi.showModal(true);
             });
 
             $('#btn-part-clear').on('click', (e) => {
+                e.preventDefault();
                 swal({
                     title: "Clear contents",
                     text: "Are you sure you want to clear contents?",
@@ -441,11 +447,11 @@ const internal = require('stream');
             parent.dropdown({
                 values: options,
                 onChange: function (value, text, $selectedItem) {
+                    //console.log(value)
                     if (value !== undefined && init_cat === true) {
                         if (init_cat) database.dbSearch(false, value);
-                        console.log(value)
-                        init_cat = true;
                     }
+                    if(value.length > 0) init_cat = true;
                 }
             });
         }
