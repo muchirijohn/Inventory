@@ -32,13 +32,13 @@ const internal = require('stream');
         var sqlite3 = require('sqlite3').verbose();
         //{ open } = require('sqlite');
         var db = null,
-            db_name = 'phi_inventory.db',
-            db_url = `${app_dir}/res/data/${db_name}`;
+            db_name = 'phi_inventory.db';
 
         /**
          * connect database
          */
         function dbConnect() {
+            var db_url = `${app_dir}/res/data/${db_name}`;
             db = new sqlite3.Database(db_url, (err) => {
                 if (err) {
                     console.error(err.message);
