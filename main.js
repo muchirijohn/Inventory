@@ -1,4 +1,6 @@
-// Modules to control application life and create native browser window
+/* SPDX-License-Identifier: MIT */
+/* SnippetCopyrightText: Copyright © 2022 peanut inventory, muchirijohn */
+
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 

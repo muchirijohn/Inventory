@@ -1,3 +1,7 @@
+
+/* SPDX-License-Identifier: MIT */
+/* SnippetCopyrightText: Copyright © 2022 peanut inventory, muchirijohn */
+
 'use strict';
 
 const { UUID } = require('builder-util-runtime');
