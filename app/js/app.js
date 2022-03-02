@@ -50,11 +50,12 @@ const internal = require('stream');
          * connect database
          */
         function dbConnect() {
+            //check if to switch to user db
             var db_url = `${app_dir}/res/data/${db_name}`;
             var file = `${app_dir}/res/data/phi_inventory_user.db`;
             const exists = fs.pathExistsSync(file);
-            if(exists) db_url = 
-            
+            if(exists) db_url = file;
+            //connect db
             db = new sqlite3.Database(db_url, (err) => {
                 if (err) {
                     console.error(err.message);
