@@ -186,7 +186,7 @@ const internal = require('stream');
         }
 
         async function createUserDb() {
-            var exists = `${app_dir}/res/data/phi_inventory_user.db`;
+            var file = `${app_dir}/res/data/phi_inventory_user.db`;
             const exists = await fs.pathExists(file);
             if (exists !== true) {
                 await fs.copy(`${app_dir}/res/data/phi_inventory.db`, `${app_dir}/res/data/phi_inventory_user.db`);
