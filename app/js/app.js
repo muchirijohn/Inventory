@@ -476,6 +476,8 @@ const internal = require('stream');
      */
     var partAddEditUi = (function partAddEditUi() {
         var packages = [],
+            partImages = [],
+            partImagesIndex = 0,
             cat_pkg = [false, false],
             isPartNew = true;
         //modal elemnt
@@ -703,21 +705,49 @@ const internal = require('stream');
          * show part info - view port
          */
         var partsShowJson = Object.null,
+            //append image to view element
+            appendPartImage = (src) => {
+                var imgEl = $('#part-show-images');
+                var url = `${app_prefs.dir}\\images\\${src}`,
+                    img = `<img src="${url}" class="ui medium image">`;
+                imgEl.append(img);
+            },
+            //navigate images
+            partShowImageNav = (nav) => {
+                var imgEl = $('#part-show-images');
+                imgEl.empty();
+                var len = partImages.length - 1,
+                    index = partImagesIndex;
+                    
+                if (nav === 'next') {
+                    index++;
+                    if(index >= len) index = len;
+                } else if (nav === 'prev') {
+                    index--;
+                    if(index <= 0) index = 0;
+                }
+                console.log([len, index])
+                partImagesIndex = index;
+                appendPartImage(partImages[index]);
+            },
             /*show images*/
             partShowImages = (images_info) => {
                 var imgEl = $('#part-show-images');
                 imgEl.empty();
-                var images = images_info.split(',');
-                if(images.length == 0) return;
-                images.forEach(img => {
-                    img = img.trim();
-                    if (img.length > 0) {
-                        var url = `${app_prefs.dir}\\images\\${img}`;
-                        console.log(url)
-                        img = `<img src="${url}" class="ui small image">`;
-                        imgEl.append(img);
-                    }
-                });
+                if (images_info.length === 0) {
+                    $('#part-show-images-info').hide();
+                    console.log('no images');
+                    return;
+                }
+                partImages = images_info.split(',');
+                partImagesIndex = 0;
+                $('#part-show-images-info').show();
+                //images.forEach(img => {
+                var img = partImages[partImagesIndex].trim();
+                if (img.length > 0) {
+                    appendPartImage(img);
+                }
+                //});
             },
             /*show part info */
             partShowData = (pData, tb_update = true) => {
@@ -1081,6 +1111,16 @@ const internal = require('stream');
             $('#part-log-btn-add').on('click', (e) => {
                 e.preventDefault();
                 $('#modal-log-add').modal('show');
+            });
+            //image van prev
+            $('#part-show-images-prev').on('click', (e) => {
+                e.preventDefault();
+                partShowImageNav('prev');
+            });
+            //image van next
+            $('#part-show-images-next').on('click', (e) => {
+                e.preventDefault();
+                partShowImageNav('next');
             });
         }
 
