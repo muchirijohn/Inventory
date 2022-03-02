@@ -36,7 +36,7 @@ const internal = require('stream');
                 return NaN
             }
         }
-        
+
     /**
      * database
      */
@@ -693,7 +693,7 @@ const internal = require('stream');
          * show part info - view port
          */
         var partsShowJson = Object.null,
-            partShowData = (pData) => {
+            partShowData = (pData, tb_update = true) => {
                 //if (selectedID === pData.id) return;
                 partsShowJson = Object.assign({}, pData);
                 var stock = [['In Stock', '5aff0e'], [`Low Stock - Limit is ${partsShowJson.stock_limit}`, 'ffcb22'], ['Out of Stock', 'ff0e0e']],
@@ -727,10 +727,12 @@ const internal = require('stream');
                 pElShow.inStock.html(`<span style="color:#${stock[slv][1]}">${stock[slv][0]}</span>`);
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
                                         <i class="dollar icon" style="color: #ff2335"></i>${partsShowJson.cost}`);
-                //table 1 info
-                pElShow.table1.html(partShowTable1Html(partsShowJson));
-                //table 2 specs
-                pElShow.table2.html(partShowTable2Html(partsShowJson));
+                if (tb_update === true) {
+                    //table 1 info
+                    pElShow.table1.html(partShowTable1Html(partsShowJson));
+                    //table 2 specs
+                    pElShow.table2.html(partShowTable2Html(partsShowJson));
+                }
             },
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
@@ -849,7 +851,7 @@ const internal = require('stream');
                 var stock = partsJsonDb[id_].stock;
                 stock = stock + lstk;
                 partsJsonDb[id_].stock = stock;
-                partShowData(partsJsonDb[id_]);
+                partShowData(partsJsonDb[id_], false);
             }
             database.dbRunSaveLog(log, stock);
         }
