@@ -47,7 +47,8 @@ const internal = require('stream');
                 icon: msg[2],
                 timer: msg[3],
                 showConfirmButton: false,
-                allowOutsideClick: true
+                allowOutsideClick: true,
+                buttons: false
             })
         }
 
