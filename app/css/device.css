@@ -343,11 +343,11 @@ p{
 }
 
 @keyframes text-flicker {
-    0%, 50% {
-        color: #ffcb22
+    0%, 25%, 50% {
+        color: #949494
     }
     
-    50%, 100% {        
+    50%, 75%, 100% {        
         color: #ff0e0e
     }    
   }
