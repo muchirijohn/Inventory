@@ -730,7 +730,6 @@ const internal = require('stream');
             partShowImages = (images_info) => {
                 if (images_info.length === 0) {
                     $('#part-show-images-info').hide();
-                    console.log('no images');
                     return;
                 }
                 partImages = images_info.split(',');
@@ -741,9 +740,8 @@ const internal = require('stream');
                     appendPartImage(img);
                 }
             },
-            /*show part info */
+            /*show part info*/
             partShowData = (pData, tb_update = true) => {
-                //if (selectedID === pData.id) return;
                 partsShowJson = Object.assign({}, pData);
                 var stock = [['In Stock', '5aff0e'], [`Low Stock - Limit is ${partsShowJson.stock_limit}`, 'ffcb22'], ['Out of Stock', 'ff0e0e']],
                     slv = 0,
@@ -773,7 +771,7 @@ const internal = require('stream');
                 //stock
                 if (partsShowJson.stock == 0) slv = 2;
                 else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
-                pElShow.inStock.html(`<span style="color:#${stock[slv][1]}">${stock[slv][0]}</span>`);
+                pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 1.5s infinite' : 'none'}">${stock[slv][0]}</span>`);
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
                                         <i class="dollar icon" style="color: #ff2335"></i>${partsShowJson.cost}`);
                 if (tb_update === true) {

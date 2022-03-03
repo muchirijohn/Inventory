@@ -342,6 +342,15 @@ p{
     color: #f8f4e8 !important;
 }
 
+@keyframes text-flicker {
+    0%, 50% {
+        color: #ffcb22
+    }
+    
+    50%, 100% {        
+        color: #ff0e0e
+    }    
+  }
 /*.column.dev-logs.scroll-style .log-table::-webkit-scrollbar-thumb {
     background-color: rgb(98, 98, 98);
 }*/
