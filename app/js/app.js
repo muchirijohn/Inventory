@@ -141,7 +141,7 @@ const internal = require('stream');
          * save part log
          * @param {sql statement} sql 
          */
-        function dbRunSaveLog(log, stock = 0) {
+        function dbRunSaveLog(log, stock = -1) {
             if (db === null) dbConnect();
             var sql = `INSERT INTO logs
                 (part_id,user,date,quantity,state,desc)
@@ -155,9 +155,8 @@ const internal = require('stream');
                         partAddEditUi.createlog(log);
                     }
                 });
-                if (stock !== 0) {
+                if (stock !== -1) {
                     sql = `UPDATE parts SET stock='${stock}' WHERE id='${log[0]}'`;
-                    console.log(sql);
                     db.run(sql, [], (err) => {
                         if (err) {
                             swal("Error", "Failed to update stock.", "error");
