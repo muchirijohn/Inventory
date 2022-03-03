@@ -166,7 +166,7 @@ p{
 }
 
 .dev-desc #part-show-id{
-    text-shadow: 0 0 2px #fae5be;
+    text-shadow: 0 0 2px #bdf4f6;
 }
 
 .dev-desc #part-show-id, #part-log-btn-desc{
@@ -314,12 +314,13 @@ p{
 }
 
 @keyframes text-flicker {
-    0%, 25%, 50% {
-        color: #fb7e4c
+    0%, 15%, 35%, 45%, 50% {
+        text-shadow: 0 0 4px #bafbf8;
+        color:#ffffff;
     }
     
-    50%, 75%, 100% {        
-        color: #ff0e0e
+    50%, 65%, 85%, 100% {        
+        color: #ff0e0e;
     }    
   }
 /*.column.dev-logs.scroll-style .log-table::-webkit-scrollbar-thumb {
