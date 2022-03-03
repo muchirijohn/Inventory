@@ -157,6 +157,7 @@ const internal = require('stream');
                 });
                 if (stock !== 0) {
                     sql = `UPDATE parts SET stock='${stock}' WHERE id='${log[0]}'`;
+                    console.log(sql);
                     db.run(sql, [], (err) => {
                         if (err) {
                             swal("Error", "Failed to update stock.", "error");
@@ -771,7 +772,7 @@ const internal = require('stream');
                 //stock
                 if (partsShowJson.stock == 0) slv = 2;
                 else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
-                pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 1.5s infinite' : 'none'}">${stock[slv][0]}</span>`);
+                pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 1s infinite' : 'none'}">${stock[slv][0]}</span>`);
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
                                         <i class="dollar icon" style="color: #ff2335"></i>${partsShowJson.cost}`);
                 if (tb_update === true) {
