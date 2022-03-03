@@ -37,6 +37,25 @@ const internal = require('stream');
             }
         }
 
+    var dialogs = (function dialogs(){
+        
+
+        function showTimerMsg(msg){
+            swal({
+                title: msg[0],
+                text: msg[1],
+                icon: msg[2],
+                timer: msg[3],
+                showConfirmButton: false,
+                allowOutsideClick: true
+            })
+        }
+
+        return {
+            showTimerMsg: showTimerMsg
+        }
+    })();
+
     /**
      * database
      */
@@ -889,7 +908,8 @@ const internal = require('stream');
             }
             //check if desc empty
             if (desc.length === 0) {
-                swal('', 'Description cannot be empty!', 'error');
+                //swal('', 'Description cannot be empty!', 'error');
+                dialogs.showTimerMsg(['', 'Description cannot be empty!', 'error', 1500]);
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
