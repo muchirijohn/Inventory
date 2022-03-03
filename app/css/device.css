@@ -133,40 +133,6 @@ p{
     background-color: #fff;
 }
 
-#list-panel .custom-control-description {
-    color: inherit;
-}
-
-#list-panel .list-group-item:hover .custom-control-description {
-    color: inherit;
-}
-
-#list-panel .custom-control-indicator {
-    background-color: #fff;
-}
-
-#list-panel .custom-radio .custom-control-input:checked~.custom-control-indicator {
-    background-color: #011835;
-}
-
-#list-panel .list-group-item:hover .custom-control-indicator {
-    background-color: #011835;
-    background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='4' fill='%23fff'/%3E%3C/svg%3E")
-}
-
-#list-panel .list-group-item .custom-control-input:checked~.custom-control-indicator {
-    background-color: #011835;
-    background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='4' fill='%23fff'/%3E%3C/svg%3E")
-}
-
-#list-panel .list-group-item:hover .custom-control-input:checked~.custom-control-indicator {
-    background-color: #011835;
-    background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='4' fill='%23fff'/%3E%3C/svg%3E")
-}
-
-#list-panel .custom-control-input:checked .list-group-item{
-    background-color: #011835;
-}
 
 #list-panel.scroll-style::-webkit-scrollbar-thumb {
     background-color: #eee;
