@@ -267,7 +267,8 @@ p{
 }
 
 .dev-desc #part-show-desc{
-    color: #cccccc !important;
+    color: #ececec !important;
+    text-shadow: 0 0 4px #4ee7da;
 }
 
 /*modal css*/
@@ -344,7 +345,7 @@ p{
 
 @keyframes text-flicker {
     0%, 25%, 50% {
-        color: #949494
+        color: #ffcb22
     }
     
     50%, 75%, 100% {        
