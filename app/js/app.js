@@ -874,7 +874,7 @@ const internal = require('stream');
             //edit part stock
             if (new_log === true) {
                 //ttr.scrollIntoView();
-                swal('Log', 'log added succesfully', 'success');
+                dialogs.showTimerMsg(['Log', 'log added succesfully', 'success', 1500]);
             }
         };
 
@@ -909,8 +909,7 @@ const internal = require('stream');
             }
             //check if desc empty
             if (desc.length === 0) {
-                //swal('', 'Description cannot be empty!', 'error');
-                dialogs.showTimerMsg(['', 'Description cannot be empty!', 'error', 1500]);
+                swal('', 'Description cannot be empty!', 'error');
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
@@ -959,11 +958,7 @@ const internal = require('stream');
                     ],
                     callback = () => {
                         prevLogEl.remove();
-                        swal(`Log : ${prevLogEl.id
-                            }`, 'Deleted succesfully!', 'success');
-                        swal("Log Deleted!", {
-                            icon: "success",
-                        });
+                        dialogs.showTimerMsg([`Log : ${prevLogEl.id}`, 'Deleted succesfully!', 'success', 1500]);
                     }
                 database.dbDeleteLog(qr, callback);
             }
