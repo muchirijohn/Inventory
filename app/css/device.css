@@ -206,7 +206,6 @@ p{
     height: 460px !important;
     margin-bottom: 10px;
     border: 0px solid rgb(85, 83, 83);
-    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -215,6 +214,7 @@ p{
 #part-show-images img{
     max-height: 450px !important;
     max-width: 450px !important;
+    border-radius: 12px;
 }
 
 #part-icon-info #part-show-stock{
