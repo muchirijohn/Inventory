@@ -165,6 +165,10 @@ p{
     display: none;
 }
 
+.dev-desc #part-show-id{
+    text-shadow: 0 0 2px #fae5be;
+}
+
 .dev-desc #part-show-id, #part-log-btn-desc{
     font-size: 20px;
     font-weight: bold;
@@ -311,7 +315,7 @@ p{
 
 @keyframes text-flicker {
     0%, 25%, 50% {
-        color: #ffcb22
+        color: #fb7e4c
     }
     
     50%, 75%, 100% {        
