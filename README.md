@@ -163,6 +163,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Acknowledgments
 
 credits to:
-* My partner in making [@ngoirimercy](https://twitter.com/ngoirimercy). She is the inspiration behind this project for our lab and she tests every commit.
+* My partner in making [@ngoirimercy](<a href="https://twitter.com/ngoirimercy" target="_blank"></a>). She is the inspiration behind this project for our lab and she tests every commit.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
