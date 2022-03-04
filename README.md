@@ -2,26 +2,16 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+    <h3 align="center">Personal Electronics Parts Inventory</h3>
+  <a href="https://github.com/muchirijohn/inventory">
     <img src="docs/app.png" alt="Logo" max-width="600" max-height="600">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
-  </p>
+    An awesome app to store your personal electronics parts and manage inventory with ease.
 </div>
-
 
 
 <!-- TABLE OF CONTENTS -->
