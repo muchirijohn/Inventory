@@ -364,6 +364,26 @@ const internal = require('stream');
             </div>`);
         }
 
+       /**
+        * delete part
+        * @returns none
+        */
+        function listDeletePart() {
+            if(prevListClicked === null) return;
+            var id = prevListClicked.id;
+            var index = partsJsonIDs.indexOf(id);
+            if(index === -1) return;
+            partsJsonIDs.splice(index, 1);
+            $(`#list-panel #${id}`).remove();
+
+            if(partsJsonIDs.length > index){
+                $(`#list-panel #${partsJsonIDs[index]}`).trigger('click');
+            }else{
+                $(`#list-panel #${partsJsonIDs[index-1]}`).trigger('click');
+            }
+            dialogs.showTimerMsg(['Part', 'Part deleted succesfully!', 'success', 1500]);
+        }
+
         /**
          * init list ui
          */
@@ -427,7 +447,8 @@ const internal = require('stream');
             getWinHeight: getWinHeight,
             setListHeight: setListHeight,
             generateList: generateList,
-            editListItem: editListItem
+            editListItem: editListItem,
+            listDeletePart: listDeletePart
         }
     })();
 
@@ -1011,6 +1032,23 @@ const internal = require('stream');
         }
 
         /**
+         * delete part
+         */
+        function deletePart(){
+            swal({
+                title: "Delete part",
+                text: "Are you sure you want to delete part?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    listUi.listDeletePart();
+                }
+            });
+            
+        }
+        /**
          * init
          */
         function init() {
@@ -1059,7 +1097,8 @@ const internal = require('stream');
             //delete part
             $('#part-show-btn-del').on('click', (e) => {
                 e.preventDefault();
-                swal('Delete', 'Not yet!! A cup of coffee and it\'ll be implemented :-)', 'info');
+                deletePart();
+                //swal('Delete', 'Not yet!! A cup of coffee and it\'ll be implemented :-)', 'info');
             });
             //edit part
             $('#part-show-btn-edit').on('click', (e) => {
