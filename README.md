@@ -27,7 +27,6 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
@@ -79,14 +78,6 @@ This project is built with this great frameworks and libraries.
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-### Prerequisites
-
-Always get the latest libraries.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
 
 ### Installation
 
