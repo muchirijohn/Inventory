@@ -342,6 +342,8 @@ const internal = require('stream');
                 partsJsonDb[part_data.id] = part_data;
                 //console.log(part_data.id);
             });
+            partAddEditUi.initPartShow();
+            
         }
 
         /**
@@ -524,7 +526,6 @@ const internal = require('stream');
         };
         //preiovus shown id
         var selectedID = '';
-
         /**
          * clear modal part fields
          */
@@ -537,8 +538,6 @@ const internal = require('stream');
             pEl.type.dropdown('clear');
             pEl.package.dropdown('clear');
         }
-
-
         /**
          * get part modal fields values
          * @returns array
@@ -552,7 +551,6 @@ const internal = require('stream');
             });
             return fields;
         }
-
         /**
          * save part data
          */
@@ -992,6 +990,19 @@ const internal = require('stream');
         }
 
         /**
+         * init parts show fields
+         * @returns none
+         */
+        function initPartShow() {
+            if(partsJsonDb === null) return;
+            var partsIds = Object.keys(partsJsonDb);
+            if (partsIds[0] !== undefined) {
+                console.log(partsIds[0]);
+                partShowData(partsJsonDb[partsIds[0]]);
+            }
+        }
+
+        /**
          * init
          */
         function init() {
@@ -1137,7 +1148,8 @@ const internal = require('stream');
             partSaveData: partSaveData,
             partShowData: partShowData,
             createlog: createlog,
-            createDBLogs: createDBLogs
+            createDBLogs: createDBLogs,
+            initPartShow: initPartShow
         }
     })();
 
