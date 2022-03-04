@@ -93,7 +93,7 @@ Always get the latest libraries.
 _Installations steps._
 
 1. Download and install node [https://nodejs.org/en/](NodeJs)
-2. (_optional_) Download [https://desktop.github.com/](github desktop). It makes things easier especially if it's your first time using git
+2. (_optional_) Download <a href="https://desktop.github.com/">github desktop</a>. It makes things easier especially if it's your first time using git
 2. Clone the repo
    ```sh
    git clone https://github.com/muchirijohn/inventory
