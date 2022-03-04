@@ -1207,7 +1207,7 @@ const internal = require('stream');
             //write to preferencess folder
             var pref_path = pref_user_path;
             fs.outputFileSync(pref_path, JSON.stringify(prefs));
-            swal('Preferences', 'Successful', 'success');
+            swal('Preferences', 'Successful. Please restart application.', 'success');
             //close dialog
             return true;
         }
@@ -1342,6 +1342,9 @@ const internal = require('stream');
         }
     })();
 
+    /**
+     * read user preferences
+     */
     async function readPreferences() {
         const u_path = await fs.pathExists(pref_user_path);
         var pref_path = u_path ? pref_user_path : pref_default_path;
@@ -1350,11 +1353,11 @@ const internal = require('stream');
             try {
                 app_prefs = await fs.readJson(pref_path);
                 mainUi.init();
-                //$('#div-main-load span').text('Finalizing...');
+                //$('#div-main-load span').text('Finalizing...');  
             } catch (err) {
                 console.log(err);
                 $('#div-main-load span').text('Error...');
-                swal('Error', 'Ops! Something under the hood fried.', 'error');
+                swal('Error', 'Ops! Something under the hood fried!', 'error');
             }
         } else {
             $('#div-main-load span').text('Error...');
