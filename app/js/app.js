@@ -209,6 +209,38 @@ const internal = require('stream');
         }
 
         /**
+         * delete part from db
+         * @param {string} id 
+         * @param {function} callback 
+         */
+        function dbDeletePart(id, callback) {
+            if (db === null) dbConnect();
+            //delete part
+            var sql = `DELETE FROM parts WHERE id='${id}'`;
+            db.serialize(function () {
+                db.run(sql, [], (err) => {
+                    if (err) {
+                        swal("Error", "Failed to delete part.", "error");
+                    } else {
+                        //delete logs
+                        var sql = `DELETE FROM logs WHERE part_id='${id}'`;
+                        db.serialize(function () {
+                            db.run(sql, [], (err) => {
+                                if (err) {
+                                    swal("Error", "Failed to delete logs.", "error");
+                                } else {
+                                    callback();
+                                }
+                            });
+                        });
+                    }
+                });
+
+
+            });
+        }
+
+        /**
          * close db
          */
         function dbClose() {
@@ -246,6 +278,7 @@ const internal = require('stream');
             dbFetchAllParts: dbFetchAllParts,
             dbSearch: dbSearch,
             dbRunSavePartQuery: dbRunSavePartQuery,
+            dbDeletePart: dbDeletePart,
             dbFetchLogs: dbFetchLogs,
             dbRunSaveLog: dbRunSaveLog,
             dbDeleteLog: dbDeleteLog,
@@ -370,21 +403,28 @@ const internal = require('stream');
          */
         function listDeletePart() {
             if (prevListClicked === null) return;
-            var id = prevListClicked.id;
-            var index = partsJsonIDs.indexOf(id);
-            if (index === -1) return;
-            partsJsonIDs.splice(index, 1);
-            $(`#list-panel #${id}`).remove();
+            //get id
+            var id = prevListClicked.id,
+                //delete callback
+                fnDelete = () => {
+                    var index = partsJsonIDs.indexOf(id);
+                    if (index === -1) return;
+                    partsJsonIDs.splice(index, 1);
+                    $(`#list-panel #${id}`).remove();
 
-            if (partsJsonIDs.length > index) {
-                $(`#list-panel #${partsJsonIDs[index]}`).trigger('click');
-            } else {
-                $(`#list-panel #${partsJsonIDs[index - 1]}`).trigger('click');
-            }
-            if (partsJsonIDs.length === 0){
-                mainUi.showHidePartUi();
-            }
-            dialogs.showTimerMsg(['Part', 'Part deleted succesfully!', 'success', 1500]);
+                    if (partsJsonIDs.length > index) {
+                        $(`#list-panel #${partsJsonIDs[index]}`).trigger('click');
+                    } else {
+                        $(`#list-panel #${partsJsonIDs[index - 1]}`).trigger('click');
+                    }
+                    if (partsJsonIDs.length === 0) {
+                        mainUi.showHidePartUi();
+                    }
+                    dialogs.showTimerMsg(['Part', 'Part deleted succesfully!', 'success', 1500]);
+                };
+            //delete part
+            database.dbDeletePart(id, fnDelete);
+
         }
 
         /**
@@ -1289,7 +1329,7 @@ const internal = require('stream');
          * show or hide part desc and log ui
          * @param {boolean} show 
          */
-        function showHidePartUi(show) {
+        function showHidePartUi(show = false) {
             if (show) {
                 $('.column.dev-desc .column').show();
                 $('.column.dev-logs .column').show();
