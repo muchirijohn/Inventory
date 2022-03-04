@@ -83,8 +83,8 @@ This project is built with this great frameworks and libraries.
 
 _Installations steps._
 
-1. Download and install node [https://nodejs.org/en/](NodeJs)
-2. (_optional_) Download <a href="https://desktop.github.com/">github desktop</a>. It makes things easier especially if it's your first time using git
+1. Download and install node [Node Js](https://nodejs.org/en/)
+2. (_optional_) Download [github desktop](https://desktop.github.com/). It makes things easier especially if it's your first time using git
 2. Clone the repo
    ```sh
    git clone https://github.com/muchirijohn/inventory
