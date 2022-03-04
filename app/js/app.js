@@ -283,7 +283,11 @@ const internal = require('stream');
          * @returns 
          */
         function generateList(list_data) {
-            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
+            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
+            trimDesc = (desc)=>{
+                if(desc.length > 60) return desc.substring(0,60) + '...';
+                else return desc;
+            };
             if (list_data.length == 0) {
                 swal("Search", "Part(s) not found!", "error");
                 return;
@@ -300,7 +304,7 @@ const internal = require('stream');
                 //add content
                 d_.innerHTML = `<img class="ui avatar image" src="${a_dir}\\images\\${part_data.icon}">
                 <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
-                <div class="description">${part_data.description}</div>
+                <div class="description">${trimDesc(part_data.description)}</div>
                 </div>`
                 //add click listener
                 d_.addEventListener('click', (e) => {
@@ -325,12 +329,13 @@ const internal = require('stream');
                     //fetch logs from db
                     database.dbFetchLogs(id);
                 });
-
+                //mouse over listener
                 d_.addEventListener('mouseover', (e) => {
                     if (prevListClicked !== null && d_.id !== prevListClicked.id) {
                         d_.setAttribute("style", "background-color: rgb(55, 55, 55");
                     }
                 });
+                //mouse leave listener
                 d_.addEventListener('mouseleave', (e) => {
                     if (prevListClicked !== null && d_.id != prevListClicked.id) {
                         d_.setAttribute("style", "background-color: transparent");
