@@ -163,6 +163,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Acknowledgments
 
 credits to:
-* My partner in making @ngoirimabagara. She is th reason i started this project for our lab and she tests every commit.
+* My partner in making [@ngoirimabagara](https://github.com/ngoirimbagara). She is the inspiration behind this project for our lab and she tests every commit.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
