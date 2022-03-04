@@ -320,14 +320,15 @@ p{
 }
 
 @keyframes text-flicker {
-    0%, 15%, 35%, 45%, 50% {
+    100% {
         text-shadow: 0 0 4px #bafbf8;
-        color:#ffffff;
+        color:#fd0202;
+        opacity: 0.8;
     }
     
-    50%, 65%, 85%, 100% {        
-        color: #ff0e0e;
-    }    
+    100% {        
+        opacity: 0;
+    }   
   }
   @keyframes text-flicker-load {
     100% {
