@@ -343,7 +343,6 @@ const internal = require('stream');
                 //console.log(part_data.id);
             });
             partAddEditUi.initPartShow();
-            
         }
 
         /**
@@ -800,6 +799,7 @@ const internal = require('stream');
                     //show images
                     partShowImages(partsShowJson.images);
                 }
+                console.log('part init');
             },
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
@@ -998,7 +998,8 @@ const internal = require('stream');
             var partsIds = Object.keys(partsJsonDb);
             if (partsIds[0] !== undefined) {
                 console.log(partsIds[0]);
-                partShowData(partsJsonDb[partsIds[0]]);
+                //partShowData(partsJsonDb[partsIds[0]]);
+                $(`#list-panel #${partsIds[0]}`).trigger('click');
             }
         }
 
