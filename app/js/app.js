@@ -28,6 +28,8 @@ const internal = require('stream');
     var app_prefs = Object.create(null),
         //temp pats db -- global
         partsJsonDb = Object.create(null),
+        //part ids
+        partsJsonIDs = [],
         //parse ints
         filterInt = (value) => {
             if (/^[-+]?(\d+|Infinity)$/.test(value)) {
@@ -1000,9 +1002,9 @@ const internal = require('stream');
          */
         function initPartShow() {
             if(partsJsonDb === null) return;
-            var partsIds = Object.keys(partsJsonDb);
-            if (partsIds[0] !== undefined) {
-                console.log(partsIds[0]);
+            partsJsonIDs = Object.keys(partsJsonDb);
+            if (partsJsonIDs.length > 0) {
+                console.log(partsJsonIDs[0]);
                 //partShowData(partsJsonDb[partsIds[0]]);
                 $(`#list-panel #${partsIds[0]}`).trigger('click');
             }
