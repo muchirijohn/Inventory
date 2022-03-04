@@ -15,7 +15,12 @@
 </head>
 
 <body>
-    <div class="fluid div-main ui padded grid center aligned">
+    <div id="div-main-load">
+        <div class="ui icon header">
+            <i class="cog icon"></i><span>Loading...</span> 
+        </div>
+    </div>
+    <div id="div-main-ui" class="fluid div-main ui padded grid center aligned">
         <div class="four wide column dev-section">
             <div class="fluid primary basic ui buttons">
                 <button id="btn-part-all" class="ui labelled icon button"><i class="microchip icon"></i> All
@@ -347,6 +352,8 @@
         </div>
     </div>
     <script type="text/javascript" src="../node_modules/chance/dist/chance.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
     <script src="./js/app.js"></script>
 </body>
 

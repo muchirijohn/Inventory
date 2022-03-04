@@ -1312,7 +1312,15 @@ const internal = require('stream');
                 }
             });
             //loading complete
-            swal("Inventory", "Loaded!", "success");
+            //swal("Inventory", "Loaded!", "success");
+            //load main ui on success
+            setTimeout(() => {
+                $('#div-main-load').hide();
+                $('#div-main-ui').show();
+                $('#div-main-ui').animate({
+                    opacity: 1
+                }, 1000);
+            }, 3000);
         }
 
         return {
@@ -1329,11 +1337,14 @@ const internal = require('stream');
             try {
                 app_prefs = await fs.readJson(pref_path);
                 mainUi.init();
+                //$('#div-main-load span').text('Finalizing...');
             } catch (err) {
                 console.log(err);
+                $('#div-main-load span').text('Error...');
                 swal('Error', 'Ops! Something under the hood fried.', 'error');
             }
         } else {
+            $('#div-main-load span').text('Error...');
             swal('Error', 'Application preferences file is missing!', 'error');
         }
     }

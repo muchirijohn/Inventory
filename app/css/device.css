@@ -27,6 +27,28 @@ body {
     cursor: default;
     width: 100%;
 }
+#div-main-load{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#daf5f6;
+    font-size: 40px;
+    text-shadow: 0 0 2px #a3f5f8;
+    width: 100%;
+    height: 100%;
+}
+#div-main-load i{
+    color:rgb(191, 192, 192);
+    text-shadow: 0 0 4px #bafbf8;
+    animation: cog-rotate 4s infinite;
+}
+#div-main-load span{
+    color: #9acacc;
+    animation: text-flicker-load 1s infinite alternate;
+}
+#div-main-ui{
+    opacity: 0;
+}
 
 p{
     color: #919191 !important;
@@ -191,17 +213,14 @@ p{
     border-radius: 6px !important;
     margin-top: 4px;
 }
-
 #part-show-images-info{
     height: auto;
     overflow-y: auto;
     margin-bottom: 14px;
 }
-
 #part-show-images-info .buttons{
     font-weight: bold;
 }
-
 #part-show-images{
     height: 460px !important;
     margin-bottom: 10px;
@@ -210,37 +229,31 @@ p{
     align-items: center;
     justify-content: center;
 }
-
 #part-show-images img{
     max-height: 450px !important;
     max-width: 450px !important;
     border-radius: 12px;
 }
-
 #part-icon-info #part-show-stock{
     font-size: 16px;
     font-weight: 600;
     margin-top: 20px !important;
     color: #d9ffdc;
 }
-
 #part-icon-info #part-show-table-1, #part-show-table-2{
     background-color: rgba(57, 74, 77, 0.3) !important;
     border-color: #979797 !important;
 }
-
 #part-show-table-1 td{
     color: #bafbf8 !important;
 }
 #part-show-table-2 td{
     color: #fdb0b6 !important;
 }
-
 .dev-desc #part-show-desc{
     color: #ececec !important;
     text-shadow: 0 0 4px #4ee7da;
 }
-
 /*modal css*/
 #modal-part-add .header{
     color: rgb(230, 111, 0) !important;
@@ -250,28 +263,23 @@ p{
     color: #019795 !important;
     margin-bottom: 0px !important;
 }
-
 #div-part-img-spec .ui.menu .item{
     color: #a19f9f !important;
     font-size: 16px !important;
 }
-
 #div-part-img-spec .ui.menu .item.active{
     background-color: transparent !important;
     color: #bafbf8 !important;
     border: 0px !important;
 }
-
 #div-part-img-spec .ui.tab{
     background-color: transparent !important;
     border: 0px !important;
 }
-
 .column.dev-logs{
     background-color: rgba(80, 80, 80, 0) !important;
     margin-left: 0px !important;
 }
-
 .log-table #part-log-table{
     background-color: rgba(80, 80, 80, 0) !important;
     border-color: #727272 !important;
@@ -279,7 +287,6 @@ p{
     border: 0px;
     text-align: center;
 }
-
 #part-log-table thead {
     display: table;
     table-layout:fixed;
@@ -307,7 +314,6 @@ p{
 #part-log-table th, td {
     border-bottom: 1px solid #5d5c5c;
 }
-
 #part-log-table th{
     background-color: rgba(80, 80, 80, 0.2) !important;
     color: #f8f4e8 !important;
@@ -323,9 +329,23 @@ p{
         color: #ff0e0e;
     }    
   }
-/*.column.dev-logs.scroll-style .log-table::-webkit-scrollbar-thumb {
-    background-color: rgb(98, 98, 98);
-}*/
+  @keyframes text-flicker-load {
+    100% {
+        text-shadow: 0 0 4px #bafbf8;
+        color:#c8fbf5;
+        opacity: 0.8;
+    }
+    
+    100% {        
+        color: #9b9a9a;
+        opacity: 0;
+    }    
+  }
+  @keyframes cog-rotate {
+    100% {
+        transform: rotate(360deg);
+    }  
+  }
     
 /*------------------spinner-----------------------*/
 
