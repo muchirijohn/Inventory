@@ -1006,7 +1006,7 @@ const internal = require('stream');
             if (partsJsonIDs.length > 0) {
                 console.log(partsJsonIDs[0]);
                 //partShowData(partsJsonDb[partsIds[0]]);
-                $(`#list-panel #${partsIds[0]}`).trigger('click');
+                $(`#list-panel #${partsJsonIDs[0]}`).trigger('click');
             }
         }
 
