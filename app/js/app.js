@@ -806,10 +806,10 @@ const internal = require('stream');
 
                 if (nav === 'next') {
                     //index++;
-                    (index >= len) ? index = len : index += 1;
+                    (index >= len) ? index = 0 : index += 1;
                 } else if (nav === 'prev') {
                     //index--;
-                    (index <= 0) ? index = 0 : index -= 1;
+                    (index <= 0) ? index = len : index -= 1;
                 }
                 partImagesIndex = index;
                 appendPartImage(partImages[index]);
