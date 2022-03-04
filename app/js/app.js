@@ -1333,7 +1333,7 @@ const internal = require('stream');
                 $('#div-main-ui').animate({
                     opacity: 1
                 }, 1000);
-            }, 3000);
+            }, 1500);
         }
 
         return {
