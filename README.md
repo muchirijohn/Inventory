@@ -65,14 +65,14 @@ Enjoy.
 
 This project is built with this great frameworks and libraries.
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Node Js](https://nodejs.org/en/)
+* [Electron](https://www.electronjs.org/)
+* [Semantic Ui](https://semantic-ui.com/)
+* [Sqlite3](https://www.npmjs.com/package/sqlite3)
+* [Jquery](https://jquery.com/)
+* [Moment Js](https://momentjs.com/)
+* [SweetAlert](https://sweetalert.js.org/)
+* ...and many more.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
