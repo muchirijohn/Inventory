@@ -420,7 +420,7 @@ const internal = require('stream');
                     if (partsJsonIDs.length === 0) {
                         mainUi.showHidePartUi();
                     }
-                    dialogs.showTimerMsg(['Part', 'Part deleted succesfully!', 'success', 1500]);
+                    dialogs.showTimerMsg(['', 'Part deleted succesfully!', 'success', 1500]);
                 };
             //delete part
             database.dbDeletePart(id, fnDelete);
@@ -1018,8 +1018,6 @@ const internal = require('stream');
             });
         },
             deleteLog = () => {
-
-
                 var id = prevLogEl.id,
                     qr = [
                         partsShowJson.id, //part id
@@ -1027,7 +1025,7 @@ const internal = require('stream');
                     ],
                     callback = () => {
                         prevLogEl.remove();
-                        dialogs.showTimerMsg([`Log : ${prevLogEl.id}`, 'Deleted succesfully!', 'success', 1500]);
+                        dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
                     }
                 database.dbDeleteLog(qr, callback);
             }
