@@ -1416,7 +1416,7 @@ const internal = require('stream');
                 $('#div-main-ui').show();
                 $('#div-main-ui').animate({
                     opacity: 1
-                }, 1000);
+                }, 2000);
             }, 3000);
         }
 

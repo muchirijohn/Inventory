@@ -34,13 +34,13 @@
     "electron-rebuild": "^3.2.7"
   },
   "dependencies": {
-    "@electron/remote": "^2.0.4",
+    "@electron/remote": "^2.0.5",
     "builder-util-runtime": "^9.0.0",
     "chance": "^1.1.8",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^10.0.1",
     "i": "^0.3.7",
     "jquery": "^3.6.0",
-    "mkdirp": "^0.5.5",
+    "mkdirp": "^1.0.4",
     "moment": "^2.29.1",
     "os-homedir": "^2.0.0",
     "sqlite3": "^5.0.2",
