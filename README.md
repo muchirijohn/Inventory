@@ -81,12 +81,9 @@ This project is built with this great frameworks and libraries.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Always get the latest libraries.
 * npm
   ```sh
   npm install npm@latest -g
@@ -94,12 +91,13 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+_Installations steps._
 
-1. Get a free API Key at [https://example.com](https://example.com)
+1. Download and install node [https://nodejs.org/en/](NodeJs)
+2. _optional_ Dowmload github desktop. It makes things easier especially if it's your first time using git
 2. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/muchirijohn/inventory
    ```
 3. Install NPM packages
    ```sh
