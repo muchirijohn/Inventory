@@ -39,10 +39,10 @@ const internal = require('stream');
             }
         }
 
-    var dialogs = (function dialogs(){
-        
+    var dialogs = (function dialogs() {
 
-        function showTimerMsg(msg){
+
+        function showTimerMsg(msg) {
             swal({
                 title: msg[0],
                 text: msg[1],
@@ -286,10 +286,10 @@ const internal = require('stream');
          */
         function generateList(list_data) {
             var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
-            trimDesc = (desc)=>{
-                if(desc.length > 60) return desc.substring(0,60) + '...';
-                else return desc;
-            };
+                trimDesc = (desc) => {
+                    if (desc.length > 60) return desc.substring(0, 60) + '...';
+                    else return desc;
+                };
             if (list_data.length == 0) {
                 swal("Search", "Part(s) not found!", "error");
                 return;
@@ -327,7 +327,7 @@ const internal = require('stream');
                         prevListClicked.setAttribute("style", "background-color: transparent");
                     }
                     prevListClicked = par;
-                    mainUi.showUi(true);
+                    mainUi.showHidePartUi(true);
                     //fetch logs from db
                     database.dbFetchLogs(id);
                 });
@@ -364,22 +364,25 @@ const internal = require('stream');
             </div>`);
         }
 
-       /**
-        * delete part
-        * @returns none
-        */
+        /**
+         * delete part
+         * @returns none
+         */
         function listDeletePart() {
-            if(prevListClicked === null) return;
+            if (prevListClicked === null) return;
             var id = prevListClicked.id;
             var index = partsJsonIDs.indexOf(id);
-            if(index === -1) return;
+            if (index === -1) return;
             partsJsonIDs.splice(index, 1);
             $(`#list-panel #${id}`).remove();
 
-            if(partsJsonIDs.length > index){
+            if (partsJsonIDs.length > index) {
                 $(`#list-panel #${partsJsonIDs[index]}`).trigger('click');
-            }else{
-                $(`#list-panel #${partsJsonIDs[index-1]}`).trigger('click');
+            } else {
+                $(`#list-panel #${partsJsonIDs[index - 1]}`).trigger('click');
+            }
+            if (partsJsonIDs.length === 0){
+                mainUi.showHidePartUi();
             }
             dialogs.showTimerMsg(['Part', 'Part deleted succesfully!', 'success', 1500]);
         }
@@ -1022,7 +1025,7 @@ const internal = require('stream');
          * @returns none
          */
         function initPartShow() {
-            if(partsJsonDb === null) return;
+            if (partsJsonDb === null) return;
             partsJsonIDs = Object.keys(partsJsonDb);
             if (partsJsonIDs.length > 0) {
                 console.log(partsJsonIDs[0]);
@@ -1034,7 +1037,7 @@ const internal = require('stream');
         /**
          * delete part
          */
-        function deletePart(){
+        function deletePart() {
             swal({
                 title: "Delete part",
                 text: "Are you sure you want to delete part?",
@@ -1046,7 +1049,7 @@ const internal = require('stream');
                     listUi.listDeletePart();
                 }
             });
-            
+
         }
         /**
          * init
@@ -1283,10 +1286,10 @@ const internal = require('stream');
         }
 
         /**
-         * show or hide ui
+         * show or hide part desc and log ui
          * @param {boolean} show 
          */
-        function showUi(show) {
+        function showHidePartUi(show) {
             if (show) {
                 $('.column.dev-desc .column').show();
                 $('.column.dev-logs .column').show();
@@ -1308,7 +1311,7 @@ const internal = require('stream');
          * init ui
          */
         function init() {
-            showUi(false);
+            showHidePartUi(false);
             //modal preferences
             $('#modal-app-pref.ui.modal').modal({
                 blurring: false,
@@ -1346,7 +1349,6 @@ const internal = require('stream');
             //on window closing try to close db
             $(window).on('unload', function () {
                 database.dbClose();
-                console.log("Handler for .unload() called.");
             });
             database.init();
             //init main categories
@@ -1370,8 +1372,6 @@ const internal = require('stream');
                     scr = true;
                 }
             });
-            //loading complete
-            //swal("Inventory", "Loaded!", "success");
             //load main ui on success
             setTimeout(() => {
                 $('#div-main-load').hide();
@@ -1379,12 +1379,12 @@ const internal = require('stream');
                 $('#div-main-ui').animate({
                     opacity: 1
                 }, 1000);
-            }, 1500);
+            }, 3000);
         }
 
         return {
             init: init,
-            showUi: showUi
+            showHidePartUi: showHidePartUi
         }
     })();
 
