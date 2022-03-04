@@ -321,12 +321,12 @@ p{
 
 @keyframes text-flicker {
     100% {
-        text-shadow: 0 0 4px #bafbf8;
+        text-shadow: 0 0 4px #fda7a7; 
         color:#fd0202;
         opacity: 0.8;
     }
     
-    100% {        
+    100% {  
         opacity: 0;
     }   
   }
