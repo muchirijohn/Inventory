@@ -151,9 +151,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-muchiri15john - [@your_twitter](https://twitter.com/muchiri15john) - email@example.com
+[@muchiri15john](https://twitter.com/muchiri15john) - muchiri.mwihaki@gmail.com
 
-Project: [https://github.com/muchirijohn/inventory](https://github.com/muchirijohn/inventory)
+[https://github.com/muchirijohn/inventory](https://github.com/muchirijohn/inventory)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
