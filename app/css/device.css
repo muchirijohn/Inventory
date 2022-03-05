@@ -292,9 +292,15 @@ p{
 }
 /**notes**/
 #part-show-notes{
+    max-height: 300px;
     width: 100%;
     color:#b3b3b3;
     text-shadow: 0 0 2px #f8ef9a;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+#part-show-notes i{
+    color: #84f7f1;
 }
 .column.dev-logs{
     background-color: rgba(80, 80, 80, 0) !important;

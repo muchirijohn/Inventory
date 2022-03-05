@@ -819,15 +819,15 @@ const internal = require('stream');
          * show notes
          * @param {String} notes 
          */
-        function partsShowNotes(notes){
+        function partsShowNotes(notes) {
             var parent = $('#part-show-notes');
             parent.empty();
             if (notes === null || notes.trim().length === 0) return;
             notes = notes.split('\n');
             notes.forEach(note => {
-                parent.append($("<div></div>")
-                    .attr("class", 'item')
-                    .text(note));
+                parent.append($(`<div></div>`)
+                    .addClass('item')
+                    .html(`<i class="caret right icon"></i> ${note}`));
             });
         }
 
@@ -901,7 +901,7 @@ const internal = require('stream');
                 //stock
                 if (partsShowJson.stock == 0) slv = 2;
                 else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
-                pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
+                pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 3) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
                                         <i class="dollar icon" style="color: #ff2335"></i>${partsShowJson.cost}`);
                 if (tb_update === true) {
@@ -915,6 +915,7 @@ const internal = require('stream');
                     partsShowNotes(partsShowJson.notes)
                 }
             },
+            //edit part data - show edit modal
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
                     swal('', 'Please select part!', 'error');
@@ -1458,7 +1459,7 @@ const internal = require('stream');
             });
             //load main ui on success
             setTimeout(() => {
-                $('#div-main-load').hide();
+                $('#div-main-load').empty().hide();
                 $('#div-main-ui').show();
                 $('#div-main-ui').animate({
                     opacity: 1
