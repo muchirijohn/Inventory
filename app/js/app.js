@@ -409,17 +409,23 @@ const internal = require('stream');
                 fnDelete = () => {
                     var index = partsJsonIDs.indexOf(id);
                     if (index === -1) return;
+                    //remove from arrays
                     partsJsonIDs.splice(index, 1);
+                    delete partsJsonDb[id];
+                    //remove list element
                     $(`#list-panel #${id}`).remove();
-
+                    //slect next remaining part
                     if (partsJsonIDs.length > index) {
                         $(`#list-panel #${partsJsonIDs[index]}`).trigger('click');
                     } else {
                         $(`#list-panel #${partsJsonIDs[index - 1]}`).trigger('click');
                     }
+                    //if last part
                     if (partsJsonIDs.length === 0) {
                         mainUi.showHidePartUi();
+                        prevListClicked = null;
                     }
+                    //complete dialog
                     dialogs.showTimerMsg(['', 'Part deleted succesfully!', 'success', 1500]);
                 };
             //delete part
