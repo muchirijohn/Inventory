@@ -290,6 +290,12 @@ p{
     background-color: transparent !important;
     border: 0px !important;
 }
+/**notes**/
+#part-show-notes{
+    width: 100%;
+    color:#b5b6b6;
+    text-shadow: 0 0 2px #f8d18a;
+}
 .column.dev-logs{
     background-color: rgba(80, 80, 80, 0) !important;
     margin-left: 0px !important;
