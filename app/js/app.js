@@ -876,7 +876,6 @@ const internal = require('stream');
                     //show images
                     partShowImages(partsShowJson.images);
                 }
-                console.log('part init');
             },
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
@@ -1072,7 +1071,6 @@ const internal = require('stream');
             if (partsJsonDb === null) return;
             partsJsonIDs = Object.keys(partsJsonDb);
             if (partsJsonIDs.length > 0) {
-                console.log(partsJsonIDs[0]);
                 //partShowData(partsJsonDb[partsIds[0]]);
                 $(`#list-panel #${partsJsonIDs[0]}`).trigger('click');
             }

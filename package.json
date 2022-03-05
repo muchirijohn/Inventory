@@ -10,7 +10,7 @@
     "clean": "rm -rf ./dist",
     "clean:win": "rm -rf ./dist",
     "pack": "npm run clean && npm run pack:win",
-    "pack:win": "npm run clean:win && electron-packager . \"inventory\" --out=dist --appname=inventory --app-copyright=\"(c) 2022 Muchirijohn\" --platform=win32 --arch=x64 --app-version=1.0.0 --electron-version=16.0.8 --ignore=versions --ignore=release --ignore=docs --win32metadata.CompanyName=\"muchirijohn\" --win32metadata.ProductName=\"inventory\" --win32metadata.FileDescription=\"inventory\" --win32metadata.OriginalFilename=\"inventory.exe\""
+    "pack:win": "npm run clean:win && electron-packager . \"inventory\" --out=dist --appname=inventory --app-copyright=\"(c) 2022 Muchirijohn\" --platform=win32 --arch=x64 --app-version=1.0.0 --electron-version=17.1.0 --icon=files/images/p4s_icon.ico --ignore=versions --ignore=release --ignore=docs --win32metadata.CompanyName=\"muchirijohn\" --win32metadata.ProductName=\"inventory\" --win32metadata.FileDescription=\"inventory\" --win32metadata.OriginalFilename=\"inventory.exe\""
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/muchirijohn/inventory#readme",
   "devDependencies": {
-    "electron": "^16.0.8",
+    "electron": "^17.1.0",
     "electron-builder": "^22.14.13",
     "electron-packager": "^15.4.0",
     "electron-rebuild": "^3.2.7"
