@@ -37,7 +37,11 @@ const internal = require('stream');
             } else {
                 return NaN
             }
-        }
+        },
+        trimDesc = (desc) => {
+            if (desc.length > 60) return desc.substring(0, 60) + '...';
+            else return desc;
+        };
 
     var dialogs = (function dialogs() {
 
@@ -317,11 +321,7 @@ const internal = require('stream');
          * @param {array} part_data 
          */
         function addNewPartItem(part_data) {
-            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
-                trimDesc = (desc) => {
-                    if (desc.length > 60) return desc.substring(0, 60) + '...';
-                    else return desc;
-                };
+            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
             //create item
             var d_ = document.createElement('div');
             d_.className = 'item';
@@ -351,7 +351,7 @@ const internal = require('stream');
                 }
                 prevListClicked = par;
                 mainUi.showHidePartUi(true);
-                $('#part-log-table tbody').empty();
+                //$('#part-log-table tbody').empty();
                 //fetch logs from db
                 database.dbFetchLogs(id);
             });
@@ -403,7 +403,7 @@ const internal = require('stream');
             var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
             $(`#list-panel #${part_data.id}`).empty().html(`<img class="ui avatar image" src="${a_dir}\\images\\${part_data.icon}">
             <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
-            <div class="description">${part_data.description}</div>
+            <div class="description">${trimDesc(part_data.description)}</div>
             </div>`);
         }
 
@@ -667,8 +667,9 @@ const internal = require('stream');
                         stock_limit="${data.stock_limit}"
                     WHERE
                         id="${data.id}"`;
-                partShowData(partsJsonDb[data.id]);
-                listUi.editListItem(partsJsonDb[data.id]);
+                partsJsonDb[data.id] = data;
+                partShowData(data);
+                listUi.editListItem(data);
             }
             //show edits
             /*partsJsonDb[data.id] = data;
@@ -797,7 +798,7 @@ const internal = require('stream');
          */
         var partShowTable2Html = (data) => {
             //check if specs available
-            if (data.specs.length == 0) {
+            if (data.specs.length === 0) {
                 return '';
             }
             //create specs table
