@@ -1376,6 +1376,10 @@ const internal = require('stream');
                 e.preventDefault();
                 getAppDir();
             });
+            $('#div-main-load .with-love').on('click', (e) => {
+                e.preventDefault();
+                shell.openExternal('https://github.com/muchirijohn');
+            });
             //on window resize
             $(window).on('resize', function () {
                 if ($(window).height() < 650) $(window).height('50px');
@@ -1411,13 +1415,13 @@ const internal = require('stream');
                 }
             });
             //load main ui on success
-            setTimeout(() => {
+            /*setTimeout(() => {
                 $('#div-main-load').hide();
                 $('#div-main-ui').show();
                 $('#div-main-ui').animate({
                     opacity: 1
                 }, 2000);
-            }, 3000);
+            }, 3000);*/
         }
 
         return {
