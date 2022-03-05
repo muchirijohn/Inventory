@@ -1415,13 +1415,13 @@ const internal = require('stream');
                 }
             });
             //load main ui on success
-            /*setTimeout(() => {
+            setTimeout(() => {
                 $('#div-main-load').hide();
                 $('#div-main-ui').show();
                 $('#div-main-ui').animate({
                     opacity: 1
-                }, 2000);
-            }, 3000);*/
+                }, 3000);
+            }, 4000);
         }
 
         return {
