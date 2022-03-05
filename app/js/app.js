@@ -313,74 +313,84 @@ const internal = require('stream');
         }
 
         /**
-         * generate part list item elements
-         * @param {data from database} list_data 
-         * @returns 
+         * add a new part item
+         * @param {array} part_data 
          */
-        function generateList(list_data) {
+        function addNewPartItem(part_data) {
             var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
                 trimDesc = (desc) => {
                     if (desc.length > 60) return desc.substring(0, 60) + '...';
                     else return desc;
                 };
+            //create item
+            var d_ = document.createElement('div');
+            d_.className = 'item';
+            d_.setAttribute("id", part_data.id);
+            //add content
+            d_.innerHTML = `<img class="ui avatar image" src="${a_dir}\\images\\${part_data.icon}">
+            <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
+            <div class="description">${trimDesc(part_data.description)}</div>
+            </div>`
+            //add click listener
+            d_.addEventListener('click', (e) => {
+                e.preventDefault();
+                var cn = e.target.className,
+                    par = par = e.target,
+                    id = '';
+                //get ID
+                if (cn === 'description' || cn === 'header') par = par.parentElement.parentNode;
+                else if (cn.indexOf('image') !== -1) par = par.parentElement;
+                id = par.id;
+                if (prevListClicked !== null && id === prevListClicked.id) return;
+                if (partsJsonDb !== null) {
+                    partAddEditUi.partShowData(partsJsonDb[id]);
+                }
+                par.setAttribute("style", "background-color: rgb(60, 60, 60)");
+                if (prevListClicked !== null) {
+                    prevListClicked.setAttribute("style", "background-color: transparent");
+                }
+                prevListClicked = par;
+                mainUi.showHidePartUi(true);
+                $('#part-log-table tbody').empty();
+                //fetch logs from db
+                database.dbFetchLogs(id);
+            });
+            //mouse over listener
+            d_.addEventListener('mouseover', (e) => {
+                if (prevListClicked !== null && d_.id !== prevListClicked.id) {
+                    d_.setAttribute("style", "background-color: rgb(55, 55, 55");
+                }
+            });
+            //mouse leave listener
+            d_.addEventListener('mouseleave', (e) => {
+                if (prevListClicked !== null && d_.id != prevListClicked.id) {
+                    d_.setAttribute("style", "background-color: transparent");
+                }
+            });
+            //append child
+            list_elm.append(d_);
+            //add to temp database
+            partsJsonDb[part_data.id] = part_data;
+            partsJsonIDs.push(part_data.id);
+        }
+
+        /**
+         * generate part list item elements
+         * @param {data from database} list_data 
+         * @returns 
+         */
+        function generateList(list_data) {
             if (list_data.length == 0) {
-                swal("Search", "Part(s) not found!", "error");
+                swal("Inventory", "Part(s) not found!", "error");
                 return;
             }
             //clear list if any
             list_elm.empty();
             //clear temp db
             partsJsonDb = {};
+            partsJsonIDs = [];
             list_data.forEach(part_data => {
-                //create item
-                var d_ = document.createElement('div');
-                d_.className = 'item';
-                d_.setAttribute("id", part_data.id);
-                //add content
-                d_.innerHTML = `<img class="ui avatar image" src="${a_dir}\\images\\${part_data.icon}">
-                <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
-                <div class="description">${trimDesc(part_data.description)}</div>
-                </div>`
-                //add click listener
-                d_.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    var cn = e.target.className,
-                        par = par = e.target,
-                        id = '';
-                    //get ID
-                    if (cn === 'description' || cn === 'header') par = par.parentElement.parentNode;
-                    else if (cn.indexOf('image') !== -1) par = par.parentElement;
-                    id = par.id;
-                    if (prevListClicked !== null && id === prevListClicked.id) return;
-                    if (partsJsonDb !== null) {
-                        partAddEditUi.partShowData(partsJsonDb[id]);
-                    }
-                    par.setAttribute("style", "background-color: rgb(60, 60, 60)");
-                    if (prevListClicked !== null) {
-                        prevListClicked.setAttribute("style", "background-color: transparent");
-                    }
-                    prevListClicked = par;
-                    mainUi.showHidePartUi(true);
-                    //fetch logs from db
-                    database.dbFetchLogs(id);
-                });
-                //mouse over listener
-                d_.addEventListener('mouseover', (e) => {
-                    if (prevListClicked !== null && d_.id !== prevListClicked.id) {
-                        d_.setAttribute("style", "background-color: rgb(55, 55, 55");
-                    }
-                });
-                //mouse leave listener
-                d_.addEventListener('mouseleave', (e) => {
-                    if (prevListClicked !== null && d_.id != prevListClicked.id) {
-                        d_.setAttribute("style", "background-color: transparent");
-                    }
-                });
-                //append child
-                list_elm.append(d_);
-                //add to temp database
-                partsJsonDb[part_data.id] = part_data;
-                //console.log(part_data.id);
+                addNewPartItem(part_data);
             });
             partAddEditUi.initPartShow();
         }
@@ -423,6 +433,7 @@ const internal = require('stream');
                     //if last part
                     if (partsJsonIDs.length === 0) {
                         mainUi.showHidePartUi();
+                        $('#part-log-table tbody').empty();
                         prevListClicked = null;
                     }
                     //complete dialog
@@ -495,6 +506,7 @@ const internal = require('stream');
             init: init,
             getWinHeight: getWinHeight,
             setListHeight: setListHeight,
+            addNewPartItem: addNewPartItem,
             generateList: generateList,
             editListItem: editListItem,
             listDeletePart: listDeletePart
@@ -633,6 +645,7 @@ const internal = require('stream');
         function partSaveData() {
             var data = getPartModalFieldsData(),
                 sql = '';
+            //updateFields = ()=>{}
             if (data.id.length == 0) {
                 swal('Error', 'Part ID cannot be null!', 'error');
                 return;
@@ -654,10 +667,15 @@ const internal = require('stream');
                         stock_limit="${data.stock_limit}"
                     WHERE
                         id="${data.id}"`;
-                //show edits
-                partsJsonDb[data.id] = data;
                 partShowData(partsJsonDb[data.id]);
                 listUi.editListItem(partsJsonDb[data.id]);
+            }
+            //show edits
+            /*partsJsonDb[data.id] = data;
+            partsJsonIDs.push(data.id);*/
+            if (isPartNew === true) {
+                listUi.addNewPartItem(data);
+                if (partsJsonIDs.length === 1) initPartShow();
             }
             database.dbRunSavePartQuery(sql, isPartNew);
         }
@@ -1069,7 +1087,7 @@ const internal = require('stream');
          */
         function initPartShow() {
             if (partsJsonDb === null) return;
-            partsJsonIDs = Object.keys(partsJsonDb);
+            //partsJsonIDs = Object.keys(partsJsonDb);
             if (partsJsonIDs.length > 0) {
                 //partShowData(partsJsonDb[partsIds[0]]);
                 $(`#list-panel #${partsJsonIDs[0]}`).trigger('click');
