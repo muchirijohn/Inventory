@@ -94,15 +94,13 @@ const internal = require('stream');
 
         /**
          * fetch all parts from the database
+         * @param {String} sql 
          */
-        function dbFetchAllParts() {
-            //console.log('opening db..');
+        function dbFetchParts(sql) {
             if (db === null) dbConnect();
             db.serialize(function () {
-                let sql = `select * from parts`;
                 db.all(sql, [], (err, rows) => {
                     if (!err) {
-                        //console.log(rows);
                         listUi.generateList(rows);
                     }
                 });
@@ -279,7 +277,7 @@ const internal = require('stream');
         return {
             init: init,
             dbConnect: dbConnect,
-            dbFetchAllParts: dbFetchAllParts,
+            dbFetchParts: dbFetchParts,
             dbSearch: dbSearch,
             dbRunSavePartQuery: dbRunSavePartQuery,
             dbDeletePart: dbDeletePart,
@@ -297,7 +295,8 @@ const internal = require('stream');
         var list_elm = $('#list-panel');
         //windows height
         var win_height = 0,
-            prevListClicked = null;
+            prevListClicked = null,
+            filter = { 'All Parts': 1, 'In Stock': 2, 'Low Stock': 3, 'No Stock': 4 }
 
         /**
          * return win height
@@ -313,7 +312,7 @@ const internal = require('stream');
             if (win_height != $(window).height()) {
                 win_height = $(window).height();
             }
-            list_elm.css('height', (win_height - 155) + 'px');
+            list_elm.css('height', (win_height - 175) + 'px');
         }
 
         /**
@@ -450,6 +449,30 @@ const internal = require('stream');
         }
 
         /**
+         * filter parts list
+         * @param {Integer} val 
+         */
+        function listFilterParts(val) {
+            var sql = '';
+            switch (val) {
+                case filter['All Parts']:
+                    sql = 'SELECT * FROM parts';
+                    break;
+                case filter['In Stock']:
+                    sql = 'SELECT * FROM parts WHERE stock > stock_limit';
+                    break;
+                case filter['Low Stock']:
+                    sql = 'SELECT * FROM parts WHERE stock > 0 AND stock <= stock_limit';
+                    break;
+                case filter['No Stock']:
+                    sql = 'SELECT * FROM parts WHERE stock = 0';
+                    break;
+            }
+            //fetch parts, filter.
+            database.dbFetchParts(sql);
+        }
+
+        /**
          * init list ui
          */
         function init() {
@@ -458,14 +481,17 @@ const internal = require('stream');
             //set list height
             setListHeight();
             //generate list
-            database.dbFetchAllParts();
-            //fetch all parts button event
-            $('#btn-part-all').on('click', (e) => {
-                e.preventDefault();
-                prevListClicked = null;
-                database.dbFetchAllParts();
+            listFilterParts(filter['All Parts']);
+            //filter dropdown
+            $('#btn-part-filter').dropdown({
+                //values: options,
+                onChange: function (value, text, $selectedItem) {
+                    //filter parts
+                    var ft = $selectedItem[0].innerText.trim();
+                    listFilterParts(filter[ft]);
+                }
             });
-
+            //$('#btn-part-filter').dropdown('set exactly', 'All Parts');
             //search components button event
             $('#btn-part-sc').on('click', (e) => {
                 e.preventDefault();
@@ -1046,7 +1072,7 @@ const internal = require('stream');
                 partShowData(partsJsonDb[id_], false);
             }
             //createlog(log, true);
-            var logObj = {part_id:log[0],user:log[1],date:log[2],quantity:log[3],state:log[4],desc:log[5]};
+            var logObj = { part_id: log[0], user: log[1], date: log[2], quantity: log[3], state: log[4], desc: log[5] };
             //save logs to array object
             if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
             //save to logs to db

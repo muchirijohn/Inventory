@@ -87,13 +87,16 @@ p{
     margin-top: 4px;
 }
 
-#btn-part-all, #btn-part-sc, #btn-part-add{
-    border-color: #ccc !important;
+#btn-part-filter .menu{
+    background-color: #263335;
+}
+#btn-part-filter,#btn-part-filter div, #btn-part-sc, #btn-part-add{
+   /* border-color: #ccc !important;*/
     color: rgb(1, 228, 160) !important;
-    font-weight: bold;
+    font-weight: bold !important;
 }
 
-#btn-part-all:hover, #btn-part-sc:hover, #btn-part-add:hover{
+#btn-part-filter:hover, #btn-part-sc:hover, #btn-part-add:hover{
     background-color: #263335 !important;
     color: rgb(199, 199, 199) !important;
 }

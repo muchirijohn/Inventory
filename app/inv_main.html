@@ -24,16 +24,23 @@
     </div>
     <div id="div-main-ui" class="fluid div-main ui padded grid center aligned">
         <div class="four wide column dev-section">
-            <div class="fluid primary basic ui buttons">
-                <button id="btn-part-all" class="ui labelled icon button"><i class="microchip icon"></i> All
-                    Parts</button>
+            <div class="fluid primary basic ui buttons row">
+                <button id="btn-part-filter" class="ui floating icon dropdown button">
+                    <span class="text">Filter</span>
+                    <div class="menu">
+                        <div id="btn-part-filter-all" class="item active"><i class="th list icon"></i> All Parts</div>
+                        <div id="btn-part-filter-istock" class="item"><i class="battery full icon"></i> In Stock</div>
+                        <div id="btn-part-filter-lstock" class="item"><i class="battery half icon"></i> Low Stock</div>
+                        <div id="btn-part-filter-ostock" class="item"><i class="battery empty icon"></i> No Stock</div>
+                    </div>
+                </button>
                 <button id="btn-part-sc" class="ui labelled icon button"><i class="search icon"></i> Search</button>
                 <button id="btn-part-add" class="ui labelled icon button"><i class="plus icon"></i> Add Part</button>
             </div>
             <div class="ui horizontal divider">Categories</div>
-            <select id="sel-device" name="Category" class="ui fluid search selection dropdown"></select>
+            <select id="sel-device" name="Category" class="ui fluid search selection dropdown row"></select>
             <div class="ui hidden divider"></div>
-            <div id="list-panel" class="ui list"></div>
+            <div id="list-panel" class="ui list row"></div>
         </div>
         <!--info section-->
         <div class="seven wide column dev-desc scroll-style">
