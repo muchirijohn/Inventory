@@ -351,9 +351,14 @@ const internal = require('stream');
                 }
                 prevListClicked = par;
                 mainUi.showHidePartUi(true);
-                //$('#part-log-table tbody').empty();
                 //fetch logs from db
-                database.dbFetchLogs(id);
+                if (partsJsonDb[id].logs === undefined) {
+                    //populate logs from db
+                    database.dbFetchLogs(id);
+                } else {
+                    //populate logs from array object
+                    partAddEditUi.createDBLogs(partsJsonDb[id].logs);
+                }
             });
             //mouse over listener
             d_.addEventListener('mouseover', (e) => {
@@ -942,6 +947,11 @@ const internal = require('stream');
          */
         function createDBLogs(logs) {
             if (logs.length > 0) $('#part-log-table tbody').empty();
+            //save to parts array object
+            if (partsJsonDb[selectedID].logs === undefined) {
+                partsJsonDb[selectedID].logs = logs;
+            }
+            //create log
             logs.forEach(log => {
                 var data = [
                     log.part_id,
@@ -1036,6 +1046,10 @@ const internal = require('stream');
                 partShowData(partsJsonDb[id_], false);
             }
             //createlog(log, true);
+            var logObj = {part_id:log[0],user:log[1],date:log[2],quantity:log[3],state:log[4],desc:log[5]};
+            //save logs to array object
+            if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
+            //save to logs to db
             database.dbRunSaveLog(log, stock);
         }
 
