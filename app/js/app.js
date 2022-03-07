@@ -1076,12 +1076,12 @@ const internal = require('stream');
                 lstk = filterInt(qty);
             if (lstk !== NaN) {
                 var stock = partsJsonDb[id_].stock;
-                stock = stock + lstk;
+                stock = filterInt(stock) + filterInt(lstk);
                 partsJsonDb[id_].stock = stock;
                 partShowData(partsJsonDb[id_], false);
             }
             //createlog(log, true);
-            var logObj = { part_id: log[0], user: log[1], date: log[2], quantity: log[3], state: log[4], desc: log[5] };
+            var logObj = { part_id: log[0], user: log[1], date: log[2], quantity: filterInt(log[3]), state: log[4], desc: log[5] };
             //save logs to array object
             if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
             //save to logs to db
