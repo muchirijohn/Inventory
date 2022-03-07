@@ -980,7 +980,8 @@ const internal = require('stream');
          * show/create log data
          */
         function createDBLogs(logs) {
-            if (logs.length > 0) $('#part-log-table tbody').empty();
+           // if (logs.length > 0) 
+           $('#part-log-table tbody').empty();
             //save to parts array object
             if (partsJsonDb[selectedID].logs === undefined) {
                 partsJsonDb[selectedID].logs = logs;
