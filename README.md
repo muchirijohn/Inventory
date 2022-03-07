@@ -107,7 +107,7 @@ Run this command from inside inventory
 
 ## Building
 This packs the app using <a href="https://github.com/electron/electron-packager">electron packager</a>
-Currently set to Win x64. Configure _package.json_ to build for other platforms e.g Mac OS, Linux. 
+Currently set to Win x64. Configure _package.json_ to build for other platforms e.g Mac OS, Linux.<br>
 Run this command from inside inventory
 ```sh
    npm run pack
