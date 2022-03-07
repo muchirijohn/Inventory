@@ -1542,7 +1542,6 @@ const internal = require('stream');
                 mainUi.init();
                 //$('#div-main-load span').text('Finalizing...');  
             } catch (err) {
-                console.log(err);
                 $('#div-main-load span').text('Error...');
                 swal('Error', 'Ops! Something under the hood fried!', 'error');
             }
