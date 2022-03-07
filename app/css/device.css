@@ -295,7 +295,7 @@ p{
 }
 /**notes**/
 #part-show-notes{
-    max-height: 260px;
+    /*max-height: 260px;*/
     width: 100%;
     color:#b3b3b3;
     text-shadow: 0 0 2px #f8ef9a;
