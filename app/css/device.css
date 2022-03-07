@@ -214,21 +214,21 @@ p{
     color: #08f2fa !important;
     margin-top: 8px;
 }
-/*
+
 .dev-desc #part-icon-info{
-    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-*/
+
 .dev-desc #part-icon-info img{
-    height: 176px !important;
-    width: 176px !important;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 6px !important;
-    margin-top: 4px;
+    height: 174px !important;
+    width: 174px !important;
+    /*border-radius: 50%;*/
+    border: 2px solid transparent;
+    outline: 2px solid #08f2fa;
+    border-radius: 10px !important;
+    margin-top: 6px;
 }
 #part-show-images-info{
     height: auto;
