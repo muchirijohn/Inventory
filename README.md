@@ -155,5 +155,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 credits to:
 * My partner in making <a href="https://twitter.com/ngoirimercy" target="_blank">@ngoirimercy</a>. She is the inspiration behind this project for our lab and she tests every commit.
+* Evans Mwaura <a href="https://twitter.com/mwaush6" target="_blank">@mwaush6</a>
+* Karuri Gakure <a href="https://twitter.com/thekaruri" target="_blank">@thekaruri</a>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
