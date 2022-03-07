@@ -815,12 +815,14 @@ const internal = require('stream');
          * @returns 
          */
         var partShowTable1Html = (data) => {
-            return `<tbody>
+            try {
+                return `<tbody>
             <tr> <td class="two wide column">Type</td><td>${data.type}</td></tr>
             <tr><td>Manufacturer</td><td>${data.manf}</td></tr>
             <tr><td>Package</td><td>${data.package}</td></tr>
             <tr><td>Pinouts</td><td>${data.pins_no}</td></tr>
-            </tbody>`
+            </tbody>`;
+            } catch (err) { }
         }
 
         /**
@@ -829,21 +831,25 @@ const internal = require('stream');
          * @returns html string
          */
         var partShowTable2Html = (data) => {
-            //check if specs available
-            if (data.specs === null || data.specs.trim().length === 0) {
+            try {
+                //check if specs available
+                if (data.specs === undefined || data.specs.trim().length === 0) {
+                    return '';
+                }
+                //create specs table
+                var html = '<tbody><tr> <td class="seven wide column">';
+                var specs = data.specs.split('\n'),
+                    index = 0;
+                specs.forEach(spec => {
+                    var field = spec.split(',');
+                    html += `${index++ > 0 ? '<tr><td>' : ''}
+                        ${field[0].trim()}</td><td>${field[1].trim()}</td></tr>`;
+                });
+                html += '</tbody>';
+                return html;
+            } catch (err) {
                 return '';
             }
-            //create specs table
-            var html = '<tbody><tr> <td class="seven wide column">';
-            var specs = data.specs.split('\n'),
-                index = 0;
-            specs.forEach(spec => {
-                var field = spec.split(',');
-                html += `${index++ > 0 ? '<tr><td>' : ''}
-                        ${field[0].trim()}</td><td>${field[1].trim()}</td></tr>`;
-            });
-            html += '</tbody>';
-            return html;
         }
 
         /**
@@ -851,15 +857,17 @@ const internal = require('stream');
          * @param {String} notes 
          */
         function partsShowNotes(notes) {
-            var parent = $('#part-show-notes');
-            parent.empty();
-            if (notes === null || notes.trim().length === 0) return;
-            notes = notes.split('\n');
-            notes.forEach(note => {
-                parent.append($(`<div></div>`)
-                    .addClass('item')
-                    .html(`<i class="caret right icon"></i> ${note}`));
-            });
+            try {
+                var parent = $('#part-show-notes');
+                parent.empty();
+                if (notes === undefined || notes.trim().length === 0) return;
+                notes = notes.split('\n');
+                notes.forEach(note => {
+                    parent.append($(`<div></div>`)
+                        .addClass('item')
+                        .html(`<i class="caret right icon"></i> ${note}`));
+                });
+            } catch (err) { }
         }
 
         /**
@@ -1108,6 +1116,14 @@ const internal = require('stream');
                         id.substring(id.indexOf('-') + 1, id.length) //date
                     ],
                     callback = () => {
+                        //delete log from mem array
+                        var index = 0;
+                        partsJsonDb[selectedID].logs.forEach(log => {
+                            if (('log-' + log.date) === prevLogEl.id) {
+                                partsJsonDb[selectedID].logs.splice(index, 1);
+                            }
+                            index++;
+                        });
                         prevLogEl.remove();
                         dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
                     }
@@ -1503,8 +1519,8 @@ const internal = require('stream');
                 $('#div-main-ui').show();
                 $('#div-main-ui').animate({
                     opacity: 1
-                }, 3000);
-            }, 4000);
+                }, 2000);
+            }, 1500);
         }
 
         return {
