@@ -41,6 +41,13 @@ const internal = require('stream');
         trimDesc = (desc) => {
             if (desc.length > 60) return desc.substring(0, 60) + '...';
             else return desc;
+        },
+        getResDir = (src)=>{
+            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
+            s_dir = `${a_dir}\\${src}`;
+            const exists = fs.pathExistsSync(s_dir);
+            if(exists === false) s_dir = `${app_dir}\\res\\${src}`;
+            return s_dir;
         };
 
     var dialogs = (function dialogs() {
@@ -320,13 +327,12 @@ const internal = require('stream');
          * @param {array} part_data 
          */
         function addNewPartItem(part_data) {
-            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
             //create item
             var d_ = document.createElement('div');
             d_.className = 'item';
             d_.setAttribute("id", part_data.id);
             //add content
-            d_.innerHTML = `<img class="ui avatar image" src="${a_dir}\\images\\${part_data.icon}">
+            d_.innerHTML = `<img class="ui avatar image" src="${getResDir(`images\\${part_data.icon}`)}">
             <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
             <div class="description">${trimDesc(part_data.description)}</div>
             </div>`
@@ -404,8 +410,7 @@ const internal = require('stream');
          * @param {Object} part_data 
          */
         function editListItem(part_data) {
-            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
-            $(`#list-panel #${part_data.id}`).empty().html(`<img class="ui avatar image" src="${a_dir}\\images\\${part_data.icon}">
+            $(`#list-panel #${part_data.id}`).empty().html(`<img class="ui avatar image" src="${getResDir(`\\images\\${part_data.icon}`)}">
             <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
             <div class="description">${trimDesc(part_data.description)}</div>
             </div>`);
@@ -877,7 +882,7 @@ const internal = require('stream');
             //append image to view element
             appendPartImage = (src) => {
                 var imgEl = $('#part-show-images img');
-                var url = `${app_prefs.dir}\\images\\${src}`;
+                var url = getResDir(`\\images\\${src}`);
                 imgEl.attr('src', `${url}`);
             },
             //navigate images
@@ -913,8 +918,7 @@ const internal = require('stream');
             partShowData = (pData, tb_update = true) => {
                 partsShowJson = Object.assign({}, pData);
                 var stock = [['In Stock', '5aff0e'], [`Low Stock - Limit is ${partsShowJson.stock_limit}`, 'ffcb22'], ['Out of Stock', 'ff0e0e']],
-                    slv = 0,
-                    a_dir = app_prefs.default ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir;
+                    slv = 0;
                 //show data only once
                 //if (prevID === partsShowJson.id) return;
                 selectedID = partsShowJson.id;
@@ -934,7 +938,7 @@ const internal = require('stream');
                 //seller
                 pElShow.seller.html(`<i class="cart icon"></i> ${partsShowJson.seller}`);
                 //icon
-                pElShow.icon.html(`<img src="${a_dir}\\images\\${partsShowJson.icon}" class="img-fluid" alt="${partsShowJson.id}">`);
+                pElShow.icon.html(`<img src="${getResDir(`\\images\\${partsShowJson.icon}`)}" class="img-fluid" alt="${partsShowJson.id}">`);
                 //description
                 pElShow.desc.html(`<span class="column sixteen wide">${partsShowJson.description}</span>`);
                 //stock
@@ -1193,7 +1197,6 @@ const internal = require('stream');
          * init
          */
         function init() {
-            var a_dir = (app_prefs.default ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir);
             //add new part modal
             $('#modal-part-add.ui.modal').modal({
                 //blurring: true,
@@ -1280,8 +1283,8 @@ const internal = require('stream');
                         swal('Datasheet', 'Datasheet File not set', 'error');
                         return;
                     }
-                    var link = a_dir + '\\datasheets\\' + partsShowJson.datasheet;
-                    checkIfFileExists(link);
+                    var url = getResDir(`\\datasheets\\${partsShowJson.datasheet}`);
+                    checkIfFileExists(url);
                 } catch (e) { }
             });
             //show part link
@@ -1302,9 +1305,8 @@ const internal = require('stream');
                         swal('CAD', 'Cad File not set', 'error');
                         return;
                     }
-                    var link = a_dir + '\\cad\\' + partsShowJson.cad;
-                    console.log(link);
-                    checkIfFileExists(a_dir + '\\cad\\' + partsShowJson.cad, true);
+                    var url = getResDir(`\\cad\\${partsShowJson.cad}`);
+                    checkIfFileExists(url, true);
                 } catch (e) { }
             });
             //delete a log
