@@ -1381,8 +1381,6 @@ const internal = require('stream');
             }
             prefs["packages"] = packages;
             prefs['default'] = false;
-
-            console.log(prefs);
             //create datasheet folder
             fs.ensureDirSync(dir + '/datasheets/');
             //create images folder
@@ -1418,7 +1416,6 @@ const internal = require('stream');
                 swal('', 'Please select a directory', 'error');
             } else {
                 $('#app-config-dir').val(dg[0]);
-                console.log(dg[0]);
             }
         }
 
