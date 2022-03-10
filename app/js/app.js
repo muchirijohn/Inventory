@@ -589,6 +589,7 @@ const internal = require('stream');
                 options.push(item);
                 all = false;
             });
+            parent.empty();
             //create category selection list
             parent.dropdown({
                 values: options,
@@ -613,7 +614,8 @@ const internal = require('stream');
 
         return {
             init: init,
-            categories: categories
+            categories: categories,
+            createCategoriesOptions: createCategoriesOptions
         };
     })();
 
@@ -1187,7 +1189,15 @@ const internal = require('stream');
                     listUi.listDeletePart();
                 }
             });
+        }
 
+        /**
+         * init categories and packages
+         */
+        function initAllSelections(){
+            categoriesUi.createCategoriesOptions();
+            partCategoriesInit();
+            partPackagesInit();
         }
         /**
          * init
@@ -1224,8 +1234,7 @@ const internal = require('stream');
                     return false;
                 }
             });
-            partCategoriesInit();
-            partPackagesInit();
+            initAllSelections();
             //init part selection modal fields
             $('#part-add-cat.dropdown').dropdown();
             $('#part-add-pkg.dropdown').dropdown();
@@ -1335,7 +1344,8 @@ const internal = require('stream');
             partShowData: partShowData,
             createlog: createlog,
             createDBLogs: createDBLogs,
-            initPartShow: initPartShow
+            initPartShow: initPartShow,
+            initAllSelections: initAllSelections
         }
     })();
 
@@ -1395,6 +1405,7 @@ const internal = require('stream');
                 .then(pref => {
                     app_prefs = pref;
                     console.log(pref);
+                    listUi.initAllSelections();
                     swal('Preferences', 'Saved. Please restart application.', 'success');
                 })
                 .catch(err => {
