@@ -577,7 +577,7 @@ const internal = require('stream');
          * create categories
          * @returns none
          */
-        var createCategoriesOptions = () => {
+        var createCategoriesOptions = (init = false) => {
             var parent = $('#sel-device'),
                 catgs = app_prefs.categories;
             if (catgs === undefined || catgs.length === 0) return;
@@ -589,19 +589,24 @@ const internal = require('stream');
                 options.push(item);
                 all = false;
             });
-            parent.empty();
-            //create category selection list
-            parent.dropdown({
-                values: options,
-                onChange: function (value, text, $selectedItem) {
-                    //console.log(value)
-                    if (value !== undefined && init_cat === true) {
-                        if (init_cat) database.dbSearch(false, value);
+
+            if (init === true) {
+                parent.dropdown('change values', options);
+                console.log('main cats created');
+            } else {
+                //parent.empty();
+                //create category selection list
+                parent.dropdown({
+                    values: options,
+                    onChange: function (value, text, $selectedItem) {
+                        //console.log(value)
+                        if (value !== undefined && init_cat === true) {
+                            if (init_cat) database.dbSearch(false, value);
+                        }
+                        if (value.length > 0) init_cat = true;
                     }
-                    if (value.length > 0) init_cat = true;
-                }
-            });
-            console.log('main cats created');
+                });
+            }
         }
 
         /**
@@ -1198,11 +1203,10 @@ const internal = require('stream');
         /**
          * init categories and packages
          */
-        function initAllSelections(){
-            categoriesUi.createCategoriesOptions();
+        function initAllSelections(_default=false) {
+            categoriesUi.createCategoriesOptions(_default);
             partCategoriesInit();
             partPackagesInit();
-            console.log('created cats')
         }
         /**
          * init
@@ -1410,7 +1414,7 @@ const internal = require('stream');
                 .then(() => fs.readJson(pref_path))
                 .then(pref => {
                     app_prefs = pref;
-                    partAddEditUi.initAllSelections();
+                    partAddEditUi.initAllSelections(true);
                     swal('Preferences', 'Saved successfully!', 'success');
                 })
                 .catch(err => {
