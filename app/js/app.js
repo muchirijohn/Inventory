@@ -592,7 +592,6 @@ const internal = require('stream');
 
             if (init === true) {
                 parent.dropdown('change values', options);
-                console.log('main cats created');
             } else {
                 //parent.empty();
                 //create category selection list
