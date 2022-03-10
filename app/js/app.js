@@ -1391,8 +1391,15 @@ const internal = require('stream');
             fs.ensureDirSync(dir + '/cad/');
             //write to preferencess folder
             var pref_path = pref_user_path;
-            fs.outputFileSync(pref_path, JSON.stringify(prefs));
-            swal('Preferences', 'Successful. Please restart application.', 'success');
+            //fs.outputFileSync(pref_path, JSON.stringify(prefs));
+            fs.outputFile(pref_path, JSON.stringify(prefs))
+                .then(() => {
+                    swal('Preferences', 'Saved. Please restart application.', 'success');
+                })
+                .catch(err => {
+                    swal('Preferences', 'Failed to create file', 'error');
+                });
+
             //close dialog
             return true;
         }
