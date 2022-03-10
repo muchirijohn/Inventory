@@ -1411,10 +1411,10 @@ const internal = require('stream');
                     app_prefs = pref;
                     console.log(pref);
                     partAddEditUi.initAllSelections();
-                    swal('Preferences', 'Saved. Please restart application.', 'success');
+                    swal('Preferences', 'Saved successfully!', 'success');
                 })
                 .catch(err => {
-                    swal('Preferences', 'Failed to create file', 'error');
+                    swal('Preferences', 'An error occured!', 'error');
                 });
 
             //close dialog
