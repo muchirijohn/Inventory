@@ -601,6 +601,7 @@ const internal = require('stream');
                     if (value.length > 0) init_cat = true;
                 }
             });
+            console.log('main cats created');
         }
 
         /**
@@ -1409,14 +1410,12 @@ const internal = require('stream');
                 .then(() => fs.readJson(pref_path))
                 .then(pref => {
                     app_prefs = pref;
-                    console.log(pref);
                     partAddEditUi.initAllSelections();
                     swal('Preferences', 'Saved successfully!', 'success');
                 })
                 .catch(err => {
                     swal('Preferences', 'An error occured!', 'error');
                 });
-
             //close dialog
             return true;
         }
