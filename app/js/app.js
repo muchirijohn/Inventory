@@ -580,7 +580,7 @@ const internal = require('stream');
         var createCategoriesOptions = () => {
             var parent = $('#sel-device'),
                 catgs = app_prefs.categories;
-            if (catgs === undefined) return;
+            if (catgs === undefined || catgs.length === 0) return;
             var options = [];
             var all = true;
             //get categories and format to selection values
@@ -609,7 +609,7 @@ const internal = require('stream');
          */
         function init() {
             //read and create categories
-            createCategoriesOptions();
+            //createCategoriesOptions();
         }
 
         return {
@@ -722,10 +722,11 @@ const internal = require('stream');
 
         /**
          * part categories
-         * @returns none 
+         * @param {Boolean} init_ 
+         * @returns 
          */
         function partCategoriesInit() {
-            if (cat_pkg[0] === true) return;
+            //if (cat_pkg[0] === true) return;
             var catg = app_prefs.categories;
             if (catg.length === 0) return;
             var parent = $('#part-add-cat');
@@ -735,14 +736,16 @@ const internal = require('stream');
                     .attr("value", cts)
                     .text(cts));
             });
-            cat_pkg[0] = true;
+            //cat_pkg[0] = true;
         }
 
         /**
          * get packages
+         * @param {Boolean} init_ 
+         * @returns 
          */
         function partPackagesInit() {
-            if (cat_pkg[1] === true) return;
+            //if (cat_pkg[1] === true) return;
             packages = app_prefs.packages;
             if (packages.length === 0) return;
             var parent = $('#part-add-pkg');
@@ -752,7 +755,7 @@ const internal = require('stream');
                     .attr("value", pkg)
                     .text(pkg));
             });
-            cat_pkg[1] = true
+            //cat_pkg[1] = true
         }
 
         //show modal
@@ -1198,6 +1201,7 @@ const internal = require('stream');
             categoriesUi.createCategoriesOptions();
             partCategoriesInit();
             partPackagesInit();
+            console.log('created cats')
         }
         /**
          * init
