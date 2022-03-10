@@ -593,7 +593,6 @@ const internal = require('stream');
             if (init === true) {
                 parent.dropdown('change values', options);
             } else {
-                //parent.empty();
                 //create category selection list
                 parent.dropdown({
                     values: options,
