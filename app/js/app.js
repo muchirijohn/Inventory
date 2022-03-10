@@ -1234,6 +1234,7 @@ const internal = require('stream');
                     return false;
                 }
             });
+            //init categories
             initAllSelections();
             //init part selection modal fields
             $('#part-add-cat.dropdown').dropdown();
@@ -1405,7 +1406,7 @@ const internal = require('stream');
                 .then(pref => {
                     app_prefs = pref;
                     console.log(pref);
-                    listUi.initAllSelections();
+                    partAddEditUi.initAllSelections();
                     swal('Preferences', 'Saved. Please restart application.', 'success');
                 })
                 .catch(err => {
