@@ -120,7 +120,7 @@ p{
     align-content: center;
     left: 0px;
     height: auto;
-    height: 600px;
+    /* height: 600px; */
     overflow: auto;
     border-radius: 4px;
     border: rgb(85, 83, 83) solid 1px !important;
@@ -128,7 +128,7 @@ p{
 
 #list-panel .item{
     position: relative;
-    color:transparent;
+    /* color:transparent; */
     border-bottom: rgb(82, 81, 81) solid 1px !important;
     top: 0;
     bottom: 0;
@@ -313,7 +313,7 @@ p{
     border-color: #727272 !important;
     color: #81a3a7 !important;
     border: 0px;
-    text-align: center;
+    /* text-align: center; */
 }
 #part-log-table thead {
     display: table;
@@ -347,6 +347,17 @@ p{
     color: #f8f4e8 !important;
 }
 
+.ui.label{
+    color:rgb(50 50 50);
+    background-color: #fff;
+}
+
+.ui.items>.item>.image:not(.ui){
+    max-width: 33%;
+}
+.ui.divided.items>.item, .ui.divided.items>.item:first-child, .ui.divided.items>.item:last-child{
+    padding: 0.5em !important;
+}
 @keyframes text-flicker {
     100% {
         text-shadow: 0 0 4px #fda7a7; 

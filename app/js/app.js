@@ -332,7 +332,8 @@ const internal = require('stream');
             d_.className = 'item';
             d_.setAttribute("id", part_data.id);
             //add content
-            d_.innerHTML = `<img class="ui avatar image" src="${getResDir(`images\\${part_data.icon}`)}">
+            d_.innerHTML = `<div class="image">
+            <img class="ui tiny image" src="${getResDir(`images\\${part_data.icon}`)}"></div>
             <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
             <div class="description">${trimDesc(part_data.description)}</div>
             </div>`
@@ -340,7 +341,7 @@ const internal = require('stream');
             d_.addEventListener('click', (e) => {
                 e.preventDefault();
                 var cn = e.target.className,
-                    par = par = e.target,
+                    par = par = e.target,   
                     id = '';
                 //get ID
                 if (cn === 'description' || cn === 'header') par = par.parentElement.parentNode;
@@ -1201,7 +1202,7 @@ const internal = require('stream');
         /**
          * init categories and packages
          */
-        function initAllSelections(_default=false) {
+        function initAllSelections(_default = false) {
             categoriesUi.createCategoriesOptions(_default);
             partCategoriesInit();
             partPackagesInit();
