@@ -42,11 +42,11 @@ const internal = require('stream');
             if (desc.length > 60) return desc.substring(0, 60) + '...';
             else return desc;
         },
-        getResDir = (src)=>{
+        getResDir = (src) => {
             var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
-            s_dir = `${a_dir}\\${src}`;
+                s_dir = `${a_dir}\\${src}`;
             const exists = fs.pathExistsSync(s_dir);
-            if(exists === false) s_dir = `${app_dir}\\res\\${src}`;
+            if (exists === false) s_dir = `${app_dir}\\res\\${src}`;
             return s_dir;
         };
 
@@ -984,8 +984,8 @@ const internal = require('stream');
          * show/create log data
          */
         function createDBLogs(logs) {
-           // if (logs.length > 0) 
-           $('#part-log-table tbody').empty();
+            // if (logs.length > 0) 
+            $('#part-log-table tbody').empty();
             //save to parts array object
             if (partsJsonDb[selectedID].logs === undefined) {
                 partsJsonDb[selectedID].logs = logs;
@@ -1121,14 +1121,10 @@ const internal = require('stream');
                         id.substring(id.indexOf('-') + 1, id.length) //date
                     ],
                     callback = () => {
-                        //delete log from mem array
-                        var index = 0;
-                        partsJsonDb[selectedID].logs.forEach(log => {
-                            if (('log-' + log.date) === prevLogEl.id) {
-                                partsJsonDb[selectedID].logs.splice(index, 1);
-                            }
-                            index++;
-                        });
+                        //find log to delete
+                        const index = partsJsonDb[selectedID].logs.findIndex((log) => ('log-' + log.date) === prevLogEl.id);
+                        partsJsonDb[selectedID].logs.splice(index, 1);
+                        //remove element
                         prevLogEl.remove();
                         dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
                     }
