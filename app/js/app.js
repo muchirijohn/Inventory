@@ -1393,7 +1393,10 @@ const internal = require('stream');
             var pref_path = pref_user_path;
             //fs.outputFileSync(pref_path, JSON.stringify(prefs));
             fs.outputFile(pref_path, JSON.stringify(prefs))
-                .then(() => {
+                .then(() => fs.readJson(pref_path))
+                .then(pref => {
+                    app_prefs = pref;
+                    console.log(pref);
                     swal('Preferences', 'Saved. Please restart application.', 'success');
                 })
                 .catch(err => {
