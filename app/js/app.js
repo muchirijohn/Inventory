@@ -347,7 +347,6 @@ const internal = require('stream');
                 if (cn === 'content') par = par.parentElement;
                 else if (cn === 'description' || cn === 'header' || cn.indexOf('image') !== -1)
                     par = par.parentElement.parentNode;
-                //else par = par.parentElement;
                 id = par.id;
                 if (prevListClicked !== null && id === prevListClicked.id) return;
                 if (partsJsonDb !== null) {
