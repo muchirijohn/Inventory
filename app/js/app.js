@@ -344,10 +344,8 @@ const internal = require('stream');
                     par = e.target,   
                     id = '';
                 //get ID
-                console.log(par)
                 if (cn === 'content') par = par.parentElement;
-                else if (cn === 'description' || cn === 'header') par = par.parentElement.parentNode;
-                else if (cn.indexOf('image') !== -1) par = par.parentElement.parentNode;
+                else if (cn === 'description' || cn === 'header' || cn.indexOf('image') !== -1) par = par.parentElement.parentNode;
                 //else par = par.parentElement;
                 id = par.id;
                 if (prevListClicked !== null && id === prevListClicked.id) return;
