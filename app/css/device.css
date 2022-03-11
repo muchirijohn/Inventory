@@ -120,15 +120,15 @@ p{
     align-content: center;
     left: 0px;
     height: auto;
-    height: 600px;
-    overflow: auto;
+    /* height: 600px; */
+    overflow-y: overlay;
     border-radius: 4px;
     border: rgb(85, 83, 83) solid 1px !important;
 }
 
 #list-panel .item{
     position: relative;
-    color:transparent;
+    /* color:transparent; */
     border-bottom: rgb(82, 81, 81) solid 1px !important;
     top: 0;
     bottom: 0;
@@ -143,11 +143,15 @@ p{
 #list-panel .item a{
     color: rgb(230, 111, 0) !important;
 }
-/*
-#list-panel .item a:hover{
-    color: rgb(209, 206, 202) !important;
+
+#list-panel .item img{
+    border: 2px solid transparent;
+    outline: 2px solid #08f2fa;
 }
-*/
+#list-panel .item .header{
+    font-size: 14px;
+}
+
 #list-panel .item .description{
     color: rgb(191, 192, 192) !important;
 }
@@ -184,7 +188,7 @@ p{
     overflow: none !important;
     /*overflow-y: auto;*/
     border-right: #ccc solid 1px !important;
-    box-shadow: 0px 2px 0px 2px rgba(133, 229, 253, 0.35);
+    /* box-shadow: 0px 2px 0px 2px rgba(133, 229, 253, 0.35); */
     scrollbar-width: none;
 }
 
@@ -313,7 +317,7 @@ p{
     border-color: #727272 !important;
     color: #81a3a7 !important;
     border: 0px;
-    text-align: center;
+    /* text-align: center; */
 }
 #part-log-table thead {
     display: table;
@@ -347,6 +351,20 @@ p{
     color: #f8f4e8 !important;
 }
 
+.ui.label{
+    color:rgb(50 50 50);
+    background-color: #fff;
+}
+
+.ui.items>.item>.image:not(.ui){
+    max-width: 33%;
+}
+.ui.divided.items>.item, .ui.divided.items>.item:first-child, .ui.divided.items>.item:last-child{
+    padding: 0.5em !important;
+}
+.ui.items>.item>.content>.header:not(.ui){
+    font-size: 1em;
+}
 @keyframes text-flicker {
     100% {
         text-shadow: 0 0 4px #fda7a7; 

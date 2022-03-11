@@ -332,19 +332,21 @@ const internal = require('stream');
             d_.className = 'item';
             d_.setAttribute("id", part_data.id);
             //add content
-            d_.innerHTML = `<img class="ui avatar image" src="${getResDir(`images\\${part_data.icon}`)}">
-            <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
+            d_.innerHTML = `<div class="image">
+            <img class="ui tiny image" src="${getResDir(`images\\${part_data.icon}`)}"></div>
+            <div class="content"><a class="header">${part_data.id}<br>${part_data.manf_part_no}</a>
             <div class="description">${trimDesc(part_data.description)}</div>
             </div>`
             //add click listener
             d_.addEventListener('click', (e) => {
                 e.preventDefault();
                 var cn = e.target.className,
-                    par = par = e.target,
+                    par = e.target,
                     id = '';
                 //get ID
-                if (cn === 'description' || cn === 'header') par = par.parentElement.parentNode;
-                else if (cn.indexOf('image') !== -1) par = par.parentElement;
+                if (cn === 'content') par = par.parentElement;
+                else if (cn === 'description' || cn === 'header' || cn.indexOf('image') !== -1)
+                    par = par.parentElement.parentNode;
                 id = par.id;
                 if (prevListClicked !== null && id === prevListClicked.id) return;
                 if (partsJsonDb !== null) {
@@ -943,7 +945,7 @@ const internal = require('stream');
                     table2: $('#part-show-table-2')
                 };
                 //id+manf+mNum
-                pElShow.id.text(`${partsShowJson.id} | ${partsShowJson.manf_part_no}`);
+                pElShow.id.html(`${partsShowJson.id} <br> ${partsShowJson.manf_part_no}`);
                 //seller
                 pElShow.seller.html(`<i class="cart icon"></i> ${partsShowJson.seller}`);
                 //icon
@@ -1201,7 +1203,7 @@ const internal = require('stream');
         /**
          * init categories and packages
          */
-        function initAllSelections(_default=false) {
+        function initAllSelections(_default = false) {
             categoriesUi.createCategoriesOptions(_default);
             partCategoriesInit();
             partPackagesInit();
