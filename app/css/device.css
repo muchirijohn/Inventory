@@ -121,7 +121,7 @@ p{
     left: 0px;
     height: auto;
     /* height: 600px; */
-    overflow: auto;
+    overflow-y: overlay;
     border-radius: 4px;
     border: rgb(85, 83, 83) solid 1px !important;
 }
