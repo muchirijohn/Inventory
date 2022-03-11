@@ -945,7 +945,7 @@ const internal = require('stream');
                     table2: $('#part-show-table-2')
                 };
                 //id+manf+mNum
-                pElShow.id.text(`${partsShowJson.id} | ${partsShowJson.manf_part_no}`);
+                pElShow.id.html(`${partsShowJson.id} <br> ${partsShowJson.manf_part_no}`);
                 //seller
                 pElShow.seller.html(`<i class="cart icon"></i> ${partsShowJson.seller}`);
                 //icon
