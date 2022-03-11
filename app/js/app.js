@@ -341,11 +341,14 @@ const internal = require('stream');
             d_.addEventListener('click', (e) => {
                 e.preventDefault();
                 var cn = e.target.className,
-                    par = par = e.target,   
+                    par = e.target,   
                     id = '';
                 //get ID
-                if (cn === 'description' || cn === 'header') par = par.parentElement.parentNode;
+                console.log(par)
+                if (cn === 'content') par = par.parentElement;
+                else if (cn === 'description' || cn === 'header') par = par.parentElement.parentNode;
                 else if (cn.indexOf('image') !== -1) par = par.parentElement.parentNode;
+                //else par = par.parentElement;
                 id = par.id;
                 if (prevListClicked !== null && id === prevListClicked.id) return;
                 if (partsJsonDb !== null) {
