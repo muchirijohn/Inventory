@@ -358,6 +358,9 @@ p{
 .ui.divided.items>.item, .ui.divided.items>.item:first-child, .ui.divided.items>.item:last-child{
     padding: 0.5em !important;
 }
+.ui.items>.item>.content>.header:not(.ui){
+    font-size: 1em;
+}
 @keyframes text-flicker {
     100% {
         text-shadow: 0 0 4px #fda7a7; 

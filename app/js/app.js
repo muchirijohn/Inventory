@@ -334,7 +334,7 @@ const internal = require('stream');
             //add content
             d_.innerHTML = `<div class="image">
             <img class="ui tiny image" src="${getResDir(`images\\${part_data.icon}`)}"></div>
-            <div class="content"><a class="header">${part_data.id} | ${part_data.manf_part_no}</a>
+            <div class="content"><a class="header">${part_data.id}  <br>${part_data.manf_part_no}</a>
             <div class="description">${trimDesc(part_data.description)}</div>
             </div>`
             //add click listener
