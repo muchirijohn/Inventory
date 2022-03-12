@@ -154,6 +154,7 @@ p{
 
 .hd-inv-id{
     color: rgb(230, 111, 0) !important;
+    text-shadow: 0 0 2px rgb(245, 193, 144);
 }
 
 .hd-manf-id{
