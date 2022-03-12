@@ -140,9 +140,9 @@ p{
     cursor: pointer;
 }
 
-#list-panel .item a{
+/*#list-panel .item a{
     color: rgb(230, 111, 0) !important;
-}
+}*/
 
 #list-panel .item img{
     border: 2px solid transparent;
@@ -150,6 +150,15 @@ p{
 }
 #list-panel .item .header{
     font-size: 14px;
+}
+
+.hd-inv-id{
+    color: rgb(230, 111, 0) !important;
+}
+
+.hd-manf-no{
+    color: #4ee7da;
+    text-shadow: 0 0 2px rgb(230, 111, 0);
 }
 
 #list-panel .item .description{

@@ -334,7 +334,7 @@ const internal = require('stream');
             //add content
             d_.innerHTML = `<div class="image">
             <img class="ui tiny image" src="${getResDir(`images\\${part_data.icon}`)}"></div>
-            <div class="content"><a class="header">${part_data.id}<br>${part_data.manf_part_no}</a>
+            <div class="content"><a class="header hd-inv-id">${part_data.id}<br><span class="hd-manf-no">${part_data.manf_part_no}</span></a>
             <div class="description">${trimDesc(part_data.description)}</div>
             </div>`
             //add click listener
@@ -347,6 +347,8 @@ const internal = require('stream');
                 if (cn === 'content') par = par.parentElement;
                 else if (cn === 'description' || cn === 'header' || cn.indexOf('image') !== -1)
                     par = par.parentElement.parentNode;
+                else if (cn === 'hd-manf-no')
+                    par = par.parentElement.parentElement.parentNode;
                 id = par.id;
                 if (prevListClicked !== null && id === prevListClicked.id) return;
                 if (partsJsonDb !== null) {
