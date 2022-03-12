@@ -1252,7 +1252,7 @@ const internal = require('stream');
          * Distributor info. dist-link-cost
          * @param {String} distb 
          */
-        function getDistInfo(distb){
+        function getDistInfo(distb) {
             if (distObj.length > 0) {
                 const index = distObj.findIndex((vd) => (vd.dist) === distb);
                 curVendor = distObj[index];
@@ -1365,11 +1365,11 @@ const internal = require('stream');
             $('#part-show-seller').on('click', (e) => {
                 try {
                     e.preventDefault();
-                    /*if (partsShowJson !== undefined && partsShowJson.link.length > 0) {
-                        shell.openExternal(partsShowJson.link);
-                    }*/
-                    if (curVendor.dist !== undefined)
-                        swal('Vendor', curVendor.dist + ' - ' + curVendor.link, 'info');
+                    if (curVendor.link !== undefined) {
+                        shell.openExternal(curVendor.link, 'info');
+                    }else{
+                        dialogs.showTimerMsg(['', 'No distributor set!', 'error', 1500]);
+                    }
                 } catch (e) { }
             });
 
