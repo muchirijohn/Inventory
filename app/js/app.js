@@ -340,17 +340,12 @@ const internal = require('stream');
             //add click listener
             d_.addEventListener('click', (e) => {
                 e.preventDefault();
-                var cn = e.target.className,
-                    par = e.target,
-                    id = '';
-                //get ID
-                if (cn === 'content') par = par.parentElement;
-                else if (cn === 'description' || cn.indexOf('header') !== -1 || cn.indexOf('image') !== -1)
-                    par = par.parentElement.parentNode;
-                else if (cn === 'hd-manf-no')
-                    par = par.parentElement.parentElement.parentNode;
-                id = par.id;
+                const cn = e.target.className,
+                    par = e.target.closest('.item'),
+                    id = par.id;
+                //check if already selected
                 if (prevListClicked !== null && id === prevListClicked.id) return;
+                console.log(id);
                 if (partsJsonDb !== null) {
                     partAddEditUi.partShowData(partsJsonDb[id]);
                 }
