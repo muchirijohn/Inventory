@@ -164,12 +164,6 @@ p{
 #list-panel .item .description{
     color: rgb(191, 192, 192) !important;
 }
-/*
-#list-panel .item .description:hover{
-    color: rgb(157, 158, 158) !important;
-    cursor: pointer;
-}
-*/
 #list-panel .list-group-item {
     color: #fff;
     background-color: transparent;
