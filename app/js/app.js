@@ -649,9 +649,6 @@ const internal = require('stream');
             cad: $('#part-add-cad'),
             specs: $('#part-add-spec'),
             images: $('#part-add-images'),
-            seller: $('#part-add-dist'),
-            link: $('#part-add-link'),
-            cost: $('#part-add-cost'),
             stock_limit: $('#part-add-slimit'),
             notes: $('#part-add-notes'),
             dist: $('#part-add-distbs')
@@ -720,17 +717,16 @@ const internal = require('stream');
             if (isPartNew === true) {
                 sql = `INSERT INTO parts 
                     (id, stock, type, manf, manf_part_no, package, pins_no, datasheet, description, icon, 
-                    cad, specs, images, seller, link, cost, stock_limit, notes,dist) VALUES (
+                    cad, specs, images, stock_limit, notes,dist) VALUES (
                         "${data.id}", "${data.stock}", "${data.type}", "${data.manf}", "${data.manf_part_no}", "${data.package}", "${data.pins_no}",
                         "${data.datasheet}", "${data.description}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
-                        "${data.seller}", "${data.link}", "${data.cost}", "${data.stock_limit}", "${data.notes}, "${data.dist}")`;
+                        "${data.stock_limit}", "${data.notes}, "${data.dist}")`;
             } else {
                 sql = `UPDATE parts SET 
                         stock="${data.stock}", type="${data.type}", manf="${data.manf}", 
                         manf_part_no="${data.manf_part_no}", package="${data.package}", pins_no="${data.pins_no}",
                         datasheet="${data.datasheet}", description="${data.description}", icon="${data.icon}", 
                         cad="${data.cad}", specs="${data.specs}", images="${data.images}",
-                        seller="${data.seller}", link="${data.link}", cost="${data.cost}", 
                         stock_limit="${data.stock_limit}", notes="${data.notes}", dist="${data.dist}"
                     WHERE
                         id="${data.id}"`;
