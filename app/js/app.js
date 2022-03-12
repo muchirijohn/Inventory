@@ -334,7 +334,7 @@ const internal = require('stream');
             //add content
             d_.innerHTML = `<div class="image">
             <img class="ui tiny image" src="${getResDir(`images\\${part_data.icon}`)}"></div>
-            <div class="content"><a class="header hd-inv-id">${part_data.id}<br><span class="hd-manf-no">${part_data.manf_part_no}</span></a>
+            <div class="content"><a class="header hd-inv-id">${part_data.id}<br><span class="hd-manf-id">${part_data.manf_part_no}</span></a>
             <div class="description">${trimDesc(part_data.description)}</div>
             </div>`
             //add click listener
@@ -942,7 +942,7 @@ const internal = require('stream');
                     table2: $('#part-show-table-2')
                 };
                 //id+manf+mNum
-                pElShow.id.html(`${partsShowJson.id} <br> ${partsShowJson.manf_part_no}`);
+                pElShow.id.html(`<span class='hd-inv-id'>${partsShowJson.id}</span><br><span class='hd-manf-id'>${partsShowJson.manf_part_no}</span`);
                 //seller
                 pElShow.seller.html(`<i class="cart icon"></i> ${partsShowJson.seller}`);
                 //icon
