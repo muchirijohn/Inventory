@@ -972,37 +972,41 @@ const internal = require('stream');
             },
             /*show part info*/
             partShowData = (pData, tb_update = true) => {
-                partsShowJson = Object.assign({}, pData);
-                var stock = [['In Stock', '5aff0e'], [`Low Stock - Limit is ${partsShowJson.stock_limit}`, 'ffcb22'], ['Out of Stock', 'ff0e0e']],
-                    slv = 0;
-                //show data only once
-                //if (prevID === partsShowJson.id) return;
-                selectedID = partsShowJson.id;
-                //id+manf+mNum
-                pElShow.id.html(`<span class='hd-inv-id'>${partsShowJson.id}</span><br><span class='hd-manf-id'>${partsShowJson.manf_part_no}</span`);
-                //distributors
-                $('#part-show-dist .stock').text('0'); //init original stock
-                distObj = getDistData(partsShowJson.dist); //set distributor
-                partShowDistbs(distObj);
-                //icon
-                pElShow.icon.html(`<img src="${getResDir(`\\images\\${partsShowJson.icon}`)}" class="img-fluid" alt="${partsShowJson.id}">`);
-                //description
-                pElShow.desc.html(`<span class="column sixteen wide">${partsShowJson.description}</span>`);
-                //stock
-                if (partsShowJson.stock == 0) slv = 2;
-                else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
-                pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 3) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
-                pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
+                try {
+                    partsShowJson = Object.assign({}, pData);
+                    var stock = [['In Stock', '5aff0e'], [`Low Stock - Limit is ${partsShowJson.stock_limit}`, 'ffcb22'], ['Out of Stock', 'ff0e0e']],
+                        slv = 0;
+                    //show data only once
+                    //if (prevID === partsShowJson.id) return;
+                    selectedID = partsShowJson.id;
+                    //id+manf+mNum
+                    pElShow.id.html(`<span class='hd-inv-id'>${partsShowJson.id}</span><br><span class='hd-manf-id'>${partsShowJson.manf_part_no}</span`);
+                    //distributors
+                    $('#part-show-dist .stock').text('0'); //init original stock
+                    distObj = getDistData(partsShowJson.dist); //set distributor
+                    partShowDistbs(distObj);
+                    //icon
+                    pElShow.icon.html(`<img src="${getResDir(`\\images\\${partsShowJson.icon}`)}" class="img-fluid" alt="${partsShowJson.id}">`);
+                    //description
+                    pElShow.desc.html(`<span class="column sixteen wide">${partsShowJson.description}</span>`);
+                    //stock
+                    if (partsShowJson.stock == 0) slv = 2;
+                    else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
+                    pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 3) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
+                    pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
                                         <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '')}`);
-                if (tb_update === true) {
-                    //table 1 info
-                    pElShow.table1.html(partShowTable1Html(partsShowJson));
-                    //table 2 specs
-                    pElShow.table2.html(partShowTable2Html(partsShowJson));
-                    //show images
-                    partShowImages(partsShowJson.images);
-                    //notes
-                    partsShowNotes(partsShowJson.notes)
+                    if (tb_update === true) {
+                        //table 1 info
+                        pElShow.table1.html(partShowTable1Html(partsShowJson));
+                        //table 2 specs
+                        pElShow.table2.html(partShowTable2Html(partsShowJson));
+                        //show images
+                        partShowImages(partsShowJson.images);
+                        //notes
+                        partsShowNotes(partsShowJson.notes)
+                    }
+                } catch (err) {
+                    swal('', 'Failed to show part data', 'error');
                 }
             },
             //edit part data - show edit modal
@@ -1365,7 +1369,7 @@ const internal = require('stream');
                     e.preventDefault();
                     if (curVendor.link !== undefined) {
                         shell.openExternal(curVendor.link, 'info');
-                    }else{
+                    } else {
                         dialogs.showTimerMsg(['', 'No distributor set!', 'error', 1500]);
                     }
                 } catch (e) { }
