@@ -344,12 +344,12 @@ const internal = require('stream');
                     par = e.target.closest('.item'),
                     id = par.id;
                 //check if already selected
-                if (prevListClicked !== null && id === prevListClicked.id) return;
-                console.log(id);
-                if (partsJsonDb !== null) {
-                    partAddEditUi.partShowData(partsJsonDb[id]);
-                }
+                if (prevListClicked !== null && id === prevListClicked.id || partsJsonDb[id] === undefined)  return;
+                //show part data
+                partAddEditUi.partShowData(partsJsonDb[id]);
+                //set clicked part active
                 par.setAttribute("style", "background-color: rgb(60, 60, 60)");
+                //set prev selected part inactive
                 if (prevListClicked !== null) {
                     prevListClicked.setAttribute("style", "background-color: transparent");
                 }
