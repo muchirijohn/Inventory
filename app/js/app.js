@@ -912,6 +912,17 @@ const internal = require('stream');
          * show part info - view port
          */
         var partsShowJson = Object.null,
+            //elements
+            pElShow = {
+                id: $('#part-show-id'),
+                icon: $('#part-show-icon'),
+                desc: $('#part-show-desc'),
+                stock: $('#part-show-stock'),
+                inStock: $('#part-show-in-stock'),
+                seller: $('#part-show-seller'),
+                table1: $('#part-show-table-1'),
+                table2: $('#part-show-table-2')
+            },
             //append image to view element
             appendPartImage = (src) => {
                 var imgEl = $('#part-show-images img');
@@ -971,17 +982,6 @@ const internal = require('stream');
                 //show data only once
                 //if (prevID === partsShowJson.id) return;
                 selectedID = partsShowJson.id;
-                //elements
-                var pElShow = {
-                    id: $('#part-show-id'),
-                    icon: $('#part-show-icon'),
-                    desc: $('#part-show-desc'),
-                    stock: $('#part-show-stock'),
-                    inStock: $('#part-show-in-stock'),
-                    seller: $('#part-show-seller'),
-                    table1: $('#part-show-table-1'),
-                    table2: $('#part-show-table-2')
-                };
                 //id+manf+mNum
                 pElShow.id.html(`<span class='hd-inv-id'>${partsShowJson.id}</span><br><span class='hd-manf-id'>${partsShowJson.manf_part_no}</span`);
                 //distributors
@@ -996,7 +996,7 @@ const internal = require('stream');
                 else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
                 pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 3) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
-                                        <i class="dollar icon" style="color: #ff2335"></i>${partsShowJson.cost}`);
+                                        <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '')}`);
                 if (tb_update === true) {
                     //table 1 info
                     pElShow.table1.html(partShowTable1Html(partsShowJson));
@@ -1247,6 +1247,20 @@ const internal = require('stream');
             partCategoriesInit();
             partPackagesInit();
         }
+
+        /**
+         * Distributor info. dist-link-cost
+         * @param {String} distb 
+         */
+        function getDistInfo(distb){
+            if (distObj.length > 0) {
+                const index = distObj.findIndex((vd) => (vd.dist) === distb);
+                curVendor = distObj[index];
+                pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsJsonDb[selectedID].stock}&nbsp;&nbsp;
+                            <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '')}`);
+                console.table(curVendor);
+            }
+        }
         /**
          * init
          */
@@ -1289,12 +1303,7 @@ const internal = require('stream');
                 values: [],
                 onChange: function (value, text, $selectedItem) {
                     if (value.length > 0) {
-                        if (distObj.length > 0) {
-                            console.table(distObj);
-                            const index = distObj.findIndex((vd) => (vd.dist) === value);
-                            curVendor = distObj[index];
-                            console.log(curVendor);
-                        }
+                        getDistInfo(value);
                     }
                 }
             });
@@ -1359,7 +1368,7 @@ const internal = require('stream');
                     /*if (partsShowJson !== undefined && partsShowJson.link.length > 0) {
                         shell.openExternal(partsShowJson.link);
                     }*/
-                    if(curVendor.dist !== undefined)
+                    if (curVendor.dist !== undefined)
                         swal('Vendor', curVendor.dist + ' - ' + curVendor.link, 'info');
                 } catch (e) { }
             });
