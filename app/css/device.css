@@ -201,6 +201,11 @@ p{
 .ui.tag.label:before{
     background-color: #7cfb56;
 }
+#part-show-dist .stock{
+    background-color: #fd0202;
+    color:#cad1d1;
+}
+
 .dev-desc .part-extra-info{
     overflow-y: auto;
 }

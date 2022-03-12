@@ -683,7 +683,7 @@ const internal = require('stream');
                 const dists = p_dist.split('\n');
                 dists.forEach(dist => {
                     var slc = dist.split(';');
-                    const d_arr = { 'dist': slc[0], 'link': slc[1], 'cost': slc[2] };
+                    const d_arr = { 'dist': slc[0], 'link': slc[1], 'stock': slc[2], 'cost': slc[3] };
                     d_.push(d_arr);
                 });
                 return d_;
@@ -981,7 +981,8 @@ const internal = require('stream');
                 //id+manf+mNum
                 pElShow.id.html(`<span class='hd-inv-id'>${partsShowJson.id}</span><br><span class='hd-manf-id'>${partsShowJson.manf_part_no}</span`);
                 //distributors
-                distObj = getDistData(partsShowJson.dist);
+                $('#part-show-dist .stock').text('0'); //init original stock
+                distObj = getDistData(partsShowJson.dist); //set distributor
                 partShowDistbs(distObj);
                 //icon
                 pElShow.icon.html(`<img src="${getResDir(`\\images\\${partsShowJson.icon}`)}" class="img-fluid" alt="${partsShowJson.id}">`);
@@ -1252,6 +1253,7 @@ const internal = require('stream');
             if (distObj.length > 0) {
                 const index = distObj.findIndex((vd) => (vd.dist) === distb);
                 curVendor = distObj[index];
+                $('#part-show-dist .stock').text(curVendor.stock);
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsJsonDb[selectedID].stock}&nbsp;&nbsp;
                             <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '')}`);
                 console.table(curVendor);
