@@ -495,7 +495,6 @@ const internal = require('stream');
                     listFilterParts(filter[ft]);
                 }
             });
-            //$('#btn-part-filter').dropdown('set exactly', 'All Parts');
             //search components button event
             $('#btn-part-sc').on('click', (e) => {
                 e.preventDefault();
@@ -1242,9 +1241,6 @@ const internal = require('stream');
             });
             //init categories
             initAllSelections();
-            //init part selection modal fields
-            $('#part-add-cat.dropdown').dropdown();
-            $('#part-add-pkg.dropdown').dropdown();
             //init modal tabs
             $('#modal-part-add .ui.tabular.menu .item').tab();
             $('#div-part-img-spec .ui.tabular.menu .item').tab();
