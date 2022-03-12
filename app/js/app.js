@@ -945,7 +945,7 @@ const internal = require('stream');
                     table2: $('#part-show-table-2')
                 };
                 //id+manf+mNum
-                pElShow.id.html(`${partsShowJson.id} <br> ${partsShowJson.manf_part_no}`);
+                pElShow.id.html(`<span data-tooltip="Part ID" data-position="right center">${partsShowJson.id} </span><br><span data-tooltip="Part Number" data-position="right center"> ${partsShowJson.manf_part_no}</span>`);
                 //seller
                 pElShow.seller.html(`<i class="cart icon"></i> ${partsShowJson.seller}`);
                 //icon
@@ -1034,6 +1034,7 @@ const internal = require('stream');
                 if (prevLogEl !== null && prevLogEl.id === pel.id) prevLogEl = null;
                 if (prevLogEl != null) prevLogEl.setAttribute('style', 'color: #81a3a7');
                 prevLogEl = pel;
+                $('#part-log-table tr:nth-child(1)').css( "color", "#81a3a7" );//reset first row to initial color
             });
             ttr.addEventListener('mouseover', (e) => {
                 if (prevLogEl !== null && ttr.id != prevLogEl.id)
@@ -1049,6 +1050,8 @@ const internal = require('stream');
                 //ttr.scrollIntoView();
                 dialogs.showTimerMsg(['Log', 'log added succesfully', 'success', 1500]);
             }
+            //highlight firstrow
+            $('#part-log-table tr:nth-child(1)').css( "color", "#bafbf8" );
         };
 
         /**

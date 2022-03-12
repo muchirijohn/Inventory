@@ -93,7 +93,8 @@ p{
 #btn-part-filter,#btn-part-filter div, #btn-part-sc, #btn-part-add{
    /* border-color: #ccc !important;*/
     color: rgb(1, 228, 160) !important;
-    font-weight: bold !important;
+    /* font-weight: bold !important; */
+    font-family: roboto-bold;
 }
 
 #btn-part-filter:hover, #btn-part-sc:hover, #btn-part-add:hover{
@@ -208,13 +209,14 @@ p{
     display: none;
 }
 
-.dev-desc #part-show-id{
+/* .dev-desc #part-show-id{
     text-shadow: 0 0 2px #bdf4f6;
-}
+} */
 
 .dev-desc #part-show-id, #part-log-btn-desc{
+    font-family:roboto-bold ;
     font-size: 20px;
-    font-weight: bold;
+    /* font-weight: bold; */
     color: #08f2fa !important;
     margin-top: 8px;
 }
@@ -240,7 +242,8 @@ p{
     margin-bottom: 14px;
 }
 #part-show-images-info .buttons{
-    font-weight: bold;
+    /* font-weight: bold; */
+    font-family: robot-bold;
 }
 #part-show-images{
     height: 460px !important;
@@ -273,7 +276,7 @@ p{
 }
 .dev-desc #part-show-desc{
     color: #ececec !important;
-    text-shadow: 0 0 4px #4ee7da;
+    /* text-shadow: 0 0 4px #4ee7da; */
 }
 /*modal css*/
 #modal-part-add .header{
@@ -302,7 +305,7 @@ p{
     /*max-height: 260px;*/
     width: 100%;
     color:#b3b3b3;
-    text-shadow: 0 0 2px #f8ef9a;
+    /* text-shadow: 0 0 2px #f8ef9a; */
     margin-bottom: 10px;
 }
 #part-show-notes i{
@@ -323,7 +326,8 @@ p{
     display: table;
     table-layout:fixed;
     width: 100%;
-    font-weight: bold;
+    /* font-weight: bold; */
+    font-family: roboto-bold;
 }
 #part-log-table tbody {
     display: block;
@@ -364,6 +368,15 @@ p{
 }
 .ui.items>.item>.content>.header:not(.ui){
     font-size: 1em;
+}
+[data-tooltip]:after{
+    padding: .5em;
+}
+/* div#part-log-btn-desc{
+    font-family:roboto-bold ;
+} */
+.ui.definition.table tr td.definition, .ui.definition.table tr td:first-child:not(.ignored){
+    font-family:roboto-bold ;
 }
 @keyframes text-flicker {
     100% {
