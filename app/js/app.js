@@ -345,7 +345,7 @@ const internal = require('stream');
                     id = '';
                 //get ID
                 if (cn === 'content') par = par.parentElement;
-                else if (cn === 'description' || cn === 'header' || cn.indexOf('image') !== -1)
+                else if (cn === 'description' || cn.indexOf('header') !== -1 || cn.indexOf('image') !== -1)
                     par = par.parentElement.parentNode;
                 else if (cn === 'hd-manf-no')
                     par = par.parentElement.parentElement.parentNode;
