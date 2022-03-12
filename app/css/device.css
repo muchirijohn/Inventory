@@ -147,21 +147,19 @@ p{
 #list-panel .item img{
     border: 2px solid transparent;
     outline: 2px solid #08f2fa;
+    height: 96px;
 }
 #list-panel .item .header{
     font-size: 14px;
 }
-
 .hd-inv-id{
     color: rgb(230, 111, 0) !important;
-    text-shadow: 0 0 2px rgb(245, 193, 144);
+    text-shadow: 0 0 1px rgb(245, 193, 144);
 }
-
 .hd-manf-id{
     color: #4ee7da;
     text-shadow: 0 0 2px rgb(230, 111, 0);
 }
-
 #list-panel .item .description{
     color: rgb(191, 192, 192) !important;
 }
@@ -176,21 +174,16 @@ p{
     background-color: transparent;
     border-radius: 8px !important;
 }
-
 #list-panel .list-group-item-text {
     color: #fff;
 }
-
 #list-panel .list-group-item:hover {
     color: #111;
     background-color: #fff;
 }
-
-
 #list-panel.scroll-style::-webkit-scrollbar-thumb {
     background-color: #eee;
 }
-
 /*part info section*/
 .column.dev-desc{
     min-width: 500px;
@@ -201,30 +194,24 @@ p{
     /* box-shadow: 0px 2px 0px 2px rgba(133, 229, 253, 0.35); */
     scrollbar-width: none;
 }
-
 .dev-desc .part-extra-info{
     overflow-y: auto;
 }
-
-
 .part-extra-info::-webkit-scrollbar-thumb {
     background-color: rgb(167, 167, 167);
     width: 2px !important;
     display: none;
 }
-
 .part-extra-info::-webkit-scrollbar {
     width: 1px !important;
     display: none;
 }
-
 .dev-desc #part-show-id, #part-log-btn-desc{
     font-size: 20px;
     font-weight: bold;
     color: #08f2fa !important;
     margin-top: 8px;
 }
-
 .dev-desc #part-icon-info{
     display: flex;
     align-items: center;
