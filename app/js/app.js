@@ -968,7 +968,7 @@ const internal = require('stream');
                 }
             },
             //show stock
-            partShowStock = (stock)=>{
+            partShowStock = (stock) => {
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${stock}&nbsp;&nbsp;
                                         <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
             },
