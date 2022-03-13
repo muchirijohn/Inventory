@@ -1088,11 +1088,10 @@ const internal = require('stream');
             //event listeners
             ttr.addEventListener('click', (e) => {
                 var pel = e.target.closest('tr');
+                if (prevLogEl !== null && prevLogEl.id === pel.id) return;
                 pel.setAttribute('style', 'color: #bafbf8');
-                if (prevLogEl !== null && prevLogEl.id === pel.id) prevLogEl = null;
                 if (prevLogEl != null) prevLogEl.setAttribute('style', 'color: #81a3a7');
                 prevLogEl = pel;
-                console.log(pel.id)
             });
             ttr.addEventListener('mouseover', (e) => {
                 if (prevLogEl !== null && ttr.id != prevLogEl.id)
@@ -1194,9 +1193,18 @@ const internal = require('stream');
                     callback = () => {
                         //find log to delete
                         const index = partsJsonDb[selectedID].logs.findIndex((log) => (log.date === qr[1]));
+                        //if(index === -1) return;
+                        //remove log from array
                         partsJsonDb[selectedID].logs.splice(index, 1);
-                        //remove element
+                        //delete log from table
                         prevLogEl.remove();
+                        //select next log
+                        var len = partsJsonDb[selectedID].logs.length;
+                        if ( len > index) {
+                            $(`#${getLogId(partsJsonDb[selectedID].logs[index].date)}`).trigger('click');
+                        }else if(len > 0){
+                            $(`#${getLogId(partsJsonDb[selectedID].logs[index - 1].date)}`).trigger('click');
+                        }
                         dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
                     }
                 console.table(qr);
