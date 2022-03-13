@@ -1212,7 +1212,6 @@ const internal = require('stream');
                             //log delete success message
                             dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
                         }
-                    console.table(qr);
                     database.dbDeleteLog(qr, callback);
                 } catch (err) {
                     swal('Error', 'Failed to delete log!', 'error');
