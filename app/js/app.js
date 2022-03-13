@@ -344,7 +344,8 @@ const internal = require('stream');
                     par = e.target.closest('.item'),
                     id = par.id;
                 //check if already selected
-                if (prevListClicked !== null && id === prevListClicked.id || partsJsonDb[id] === undefined) return;
+                if ((prevListClicked !== null && id === prevListClicked.id) ||
+                    partsJsonDb[id] === undefined) return;
                 //show part data
                 partAddEditUi.partShowData(partsJsonDb[id]);
                 //set clicked part active
@@ -992,7 +993,7 @@ const internal = require('stream');
                     //stock
                     if (partsShowJson.stock == 0) slv = 2;
                     else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
-                    pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 3) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
+                    pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
                     pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
                                         <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '')}`);
                     if (tb_update === true) {
