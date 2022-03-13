@@ -1069,6 +1069,7 @@ const internal = require('stream');
             });
             //select first log
             if (partsJsonDb[selectedID].logs.length >= 1) {
+                prevLogEl = null;
                 var log = (partsJsonDb[selectedID].logs[0]);
                 $(`#${getLogId(log.date)}`).trigger('click');
             }
@@ -1168,7 +1169,7 @@ const internal = require('stream');
          */
         var deleteLogNotify = () => {
             if (prevLogEl === null) {
-                swal('Error', 'Select log to delete', 'error');
+                swal('Error', 'The part has no logs', 'error');
                 return;
             }
             //show confirmation
@@ -1185,30 +1186,37 @@ const internal = require('stream');
             });
         },
             deleteLog = () => {
-                var id = prevLogEl.id,
-                    qr = [
-                        partsShowJson.id, //part id
-                        id.substring(id.indexOf('-') + 1, id.length).replaceAll('_', ':') //date
-                    ],
-                    callback = () => {
-                        //find log to delete
-                        const index = partsJsonDb[selectedID].logs.findIndex((log) => (log.date === qr[1]));
-                        //if(index === -1) return;
-                        //remove log from array
-                        partsJsonDb[selectedID].logs.splice(index, 1);
-                        //delete log from table
-                        prevLogEl.remove();
-                        //select next log
-                        var len = partsJsonDb[selectedID].logs.length;
-                        if ( len > index) {
-                            $(`#${getLogId(partsJsonDb[selectedID].logs[index].date)}`).trigger('click');
-                        }else if(len > 0){
-                            $(`#${getLogId(partsJsonDb[selectedID].logs[index - 1].date)}`).trigger('click');
+                try {
+                    var id = prevLogEl.id,
+                        qr = [
+                            partsShowJson.id, //part id
+                            id.substring(id.indexOf('-') + 1, id.length).replaceAll('_', ':') //date
+                        ],
+                        callback = () => {
+                            //find log to delete
+                            const index = partsJsonDb[selectedID].logs.findIndex((log) => (log.date === qr[1]));
+                            //if(index === -1) return;
+                            //remove log from array
+                            partsJsonDb[selectedID].logs.splice(index, 1);
+                            //delete log from table
+                            prevLogEl.remove();
+                            //select next log
+                            var len = partsJsonDb[selectedID].logs.length;
+                            if (len > index) {
+                                $(`#${getLogId(partsJsonDb[selectedID].logs[index].date)}`).trigger('click');
+                            } else if (len > 0) {
+                                $(`#${getLogId(partsJsonDb[selectedID].logs[index - 1].date)}`).trigger('click');
+                            }
+                            //remove prev selected log object
+                            if (partsJsonDb[selectedID].logs.length === 0) prevLogEl = null;
+                            //log delete success message
+                            dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
                         }
-                        dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
-                    }
-                console.table(qr);
-                database.dbDeleteLog(qr, callback);
+                    console.table(qr);
+                    database.dbDeleteLog(qr, callback);
+                } catch (err) {
+                    swal('Error', 'Failed to delete log!', 'error');
+                }
             }
 
         /**
