@@ -57,6 +57,9 @@ const internal = require('stream');
         else return this;
     }
 
+    /**
+     * alert dialogs
+     */
     var dialogs = (function dialogs() {
 
 
@@ -972,7 +975,7 @@ const internal = require('stream');
                     });
                     $('#part-show-dist').dropdown('change values', options);
                 } catch (err) {
-                    //console.log(err)
+                    console.log(err)
                 }
             },
             //show stock
