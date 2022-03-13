@@ -853,13 +853,16 @@ const internal = require('stream');
          */
         var partShowTable1Html = (data) => {
             try {
-                return `<tbody>
+                const t_data = `<tbody>
             <tr> <td class="two wide column">Type</td><td>${data.type}</td></tr>
             <tr><td>Manufacturer</td><td>${data.manf}<i class="part-manf industry icon"></i></td></tr>
             <tr><td>Package</td><td>${data.package}</td></tr>
             <tr><td>Pinouts</td><td>${data.pins_no}</td></tr>
             </tbody>`;
-            } catch (err) { return '' }
+                pElShow.table1.html(t_data);
+                //go to manufacturer website
+                setManfWebsite();
+            } catch (err) { }
         }
 
         /**
@@ -874,19 +877,17 @@ const internal = require('stream');
                     return '';
                 }
                 //create specs table
-                var html = '<tbody><tr> <td class="seven wide column">';
-                var specs = data.specs.split('\n'),
+                var t_data = '<tbody><tr> <td class="seven wide column">',
+                    specs = data.specs.split('\n'),
                     index = 0;
                 specs.forEach(spec => {
                     var field = spec.split(',');
-                    html += `${index++ > 0 ? '<tr><td>' : ''}
+                    t_data += `${index++ > 0 ? '<tr><td>' : ''}
                         ${field[0].trim()}</td><td>${field[1].trim()}</td></tr>`;
                 });
-                html += '</tbody>';
-                return html;
-            } catch (err) {
-                return '';
-            }
+                t_data += '</tbody>';
+                pElShow.table2.html(t_data);
+            } catch (err) { }
         }
 
         /**
@@ -1007,11 +1008,9 @@ const internal = require('stream');
                     //if updating data
                     if (tb_update === true) {
                         //table 1 info
-                        pElShow.table1.html(partShowTable1Html(partsShowJson));
-                        //go to manufacturer website
-                        setManfWebsite();
+                        partShowTable1Html(partsShowJson);
                         //table 2 specs
-                        pElShow.table2.html(partShowTable2Html(partsShowJson));
+                        partShowTable2Html(partsShowJson);
                         //show images
                         partShowImages(partsShowJson.images);
                         //notes
