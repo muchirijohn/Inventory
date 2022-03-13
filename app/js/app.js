@@ -974,9 +974,7 @@ const internal = require('stream');
                         init = false;
                     });
                     $('#part-show-dist').dropdown('change values', options);
-                } catch (err) {
-                    console.log(err)
-                }
+                } catch (err) {}
             },
             //show stock
             partShowStock = (stock) => {
