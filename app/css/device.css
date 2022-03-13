@@ -190,10 +190,15 @@ p{
     scrollbar-width: none;
 }
 #part-show-dist{
-    background-color: #7cfb56;
+    background-color: #76ec51;
+    font-weight: bold;
 }
 .ui.tag.label:before{
-    background-color: #7cfb56;
+    background-color: #76ec51;
+}
+#part-show-dist .menu{
+    background-color: rgba(124, 251, 86, 0.95);
+    margin-top: 4px;
 }
 #part-show-dist .stock{
     background-color: #fd0202;
@@ -300,7 +305,7 @@ p{
 #part-show-notes{
     /*max-height: 260px;*/
     width: 100%;
-    color:#b3b3b3;
+    color:#cfcfcf;
     text-shadow: 0 0 2px #f8ef9a;
     margin-bottom: 10px;
 }

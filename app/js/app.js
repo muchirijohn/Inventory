@@ -38,8 +38,8 @@ const internal = require('stream');
                 return NaN
             }
         },
-        trimDesc = (desc) => {
-            if (desc.length > 60) return desc.substring(0, 60) + '...';
+        shortenValue = (desc, len) => {
+            if (desc.length > len) return desc.substring(0, len) + '...';
             else return desc;
         },
         getResDir = (src) => {
@@ -323,6 +323,19 @@ const internal = require('stream');
         }
 
         /**
+         * edit the list item content
+         * @param {Object} part_data 
+         */
+        function listItemContent(item_data, item = null, empty = false) {
+            if (item === null) item = $(`#list-panel #${item_data.id}`);
+            if (empty === true) item.empty();
+            item.html(`<div class="image">
+            <img class="ui tiny image" src="${getResDir(`images\\${item_data.icon}`)}"></div>
+            <div class="content"><a class="header hd-inv-id">${item_data.id}<br><span class="hd-manf-id">${item_data.manf_part_no}</span></a>
+            <div class="description">${shortenValue(item_data.description, 60)}</div>
+            </div>`);
+        }
+        /**
          * add a new part item
          * @param {array} part_data 
          */
@@ -332,11 +345,7 @@ const internal = require('stream');
             d_.className = 'item';
             d_.setAttribute("id", part_data.id);
             //add content
-            d_.innerHTML = `<div class="image">
-            <img class="ui tiny image" src="${getResDir(`images\\${part_data.icon}`)}"></div>
-            <div class="content"><a class="header hd-inv-id">${part_data.id}<br><span class="hd-manf-id">${part_data.manf_part_no}</span></a>
-            <div class="description">${trimDesc(part_data.description)}</div>
-            </div>`
+            listItemContent(part_data, $(d_));
             //add click listener
             d_.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -403,19 +412,6 @@ const internal = require('stream');
                 addNewPartItem(part_data);
             });
             partAddEditUi.initPartShow();
-        }
-
-        /**
-         * edit the list item content
-         * @param {Object} part_data 
-         */
-        function editListItem(part_data) {
-            $(`#list-panel #${part_data.id}`).empty().html(`
-            <div class="image">
-            <img class="ui tiny image" src="${getResDir(`images\\${part_data.icon}`)}"></div>
-            <div class="content"><a class="header hd-inv-id">${part_data.id}<br><span class="hd-manf-id">${part_data.manf_part_no}</span></a>
-            <div class="description">${trimDesc(part_data.description)}</div>
-            </div>`);
         }
 
         /**
@@ -545,7 +541,7 @@ const internal = require('stream');
             setListHeight: setListHeight,
             addNewPartItem: addNewPartItem,
             generateList: generateList,
-            editListItem: editListItem,
+            listItemContent: listItemContent,
             listDeletePart: listDeletePart
         }
     })();
@@ -701,7 +697,6 @@ const internal = require('stream');
                 if (key === 'id' || key === 'manf_part_no') fields[key] = (pEl[key].val().toUpperCase());
                 else fields[key] = (pEl[key].val());
             });
-            //fields['dist'] = getDistData($('#part-add-distbs').val());
             return fields;
         }
         /**
@@ -733,7 +728,7 @@ const internal = require('stream');
                         id="${data.id}"`;
                 partsJsonDb[data.id] = data;
                 partShowData(data);
-                listUi.editListItem(data);
+                listUi.listItemContent(data, null, true);
             }
             //show edits
             /*partsJsonDb[data.id] = data;
@@ -962,7 +957,8 @@ const internal = require('stream');
                     var options = [],
                         init = true;
                     p_dist.forEach(vd => {
-                        const item = { name: vd.dist, value: vd.dist, selected: init };
+                        const val = shortenValue(vd.dist, 8);
+                        const item = { name: val, value: vd.dist, selected: init };
                         options.push(item);
                         init = false;
                     });
@@ -970,6 +966,11 @@ const internal = require('stream');
                 } catch (err) {
                     //console.log(err)
                 }
+            },
+            //show stock
+            partShowStock = (stock)=>{
+                pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${stock}&nbsp;&nbsp;
+                                        <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
             },
             /*show part info*/
             partShowData = (pData, tb_update = true) => {
@@ -994,8 +995,9 @@ const internal = require('stream');
                     if (partsShowJson.stock == 0) slv = 2;
                     else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
                     pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
-                    pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
-                                        <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
+                    //show stock
+                    partShowStock(partsShowJson.stock);
+                    //if updating data
                     if (tb_update === true) {
                         //table 1 info
                         pElShow.table1.html(partShowTable1Html(partsShowJson));
@@ -1259,9 +1261,7 @@ const internal = require('stream');
                 const index = distObj.findIndex((vd) => (vd.dist) === distb);
                 curVendor = distObj[index];
                 $('#part-show-dist .stock').text(curVendor.stock);
-                pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsJsonDb[selectedID].stock}&nbsp;&nbsp;
-                            <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
-                console.table(curVendor);
+                partShowStock(partsJsonDb[selectedID].stock);
             }
         }
         /**
