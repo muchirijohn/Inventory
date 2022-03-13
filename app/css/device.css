@@ -272,6 +272,11 @@ p{
 #part-show-table-1 td{
     color: #bafbf8 !important;
 }
+#part-show-table-1 .part-manf.icon{
+    color:#f68d15;
+    margin-left: 4px;
+    cursor: pointer;
+}
 #part-show-table-2 td{
     color: #fdb0b6 !important;
 }

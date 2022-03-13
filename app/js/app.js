@@ -855,11 +855,11 @@ const internal = require('stream');
             try {
                 return `<tbody>
             <tr> <td class="two wide column">Type</td><td>${data.type}</td></tr>
-            <tr><td>Manufacturer</td><td>${data.manf}</td></tr>
+            <tr><td>Manufacturer</td><td>${data.manf}<i class="part-manf industry icon"></i></td></tr>
             <tr><td>Package</td><td>${data.package}</td></tr>
             <tr><td>Pinouts</td><td>${data.pins_no}</td></tr>
             </tbody>`;
-            } catch (err) { }
+            } catch (err) { return '' }
         }
 
         /**
@@ -964,7 +964,7 @@ const internal = require('stream');
                     var options = [],
                         init = true;
                     p_dist.forEach(vd => {
-                        const val = vd.dist.shortenValue(9);
+                        const val = vd.dist.shortenValue(12);
                         const item = { name: val, value: vd.dist, selected: init };
                         options.push(item);
                         init = false;
@@ -1008,6 +1008,8 @@ const internal = require('stream');
                     if (tb_update === true) {
                         //table 1 info
                         pElShow.table1.html(partShowTable1Html(partsShowJson));
+                        //go to manufacturer website
+                        setManfWebsite();
                         //table 2 specs
                         pElShow.table2.html(partShowTable2Html(partsShowJson));
                         //show images
@@ -1296,6 +1298,18 @@ const internal = require('stream');
                 $('#part-show-dist .stock').text(curVendor.stock);
                 partShowStock(partsJsonDb[selectedID].stock);
             }
+        }
+
+        /**
+         * set manufacturer info
+         */
+        function setManfWebsite() {
+            $('.part-manf.icon').on('click', (e) => {
+                e.preventDefault();
+                /*const manf = partsJsonDb[selectedID].manf;
+                dialogs.showTimerMsg(['', `${manf}`, 'success', 1500]);
+                //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
+            });
         }
         /**
          * init
