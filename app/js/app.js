@@ -47,15 +47,15 @@ const internal = require('stream');
             return s_dir;
         };
 
-        /**
-         * Shorten string
-         * @param {Integer} len 
-         * @returns String
-         */
-        String.prototype.shortenValue = function (len) {
-            if (this.length > len) return this.substring(0, len) + '...';
-            else return this;
-        }
+    /**
+     * Shorten string
+     * @param {Integer} len 
+     * @returns String
+     */
+    String.prototype.shortenValue = function (len) {
+        if (this.length > len) return this.substring(0, len) + '...';
+        else return this;
+    }
 
     var dialogs = (function dialogs() {
 
@@ -1041,6 +1041,10 @@ const internal = require('stream');
 
             }
 
+        var prevLogEl = null,
+            getLogId = (id) => {
+                return `log-${id.replaceAll(':', '_')}`;
+            }
         /**
          * show/create log data
          */
@@ -1063,8 +1067,12 @@ const internal = require('stream');
                 ];
                 createlog(data, false);
             });
+            //select first log
+            if (partsJsonDb[selectedID].logs.length >= 1) {
+                var log = (partsJsonDb[selectedID].logs[0]);
+                $(`#${getLogId(log.date)}`).trigger('click');
+            }
         }
-        var prevLogEl = null;
 
         /**
          * create log
@@ -1072,18 +1080,19 @@ const internal = require('stream');
          */
         function createlog(log, new_log = true) {
             var ttr = document.createElement('tr');
-            ttr.id = 'log-' + log[2];
+            ttr.id = getLogId(log[2]);
             ttr.innerHTML = `<td>${log[1]}</td>
                             <td>${log[2]}</td>
                             <td>${log[3]}</td>
                             <td>${log[5]}</td>`;
             //event listeners
             ttr.addEventListener('click', (e) => {
-                var pel = e.target.parentNode;
+                var pel = e.target.closest('tr');
                 pel.setAttribute('style', 'color: #bafbf8');
                 if (prevLogEl !== null && prevLogEl.id === pel.id) prevLogEl = null;
                 if (prevLogEl != null) prevLogEl.setAttribute('style', 'color: #81a3a7');
                 prevLogEl = pel;
+                console.log(pel.id)
             });
             ttr.addEventListener('mouseover', (e) => {
                 if (prevLogEl !== null && ttr.id != prevLogEl.id)
@@ -1099,6 +1108,7 @@ const internal = require('stream');
                 //ttr.scrollIntoView();
                 dialogs.showTimerMsg(['Log', 'log added succesfully', 'success', 1500]);
             }
+
         };
 
         /**
@@ -1179,16 +1189,17 @@ const internal = require('stream');
                 var id = prevLogEl.id,
                     qr = [
                         partsShowJson.id, //part id
-                        id.substring(id.indexOf('-') + 1, id.length) //date
+                        id.substring(id.indexOf('-') + 1, id.length).replaceAll('_', ':') //date
                     ],
                     callback = () => {
                         //find log to delete
-                        const index = partsJsonDb[selectedID].logs.findIndex((log) => ('log-' + log.date) === prevLogEl.id);
+                        const index = partsJsonDb[selectedID].logs.findIndex((log) => (log.date === qr[1]));
                         partsJsonDb[selectedID].logs.splice(index, 1);
                         //remove element
                         prevLogEl.remove();
                         dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
                     }
+                console.table(qr);
                 database.dbDeleteLog(qr, callback);
             }
 
