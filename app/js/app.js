@@ -38,10 +38,7 @@ const internal = require('stream');
                 return NaN
             }
         },
-        shortenValue = (desc, len) => {
-            if (desc.length > len) return desc.substring(0, len) + '...';
-            else return desc;
-        },
+        //get resources directory to fetch data from
         getResDir = (src) => {
             var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
                 s_dir = `${a_dir}\\${src}`;
@@ -49,6 +46,16 @@ const internal = require('stream');
             if (exists === false) s_dir = `${app_dir}\\res\\${src}`;
             return s_dir;
         };
+
+        /**
+         * Shorten string
+         * @param {Integer} len 
+         * @returns String
+         */
+        String.prototype.shortenValue = function (len) {
+            if (this.length > len) return this.substring(0, len) + '...';
+            else return this;
+        }
 
     var dialogs = (function dialogs() {
 
@@ -332,7 +339,7 @@ const internal = require('stream');
             item.html(`<div class="image">
             <img class="ui tiny image" src="${getResDir(`images\\${item_data.icon}`)}"></div>
             <div class="content"><a class="header hd-inv-id">${item_data.id}<br><span class="hd-manf-id">${item_data.manf_part_no}</span></a>
-            <div class="description">${shortenValue(item_data.description, 60)}</div>
+            <div class="description">${item_data.description.shortenValue(60)}</div>
             </div>`);
         }
         /**
@@ -957,7 +964,7 @@ const internal = require('stream');
                     var options = [],
                         init = true;
                     p_dist.forEach(vd => {
-                        const val = shortenValue(vd.dist, 8);
+                        const val = vd.dist.shortenValue(9);
                         const item = { name: val, value: vd.dist, selected: init };
                         options.push(item);
                         init = false;
