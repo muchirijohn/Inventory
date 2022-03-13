@@ -995,7 +995,7 @@ const internal = require('stream');
                     else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
                     pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
                     pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsShowJson.stock}&nbsp;&nbsp;
-                                        <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '')}`);
+                                        <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
                     if (tb_update === true) {
                         //table 1 info
                         pElShow.table1.html(partShowTable1Html(partsShowJson));
@@ -1260,7 +1260,7 @@ const internal = require('stream');
                 curVendor = distObj[index];
                 $('#part-show-dist .stock').text(curVendor.stock);
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${partsJsonDb[selectedID].stock}&nbsp;&nbsp;
-                            <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '')}`);
+                            <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
                 console.table(curVendor);
             }
         }
