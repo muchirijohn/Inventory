@@ -284,6 +284,10 @@ p{
     text-shadow: 0 0 4px #4ee7da;
 }
 /*modal css*/
+.modals .visible.active{
+    background-color: #5d5c5c;
+    caret-color: #4ee7da;
+}
 #modal-part-add .header{
     color: rgb(230, 111, 0) !important;
 }
