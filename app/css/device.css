@@ -17,6 +17,7 @@
 }
 
 body {
+    font-family: roboto-bold;
     background: none;
     user-select: none;
     color: #edeff1;
