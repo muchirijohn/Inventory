@@ -288,10 +288,6 @@ p{
     background-color: #5d5c5c;
     caret-color: #4ee7da;
 }
-.modals .header{
-    color: rgb(230, 111, 0) !important;
-}
-
 #modal-part-add .ui.tab{
     color: #019795 !important;
     margin-bottom: 0px !important;
@@ -393,7 +389,9 @@ p{
     color:#fffffe;
     text-shadow: 0 0 2px #bdfdfd;
 }
-
+.modals .header{
+    color: rgb(230, 111, 0) !important;
+}
 .modals .header, .modals .scrolling.content,  .modals .content, .modals .actions{
     background-color: #263335 !important;
     /*border: 2px solid transparent;
@@ -408,7 +406,7 @@ p{
 }
 
 .field label{
-    color:#c7c7c7 !important;
+    color:#dadada !important;
 }
 .field input, .field .selection, .field textarea{
     background-color:transparent !important;
@@ -425,7 +423,7 @@ p{
 }
 .tabular.menu .item.active, .tab.segment.active, .tab.segment.active textarea{
     background-color: transparent !important;
-    color: #c7c7c7 !important;
+    color: #dadada !important;
     border:1px solid rgba(143, 141, 141,0.45) !important
 }
 
