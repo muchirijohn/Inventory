@@ -288,7 +288,7 @@ p{
     background-color: #5d5c5c;
     caret-color: #4ee7da;
 }
-#modal-part-add .header{
+.modals .header{
     color: rgb(230, 111, 0) !important;
 }
 
@@ -392,6 +392,45 @@ p{
 .swal-text{
     color:#fffffe;
     text-shadow: 0 0 2px #bdfdfd;
+}
+
+.modals .header, .modals .scrolling.content,  .modals .content, .modals .actions{
+    background-color: #263335 !important;
+    /*border: 2px solid transparent;
+    outline: 2px solid #f68d15;*/
+    
+}
+
+.modals .scrolling.content, .modals .content{
+    border-top: none;
+    border-bottom: none;
+    background-color: #314244 !important;
+}
+
+.field label{
+    color:#c7c7c7 !important;
+}
+.field input, .field .selection, .field textarea{
+    background-color:transparent !important;
+    border: 1px solid rgba(184, 184, 184, 0.55) !important;
+    color: #08f2fa !important;
+}
+
+.tabular.menu{
+    color: #026669 !important;
+}
+
+.tabular.menu .item{
+    color: #919090 !important;
+}
+.tabular.menu .item.active, .tab.segment.active, .tab.segment.active textarea{
+    background-color: transparent !important;
+    color: #c7c7c7 !important;
+    border:1px solid rgba(143, 141, 141,0.45) !important
+}
+
+.tab.segment.active textarea{
+    color: #08f2fa !important;
 }
 @keyframes text-flicker {
     100% {
