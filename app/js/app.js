@@ -1296,12 +1296,13 @@ const internal = require('stream');
                 curVendor = distObj[index];
                 $('#part-show-dist .stock').text(curVendor.stock);
                 partShowStock(partsJsonDb[selectedID].stock);
+                $('#part-show-seller').attr('data-tooltip', `Open ${curVendor.dist} Link`);
             }
         }
 
         /**
          * set manufacturer info
-         */
+         */ 
         function setManfWebsite() {
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
