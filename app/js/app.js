@@ -968,7 +968,7 @@ const internal = require('stream');
                     var options = [],
                         init = true;
                     p_dist.forEach(vd => {
-                        const val = vd.dist.shortenValue(12);
+                        const val = vd.dist;//.shortenValue(12);
                         const item = { name: val, value: vd.dist, selected: init };
                         options.push(item);
                         init = false;
@@ -1122,7 +1122,6 @@ const internal = require('stream');
                 qty = chance.natural({ min: 1, max: 5000 }),
                 dt_ = moment().format(),
                 date = dt_.substring(0, dt_.lastIndexOf('+'));
-
             if (partsShowJson === undefined) {
                 swal('', 'Please select part!', 'error');
                 return false;
