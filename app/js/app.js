@@ -1299,7 +1299,7 @@ const internal = require('stream');
                 $('#part-show-seller').attr('data-tooltip', `Open ${curVendor.dist} Link`);
             }
         }
-
+        
         /**
          * set manufacturer info
          */ 
