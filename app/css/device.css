@@ -385,8 +385,7 @@ p{
 .swal-modal{
     background-color: #263335;
     border: 2px solid transparent;
-    outline: 2px solid #f68d15;
-    
+    outline: 2px solid #f68d15; 
 }
 .swal-title{
     color:#08f2fa;
@@ -394,6 +393,9 @@ p{
 .swal-text{
     color:#fffffe;
     text-shadow: 0 0 2px #bdfdfd;
+}
+.swal-icon--success::before, .swal-icon--success::after, .swal-icon--success__hide-corners{
+    background-color: #263335 !important;
 }
 .modals .header{
     color: rgb(230, 111, 0) !important;
