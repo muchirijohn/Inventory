@@ -8,7 +8,7 @@
     "postinstall": "electron-builder install-app-deps",
     "start": "electron .",
     "clean": "rm -rf ./dist",
-    "clean:win": "rd /s /q ./dist",
+    "clean:win": "rd /s /q dist",
     "pack": "npm run clean && npm run pack:win",
     "pack:win": "npm run clean:win && electron-packager . \"inventory\" --out=dist --appname=inventory --app-copyright=\"(c) 2022 Muchirijohn\" --platform=win32 --arch=x64 --app-version=1.0.0 --electron-version=17.1.0 --icon=app/res/data/icon.ico --ignore=versions --ignore=release --ignore=docs --win32metadata.CompanyName=\"muchirijohn\" --win32metadata.ProductName=\"inventory\" --win32metadata.FileDescription=\"inventory\" --win32metadata.OriginalFilename=\"inventory.exe\""
   },
