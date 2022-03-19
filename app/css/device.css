@@ -420,6 +420,7 @@ p{
     background-color:transparent !important;
     border: 1px solid rgba(184, 184, 184, 0.55) !important;
     color: #08f2fa !important;
+    border-radius: 6px !important;
 }
 
 .tabular.menu{
