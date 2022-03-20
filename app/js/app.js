@@ -342,7 +342,7 @@ const internal = require('stream');
             item.html(`<div class="image">
             <img class="ui tiny image" src="${getResDir(`images\\${item_data.icon}`)}"></div>
             <div class="content"><a class="header hd-inv-id">${item_data.id}<br><span class="hd-manf-id">${item_data.manf_part_no}</span></a>
-            <div class="description">${item_data.description.shortenString(60)}</div>
+            <div class="description">${item_data.description/*.shortenString(60)*/}</div>
             </div>`);
         }
         /**
