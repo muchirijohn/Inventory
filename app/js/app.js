@@ -52,7 +52,7 @@ const internal = require('stream');
      * @param {Integer} len 
      * @returns String
      */
-    String.prototype.shortenValue = function (len) {
+    String.prototype.shortenString = function (len) {
         if (this.length > len) return this.substring(0, len) + '...';
         else return this;
     }
@@ -342,7 +342,7 @@ const internal = require('stream');
             item.html(`<div class="image">
             <img class="ui tiny image" src="${getResDir(`images\\${item_data.icon}`)}"></div>
             <div class="content"><a class="header hd-inv-id">${item_data.id}<br><span class="hd-manf-id">${item_data.manf_part_no}</span></a>
-            <div class="description">${item_data.description.shortenValue(60)}</div>
+            <div class="description">${item_data.description.shortenString(60)}</div>
             </div>`);
         }
         /**
@@ -968,7 +968,7 @@ const internal = require('stream');
                     var options = [],
                         init = true;
                     p_dist.forEach(vd => {
-                        const val = vd.dist;//.shortenValue(12);
+                        const val = vd.dist;//.shortenString(12);
                         const item = { name: val, value: vd.dist, selected: init };
                         options.push(item);
                         init = false;
