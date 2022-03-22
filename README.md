@@ -43,7 +43,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-Am a mechatronics engineer by profession, however i have been coding since i was 13 years old. I own a small electronics manufacturing lab and finding an inventory app for my parts has been a long time problem.
+Am a mechatronics engineer by profession and i own a small electronics manufacturing lab. Finding an inventory app for my parts has been a long time problem.
 
 There are many great Inventory apps available either open source or commercial; however, I didn't find one that really suited my needs so I created this custom one. I want to create an inventory app thats simple, customizable and easier for your awesome lab inventory -- I think this is it.
 
