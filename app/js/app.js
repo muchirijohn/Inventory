@@ -864,7 +864,7 @@ const internal = require('stream');
             </tbody>`;
                 pElShow.table1.html(t_data);
                 //go to manufacturer website
-                setManfWebsite();
+                setManfWebsite(data.manf);
             } catch (err) { }
         }
 
@@ -1303,12 +1303,13 @@ const internal = require('stream');
         /**
          * set manufacturer info
          */ 
-        function setManfWebsite() {
+        function setManfWebsite(manf) {
+            let manf_el = $('#part-show-table-1 #part-manf-fab');
+            manf_el.html(manf);
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
-                let manf = "Phinalabs";
-                $('#part-show-table-1 part-manf-fab').innerHTML = manf;
-                console.log(manf);
+                manf = "phinalabs"
+                manf_el.html(manf);
                 /*const manf = partsJsonDb[selectedID].manf;
                 dialogs.showTimerMsg(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
