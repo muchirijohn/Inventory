@@ -858,7 +858,7 @@ const internal = require('stream');
             try {
                 const t_data = `<tbody>
             <tr> <td class="two wide column">Type</td><td>${data.type}</td></tr>
-            <tr><td>Manufacturer</td><td>${data.manf}<i class="part-manf industry icon"></i></td></tr>
+            <tr><td>Manufacturer</td><td  id="part-manf-fab"><span>${data.manf}</span><i class="part-manf industry icon"></i></td></tr>
             <tr><td>Package</td><td>${data.package}</td></tr>
             <tr><td>Pinouts</td><td>${data.pins_no}</td></tr>
             </tbody>`;
@@ -1306,6 +1306,7 @@ const internal = require('stream');
         function setManfWebsite() {
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
+                $('#part-show-table-1 #part-manf-fab span').text = "Phinalabs";
                 /*const manf = partsJsonDb[selectedID].manf;
                 dialogs.showTimerMsg(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
