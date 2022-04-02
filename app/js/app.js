@@ -1498,7 +1498,7 @@ const internal = require('stream');
             //get categories
             if (cats.length > 0) {
                 var catgs = cats.trim().split(',');
-                catgs.forEach(catg => {
+                catgs.map(catg => {
                     categories.push(catg.trim());
                 });
             }
@@ -1506,7 +1506,7 @@ const internal = require('stream');
             //get packages
             if (pkgs.length > 0) {
                 var packs = pkgs.trim().split(',');
-                packs.forEach(pck => {
+                packs.map(pck => {
                     packages.push(pck.trim());
                 });
             }
