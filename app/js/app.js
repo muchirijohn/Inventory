@@ -858,7 +858,7 @@ const internal = require('stream');
             try {
                 const t_data = `<tbody>
             <tr> <td class="two wide column">Type</td><td>${data.type}</td></tr>
-            <tr><td>Manufacturer</td><td><span id="part-manf-fab">${data.manf}</span><i class="part-manf industry icon"></i></td></tr>
+            <tr><td>Manufacturer</td><td><span id="part-manf-fab">${''/*data.manf*/}</span><i class="part-manf industry icon"></i></td></tr>
             <tr><td>Package</td><td>${data.package}</td></tr>
             <tr><td>Pinouts</td><td>${data.pins_no}</td></tr>
             </tbody>`;
