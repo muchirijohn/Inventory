@@ -1310,9 +1310,7 @@ const internal = require('stream');
             var getManf = () => {
                 if (manf_type.index === (manf_type.manfs.length - 1)) manf_type.index = -1;
                 manf_type.index++;
-                var manf_ = manf_type.manfs[manf_type.index];
-                console.log(manf_type.index)
-                manf_el.html(manf_);
+                manf_el.html(manf_type.manfs[manf_type.index]);
             }
             getManf();
             $('.part-manf.icon').on('click', (e) => {
