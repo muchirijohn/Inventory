@@ -640,32 +640,34 @@ const internal = require('stream');
             cat_pkg = [false, false],
             isPartNew = true;
         //modal elemnt
-        var ptModal = $('#modal-part-add');
-        //parts add modal elements
-        var pEl = {
-            id: $('#part-add-id'),
-            stock: $('#part-add-stock'),
-            type: $('#part-add-cat'),
-            manf: $('#part-add-manf'),
-            manf_part_no: $('#part-add-num'),
-            package: $('#part-add-pkg'),
-            pins_no: $('#part-add-pins'),
-            datasheet: $('#part-add-dsheet'),
-            description: $('#part-add-desc'),
-            icon: $('#part-add-icon'),
-            cad: $('#part-add-cad'),
-            specs: $('#part-add-spec'),
-            images: $('#part-add-images'),
-            stock_limit: $('#part-add-slimit'),
-            notes: $('#part-add-notes'),
-            dist: $('#part-add-distbs')
-        };
+        var ptModal = $('#modal-part-add'),
+            //parts add modal elements
+            pEl = {
+                id: $('#part-add-id'),
+                stock: $('#part-add-stock'),
+                type: $('#part-add-cat'),
+                manf: $('#part-add-manf'),
+                manf_part_no: $('#part-add-num'),
+                package: $('#part-add-pkg'),
+                pins_no: $('#part-add-pins'),
+                datasheet: $('#part-add-dsheet'),
+                description: $('#part-add-desc'),
+                icon: $('#part-add-icon'),
+                cad: $('#part-add-cad'),
+                specs: $('#part-add-spec'),
+                images: $('#part-add-images'),
+                stock_limit: $('#part-add-slimit'),
+                notes: $('#part-add-notes'),
+                dist: $('#part-add-distbs')
+            };
         //preiovus shown id
         var selectedID = '',
             //distributors array object
             distObj = [],
             //current vendor info
             curVendor = {};
+        //manufacturers array object
+        var manf_type = { index: -1, manfs: [] };
         /**
          * clear modal part fields
          */
@@ -1303,10 +1305,11 @@ const internal = require('stream');
         /**
          * set manufacturer info
          */
-        var manf_type = { index: -1, manfs: [] };
         function setManfWebsite(manf) {
             let manf_el = $('#part-show-table-1 #part-manf-fab');
+            //get manfs
             manf_type.manfs = manf.split(',');
+            //get a manufacturer from the manf list
             var getManf = () => {
                 if (manf_type.index === (manf_type.manfs.length - 1)) manf_type.index = -1;
                 manf_type.index++;
