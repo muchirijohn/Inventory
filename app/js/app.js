@@ -974,7 +974,7 @@ const internal = require('stream');
                         init = false;
                     });
                     $('#part-show-dist').dropdown('change values', options);
-                } catch (err) {}
+                } catch (err) { }
             },
             //show stock
             partShowStock = (stock) => {
@@ -1299,22 +1299,25 @@ const internal = require('stream');
                 $('#part-show-seller').attr('data-tooltip', `Open ${curVendor.dist} Link`);
             }
         }
-        
+
         /**
          * set manufacturer info
-         */ 
-        var manf_type = {index: 0, manfs = []};
+         */
+        var manf_type = { index: -1, manfs: [] };
         function setManfWebsite(manf) {
             let manf_el = $('#part-show-table-1 #part-manf-fab');
             manf_type.manfs = manf.split(',');
-            manf_el.html(manf_type.manfs[manf_type.index]);
-            console.log(manf_facts);
+            var getManf = () => {
+                if (manf_type.index === (manf_type.manfs.length - 1)) manf_type.index = -1;
+                manf_type.index++;
+                var manf_ = manf_type.manfs[manf_type.index];
+                console.log(manf_type.index)
+                manf_el.html(manf_);
+            }
+            getManf();
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
-                manf_type.index = (manf_type.index >= manf_type.manfs.length) ? 0 : manf_type.index++;
-                var manf_ = manf_type.manfs[manf_type.index];
-                console.log(manf_)
-                manf_el.html(manf_);
+                getManf();
                 /*const manf = partsJsonDb[selectedID].manf;
                 dialogs.showTimerMsg(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
