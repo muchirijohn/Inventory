@@ -903,7 +903,7 @@ const internal = require('stream');
                 parent.empty();
                 if (notes === undefined || notes.trim().length === 0) return;
                 notes = notes.split('\n');
-                notes.forEach(note => {
+                notes.map(note => {
                     parent.append($(`<div></div>`)
                         .addClass('item')
                         .html(`<i class="caret right icon"></i> ${note}`));
