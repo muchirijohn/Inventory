@@ -1303,13 +1303,18 @@ const internal = require('stream');
         /**
          * set manufacturer info
          */ 
+        var manf_type = {index: 0, manfs = []};
         function setManfWebsite(manf) {
             let manf_el = $('#part-show-table-1 #part-manf-fab');
-            manf_el.html(manf);
+            manf_type.manfs = manf.split(',');
+            manf_el.html(manf_type.manfs[manf_type.index]);
+            console.log(manf_facts);
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
-                manf = "phinalabs"
-                manf_el.html(manf);
+                manf_type.index = (manf_type.index >= manf_type.manfs.length) ? 0 : manf_type.index++;
+                var manf_ = manf_type.manfs[manf_type.index];
+                console.log(manf_)
+                manf_el.html(manf_);
                 /*const manf = partsJsonDb[selectedID].manf;
                 dialogs.showTimerMsg(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
