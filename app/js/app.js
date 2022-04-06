@@ -667,7 +667,7 @@ const internal = require('stream');
             //current vendor info
             curVendor = {};
         //manufacturers array object
-        var manf_type = { index: -1, manfs: [] };
+        var manf_type = { index: 0, manfs: [] };
         /**
          * clear modal part fields
          */
@@ -1309,10 +1309,12 @@ const internal = require('stream');
             let manf_el = $('#part-show-table-1 #part-manf-fab');
             //get manfs
             manf_type.manfs = manf.split(',');
+            console.log([manf_type.manfs, manf_type.index]);
+            manf_type.index = 0;
             //get a manufacturer from the manf list
             var getManf = () => {
-                if (manf_type.index === (manf_type.manfs.length - 1)) manf_type.index = -1;
-                manf_type.index++;
+                if (manf_type.index == (manf_type.manfs.length-1)) manf_type.index = 0;
+                else manf_type.index++;
                 manf_el.html(manf_type.manfs[manf_type.index]);
             }
             getManf();
