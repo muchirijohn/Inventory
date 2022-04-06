@@ -604,11 +604,11 @@ const internal = require('stream');
                 parent.dropdown({
                     values: options,
                     onChange: function (value, text, $selectedItem) {
-                        //console.log(value)
+                        /*console.log(value)
                         if (value !== undefined && init_cat === true) {
                             if (init_cat) database.dbSearch(false, value);
                         }
-                        if (value.length > 0) init_cat = true;
+                        if (value.length > 0) init_cat = true;*/
                     }
                 });
             }
@@ -905,7 +905,7 @@ const internal = require('stream');
                 parent.empty();
                 if (notes === undefined || notes.trim().length === 0) return;
                 notes = notes.split('\n');
-                notes.map(note => {
+                notes.forEach(note => {
                     parent.append($(`<div></div>`)
                         .addClass('item')
                         .html(`<i class="caret right icon"></i> ${note}`));
@@ -1511,7 +1511,7 @@ const internal = require('stream');
             //get categories
             if (cats.length > 0) {
                 var catgs = cats.trim().split(',');
-                catgs.map(catg => {
+                catgs.forEach(catg => {
                     categories.push(catg.trim());
                 });
             }
@@ -1519,7 +1519,7 @@ const internal = require('stream');
             //get packages
             if (pkgs.length > 0) {
                 var packs = pkgs.trim().split(',');
-                packs.map(pck => {
+                packs.forEach(pck => {
                     packages.push(pck.trim());
                 });
             }
