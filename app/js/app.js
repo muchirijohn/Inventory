@@ -154,7 +154,6 @@ const internal = require('stream');
                 db.run(sql, [], (err) => {
                     if (err) {
                         swal("Error", "Failed to save Part. Please verify all the fields", "error");
-                        console.log(err);
                     } else {
                         swal("Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success");
                     }
@@ -750,7 +749,6 @@ const internal = require('stream');
                 listUi.addNewPartItem(data);
                 if (partsJsonIDs.length === 1) initPartShow();
             }
-            console.log(sql);
             database.dbRunSavePartQuery(sql, isPartNew);
         }
 
@@ -1311,7 +1309,6 @@ const internal = require('stream');
             let manf_el = $('#part-show-table-1 #part-manf-fab');
             //get manfs
             manf_type.manfs = manf.split(',');
-            console.log([manf_type.manfs, manf_type.index]);
             manf_type.index = 0;
             //get a manufacturer from the manf list
             var getManf = () => {
