@@ -154,6 +154,7 @@ const internal = require('stream');
                 db.run(sql, [], (err) => {
                     if (err) {
                         swal("Error", "Failed to save Part. Please verify all the fields", "error");
+                        console.log(err);
                     } else {
                         swal("Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success");
                     }
@@ -728,7 +729,7 @@ const internal = require('stream');
                     cad, specs, images, stock_limit, notes,dist) VALUES (
                         "${data.id}", "${data.stock}", "${data.type}", "${data.manf}", "${data.manf_part_no}", "${data.package}", "${data.pins_no}",
                         "${data.datasheet}", "${data.description}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
-                        "${data.stock_limit}", "${data.notes}, "${data.dist}")`;
+                        "${data.stock_limit}", "${data.notes}", "${data.dist}")`;
             } else {
                 sql = `UPDATE parts SET 
                         stock="${data.stock}", type="${data.type}", manf="${data.manf}", 
@@ -749,6 +750,7 @@ const internal = require('stream');
                 listUi.addNewPartItem(data);
                 if (partsJsonIDs.length === 1) initPartShow();
             }
+            console.log(sql);
             database.dbRunSavePartQuery(sql, isPartNew);
         }
 
