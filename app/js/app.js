@@ -22,7 +22,7 @@ const internal = require('stream');
         moment = require('moment');
 
     const { dialogs } = require('./js/dialogs');
-    const { filterInt } = require('./js/utils');
+    const { utils } = require('./js/utils');
     const {settings} = require('./js/settings');
     const {database} = require('./js/database');
 
@@ -756,7 +756,7 @@ const internal = require('stream');
                     pElShow.desc.html(`<span class="column sixteen wide">${partsShowJson.description}</span>`);
                     //stock
                     if (partsShowJson.stock == 0) slv = 2;
-                    else if (filterInt(partsShowJson.stock) < filterInt(partsShowJson.stock_limit)) slv = 1;
+                    else if (utils.filterInt(partsShowJson.stock) < utils.filterInt(partsShowJson.stock_limit)) slv = 1;
                     pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
                     //show stock
                     partShowStock(partsShowJson.stock);
@@ -908,15 +908,15 @@ const internal = require('stream');
             qty = (trs ? '+' : '-') + qty;
             var id_ = partsShowJson.id,
                 log = [id_, uid, date, qty, (trs ? 1 : 0), desc],
-                lstk = filterInt(qty);
+                lstk = utils.filterInt(qty);
             if (lstk !== NaN) {
                 var stock = partsJsonDb[id_].stock;
-                stock = filterInt(stock) + filterInt(lstk);
+                stock = utils.filterInt(stock) + utils.filterInt(lstk);
                 partsJsonDb[id_].stock = stock;
                 partShowData(partsJsonDb[id_], false);
             }
             //createlog(log, true);
-            var logObj = { part_id: log[0], user: log[1], date: log[2], quantity: filterInt(log[3]), state: log[4], desc: log[5] };
+            var logObj = { part_id: log[0], user: log[1], date: log[2], quantity: utils.filterInt(log[3]), state: log[4], desc: log[5] };
             //save logs to array object
             if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
             //save to logs to db
@@ -1461,6 +1461,6 @@ const internal = require('stream');
      * on window load
      */
     $(function () {
-        readPreferences();
+        readPreferences(mainUi.init);
     });
 })({});

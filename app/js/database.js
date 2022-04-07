@@ -108,7 +108,7 @@ var database = (function database() {
      * save part log
      * @param {sql statement} sql 
      */
-    function dbRunSaveLog(log, stock = -1) {
+    function dbRunSaveLog(log, stock = -1, fxn) {
         if (db === null) dbConnect();
         var sql = `INSERT INTO logs
             (part_id,user,date,quantity,state,desc)
