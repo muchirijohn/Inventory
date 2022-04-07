@@ -156,7 +156,7 @@ const internal = require('stream');
          */
         function generateList(list_data) {
             if (list_data.length == 0) {
-                swal("Inventory", "Part(s) not found!", "error");
+                dialogs.showNotify(["Inventory", "Part(s) not found!", "error"]);
                 return;
             }
             //clear list if any

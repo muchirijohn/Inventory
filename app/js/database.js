@@ -1,9 +1,7 @@
 const path = require('path'),
     fs = require('fs-extra'),
-    swal = require('sweetalert'),
-    moment = require('moment'),
-    settings = require('./settings'),
-    dialogs = require('./js/dialogs');
+    { settings } = require('./settings'),
+    { dialogs } = require('./dialogs');
 /**
      * database
      */
@@ -129,7 +127,7 @@ var database = (function database() {
                 sql = `UPDATE parts SET stock='${stock}' WHERE id='${log[0]}'`;
                 db.run(sql, [], (err) => {
                     if (err) {
-                        swal("Error", "Failed to update stock.", "error");
+                        dialogs.showNotify(["Error", "Failed to update stock.", "error"]);
                     }
                 });
             }
@@ -148,7 +146,7 @@ var database = (function database() {
         db.serialize(function () {
             db.run(sql, [], (err) => {
                 if (err) {
-                    swal("Error", "Failed to delete log.", "error");
+                    dialogs.showNotify(["Error", "Failed to delete log.", "error"]);
                 } else {
                     fxn();
                 }
@@ -168,14 +166,14 @@ var database = (function database() {
         db.serialize(function () {
             db.run(sql, [], (err) => {
                 if (err) {
-                    swal("Error", "Failed to delete part.", "error");
+                    dialogs.showNotify(["Error", "Failed to delete part.", "error"]);
                 } else {
                     //delete logs
                     var sql = `DELETE FROM logs WHERE part_id='${id}'`;
                     db.serialize(function () {
                         db.run(sql, [], (err) => {
                             if (err) {
-                                swal("Error", "Failed to delete logs.", "error");
+                                dialogs.showNotify(["Error", "Failed to delete logs.", "error"]);
                             } else {
                                 fxn();
                             }
@@ -232,7 +230,7 @@ var database = (function database() {
                         if (err) {
                             console.log(err);
                         } else {
-                            swal("Success", "Database updated. Please Restart application!", "success");
+                            dialogs.showNotify(["Success", "Database updated. Please Restart application!", "success"]);
                         }
                     });
                 }
