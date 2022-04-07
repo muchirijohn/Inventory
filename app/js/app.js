@@ -721,20 +721,24 @@ const internal = require('stream');
                 swal('Error', 'Part ID cannot be null!', 'error');
                 return;
             }
+            let storage = JSON.stringify({
+                shelf: data.shelf,
+                box: data.box
+            });
             if (isPartNew === true) {
                 sql = `INSERT INTO parts 
                     (id, stock, type, manf, manf_part_no, package, pins_no, datasheet, description, icon, 
-                    cad, specs, images, stock_limit, notes,dist) VALUES (
+                    cad, specs, images, stock_limit, notes,dist, storage) VALUES (
                         "${data.id}", "${data.stock}", "${data.type}", "${data.manf}", "${data.manf_part_no}", "${data.package}", "${data.pins_no}",
                         "${data.datasheet}", "${data.description}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
-                        "${data.stock_limit}", "${data.notes}", "${data.dist}")`;
+                        "${data.stock_limit}", "${data.notes}", "${data.dist}", "${storage}")`;
             } else {
                 sql = `UPDATE parts SET 
                         stock="${data.stock}", type="${data.type}", manf="${data.manf}", 
                         manf_part_no="${data.manf_part_no}", package="${data.package}", pins_no="${data.pins_no}",
                         datasheet="${data.datasheet}", description="${data.description}", icon="${data.icon}", 
                         cad="${data.cad}", specs="${data.specs}", images="${data.images}",
-                        stock_limit="${data.stock_limit}", notes="${data.notes}", dist="${data.dist}"
+                        stock_limit="${data.stock_limit}", notes="${data.notes}", dist="${data.dist}", storage="${storage}"
                     WHERE
                         id="${data.id}"`;
                 partsJsonDb[data.id] = data;
@@ -1662,7 +1666,6 @@ const internal = require('stream');
                     scr = true;
                 }
             });
-            //database.dbSetPartStorage();
             //load main ui on success
             setTimeout(() => {
                 $('#div-main-load').empty().hide();
