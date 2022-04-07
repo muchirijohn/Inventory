@@ -2,7 +2,7 @@
 /* SPDX-License-Identifier: MIT */
 /* SnippetCopyrightText: Copyright © 2022 peanut inventory, muchirijohn */
 
-'use strict'; 
+'use strict';
 
 const { UUID } = require('builder-util-runtime');
 const { dir } = require('console');
@@ -34,22 +34,14 @@ const internal = require('stream');
         partsJsonDb = Object.create(null),
         //part ids
         partsJsonIDs = [],
-    //parse ints
-    /*filterInt = (value) => {
-        if (/^[-+]?(\d+|Infinity)$/.test(value)) {
-            return Number(value)
-        } else {
-            return NaN
-        }
-    },*/
-    //get resources directory to fetch data from
-    getResDir = (src) => {
-        var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
-            s_dir = `${a_dir}\\${src}`;
-        const exists = fs.pathExistsSync(s_dir);
-        if (exists === false) s_dir = `${app_dir}\\res\\${src}`;
-        return s_dir;
-    };
+        //get resources directory to fetch data from
+        getResDir = (src) => {
+            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
+                s_dir = `${a_dir}\\${src}`;
+            const exists = fs.pathExistsSync(s_dir);
+            if (exists === false) s_dir = `${app_dir}\\res\\${src}`;
+            return s_dir;
+        };
 
     /**
      * Shorten string
