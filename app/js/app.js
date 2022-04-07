@@ -5,7 +5,7 @@
 'use strict';
 
 const { UUID } = require('builder-util-runtime');
-const { dir } = require('console');
+const { dir, Console } = require('console');
 const { create } = require('domain');
 const { each, data } = require('jquery');
 const { off } = require('process');
@@ -264,37 +264,20 @@ const internal = require('stream');
          * set part storage location
          * @param {String} sql 
          */
-        async function dbSetPartStorage(sql) {
-            var saveStorage = ()=>{
-                db.run(sql, [], (err) => {
-                    if (err) {
-                        swal("Error", "Failed to set storage.", "error");
-                    } else {
-                        swal("Success", "Storage set successfully.", "success");
-                    }
-                });
-            };
-
+        async function dbSetPartStorage() {
             if (db === null) dbConnect();
             db.serialize(function () {
-                //check db
-                let csql  = `SELECT * FROM parts WHERE limit = 1`;
-                db.run(sql, [], (err, rows) => {
+                //check storage field in db
+                let csql = `SELECT storage FROM parts LIMIT 1`;
+                db.all(csql, [], (err, rows) => {
                     if (err) {
-                        swal("Error", "Failed to set storage.", "error");
-                    } else {
-                        if(rows.storage == undefined){
-                            csql = 'ALTER table parts ADD COLUMN storage TEXT';
-                            db.run(csql, [], (err) => {
-                                if (err) {
-                                    swal("Error", "Failed to set storage.", "error");
-                                } else {
-                                   saveStorage();
-                                }
-                            });
-                        }else{
-                        saveStorage();
-                        }
+                        //add field if not exists
+                        csql = 'ALTER table parts ADD COLUMN storage TEXT';
+                        db.run(csql, [], (err) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
                     }
                 });
             });
@@ -302,6 +285,7 @@ const internal = require('stream');
 
         function init() {
             createUserDb();
+            dbSetPartStorage();
         }
 
         return {
@@ -556,7 +540,6 @@ const internal = require('stream');
                     }
                 });
             });
-
         }
 
         return {
@@ -1679,6 +1662,7 @@ const internal = require('stream');
                     scr = true;
                 }
             });
+            //database.dbSetPartStorage();
             //load main ui on success
             setTimeout(() => {
                 $('#div-main-load').empty().hide();
