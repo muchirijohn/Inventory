@@ -466,7 +466,7 @@ const internal = require('stream');
                 sql = '';
             //updateFields = ()=>{}
             if (data.id.length == 0) {
-                swal('Error', 'Part ID cannot be null!', 'error');
+                dialogs.showNotify(['Error', 'Part ID cannot be null!', 'error']);
                 return;
             }
             let storage = JSON.stringify({
@@ -780,7 +780,7 @@ const internal = require('stream');
             //edit part data - show edit modal
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
-                    swal('', 'Please select part!', 'error');
+                    dialogs.showNotify(['', 'Please select part!', 'error']);
                     return false;
                 }
                 var keys = Object.keys(pEl),
@@ -884,7 +884,7 @@ const internal = require('stream');
                 dt_ = moment().format(),
                 date = dt_.substring(0, dt_.lastIndexOf('+'));
             if (partsShowJson === undefined) {
-                swal('', 'Please select part!', 'error');
+                dialogs.showNotify(['', 'Please select part!', 'error']);
                 return false;
             }
             var partStock = partsShowJson.stock;
@@ -893,18 +893,18 @@ const internal = require('stream');
                 desc = $('#part-log-desc').val();
             //check if quantity not empty
             if (isNaN(qty) || qty.length === 0) {
-                swal('', 'Quantity should be a numeric value!', 'error');
+                dialogs.showNotify(['', 'Quantity should be a numeric value!', 'error']);
                 return false;
             }
             //console.log(partStock.length)
             //check if quantity available
             if ((partStock.length === 0 || parseInt(qty) > parseInt(partStock)) && !trs) {
-                swal('', `Quantity(${qty}) greater than available stock(${partStock})!`, 'error');
+                dialogs.showNotify(['', `Quantity(${qty}) greater than available stock(${partStock})!`, 'error']);
                 return false;
             }
             //check if desc empty
             if (desc.length === 0) {
-                swal('', 'Description cannot be empty!', 'error');
+                dialogs.showNotify(['', 'Description cannot be empty!', 'error']);
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
@@ -931,7 +931,7 @@ const internal = require('stream');
          */
         var deleteLogNotify = () => {
             if (prevLogEl === null) {
-                swal('Error', 'The part has no logs', 'error');
+                dialogs.showNotify(['Error', 'The part has no logs', 'error']);
                 return;
             }
             //show confirmation
@@ -976,7 +976,7 @@ const internal = require('stream');
                         }
                     database.dbDeleteLog(qr, callback);
                 } catch (err) {
-                    swal('Error', 'Failed to delete log!', 'error');
+                    dialogs.showNotify(['Error', 'Failed to delete log!', 'error']);
                 }
             }
 
@@ -990,7 +990,7 @@ const internal = require('stream');
             if (exists === true) {
                 (cad === false) ? shell.openPath(file) : shell.openExternal(file);
             } else {
-                swal('', 'file not found', 'error');
+                dialogs.showNotify(['', 'file not found', 'error']);
             }
         }
 
@@ -1139,7 +1139,6 @@ const internal = require('stream');
             $('#part-show-btn-del').on('click', (e) => {
                 e.preventDefault();
                 deletePart();
-                //swal('Delete', 'Not yet!! A cup of coffee and it\'ll be implemented :-)', 'info');
             });
             //edit part
             $('#part-show-btn-edit').on('click', (e) => {
@@ -1177,7 +1176,7 @@ const internal = require('stream');
                 try {
                     e.preventDefault();
                     if (partsShowJson.datasheet.indexOf('.') === -1) {
-                        swal('Datasheet', 'Datasheet File not set', 'error');
+                        dialogs.showNotify(['Datasheet', 'Datasheet File not set', 'error']);
                         return;
                     }
                     var url = getResDir(`\\datasheets\\${partsShowJson.datasheet}`);
