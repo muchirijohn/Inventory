@@ -4,7 +4,11 @@ const swal = require('sweetalert');
 * alert dialogs
 */
 var dialogs = (function dialogs() {
-    
+
+    /**
+     * show a timed dialog message
+     * @param {String} msg  message to display
+     */
     function showTimerMsg(msg) {
         swal({
             title: msg[0],

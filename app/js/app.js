@@ -2,7 +2,7 @@
 /* SPDX-License-Identifier: MIT */
 /* SnippetCopyrightText: Copyright © 2022 peanut inventory, muchirijohn */
 
-
+'use strict'; 
 
 const { UUID } = require('builder-util-runtime');
 const { dir } = require('console');
@@ -33,7 +33,7 @@ const internal = require('stream');
         //temp pats db -- global
         partsJsonDb = Object.create(null),
         //part ids
-        partsJsonIDs = [];
+        partsJsonIDs = [],
     //parse ints
     /*filterInt = (value) => {
         if (/^[-+]?(\d+|Infinity)$/.test(value)) {
