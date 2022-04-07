@@ -2,7 +2,8 @@ const path = require('path'),
     fs = require('fs-extra'),
     swal = require('sweetalert'),
     moment = require('moment'),
-    { settings } = require('./settings');
+    settings = require('./settings'),
+    dialogs = require('./js/dialogs');
 /**
      * database
      */
@@ -79,9 +80,9 @@ var database = (function database() {
             db.run(sql, [], (err) => {
                 if (err) {
                     console.log(err)
-                    swal("Error", "Failed to save Part. Please verify all the fields", "error");
+                    dialogs.showNotify(["Error", "Failed to save Part. Please verify all the fields", "error"]);
                 } else {
-                    swal("Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success");
+                    dialogs.showNotify(["Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success"]);
                 }
             });
         });
@@ -118,7 +119,7 @@ var database = (function database() {
         db.serialize(function () {
             db.run(sql, [], (err) => {
                 if (err) {
-                    swal("Error", "Failed to save log.", "error");
+                    dialogs.showNotify(["Error", "Failed to save log.", "error"]);
                 } else {
                     fxn(log);
                     //partAddEditUi.createlog(log);

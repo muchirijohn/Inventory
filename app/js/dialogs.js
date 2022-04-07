@@ -20,6 +20,18 @@ var dialogs = (function dialogs() {
         })
     }
 
+    /**
+     * show notofication dialog
+     * @param {Array} msg 
+     */
+    function showNotify(msg) {
+        let title = msg[0], 
+        message = msg[1],
+        icon = msg[2];
+        //show notification
+        swal(title, message, icon);
+    }
+
     return {
         showTimerMsg: showTimerMsg
     }
