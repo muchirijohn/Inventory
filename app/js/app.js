@@ -672,7 +672,9 @@ const internal = require('stream');
                 images: $('#part-add-images'),
                 stock_limit: $('#part-add-slimit'),
                 notes: $('#part-add-notes'),
-                dist: $('#part-add-distbs')
+                dist: $('#part-add-distbs'),
+                shelf: $('#part-add-shelf'),
+                box: $('#part-add-box')
             };
         //preiovus shown id
         var selectedID = '',
