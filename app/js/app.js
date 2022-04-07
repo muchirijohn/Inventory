@@ -277,6 +277,8 @@ const internal = require('stream');
                         db.run(csql, [], (err) => {
                             if (err) {
                                 console.log(err);
+                            }else{
+                                swal("Success", "Database updated. Please Restart application!", "success");
                             }
                         });
                     }
@@ -725,24 +727,26 @@ const internal = require('stream');
             let storage = JSON.stringify({
                 'shelf': data.shelf,
                 'box': data.box
-            }).replace(/\"/g,"\"\"");
-            console.log(storage);
+            }),
+            storageDb = storage.replace(/\"/g,"\"\"");
+            //console.log(storage);
             if (isPartNew === true) {
                 sql = `INSERT INTO parts 
                     (id, stock, type, manf, manf_part_no, package, pins_no, datasheet, description, icon, 
                     cad, specs, images, stock_limit, notes,dist, storage) VALUES (
                         "${data.id}", "${data.stock}", "${data.type}", "${data.manf}", "${data.manf_part_no}", "${data.package}", "${data.pins_no}",
                         "${data.datasheet}", "${data.description}", "${data.icon}", "${data.cad}", "${data.specs}", "${data.images}",
-                        "${data.stock_limit}", "${data.notes}", "${data.dist}", "${storage}")`;
+                        "${data.stock_limit}", "${data.notes}", "${data.dist}", "${storageDb}")`;
             } else {
                 sql = `UPDATE parts SET 
                         stock="${data.stock}", type="${data.type}", manf="${data.manf}", 
                         manf_part_no="${data.manf_part_no}", package="${data.package}", pins_no="${data.pins_no}",
                         datasheet="${data.datasheet}", description="${data.description}", icon="${data.icon}", 
                         cad="${data.cad}", specs="${data.specs}", images="${data.images}",
-                        stock_limit="${data.stock_limit}", notes="${data.notes}", dist="${data.dist}", storage="${storage}"
+                        stock_limit="${data.stock_limit}", notes="${data.notes}", dist="${data.dist}", storage="${storageDb}"
                     WHERE
                         id="${data.id}"`;
+                data['storage'] = storage;
                 partsJsonDb[data.id] = data;
                 partShowData(data);
                 listUi.listItemContent(data, null, true);
@@ -1038,12 +1042,13 @@ const internal = require('stream');
                     pkeys = Object.keys(partsShowJson),
                     cat = categoriesUi.categories(),
                     storage = JSON.parse(partsShowJson.storage);
+                    //console.log(storage)
                 for (var i = 0; i < keys.length; i++) {
                     if (keys[i] === 'type' || keys[i] === 'package') {
                         var val = partsShowJson[pkeys[i]];
                         pEl[keys[i]].dropdown('set exactly', [val]);
                     }else if(keys[i] == 'shelf' || keys[i] == 'box'){
-                        let value = storage !== null ? storage[keys[i]] : '';
+                        let value = (storage !== null) ? storage[keys[i]] : '';
                         pEl[keys[i]].val(value);
                     } else {
                         pEl[keys[i]].val(partsShowJson[pkeys[i]]);
