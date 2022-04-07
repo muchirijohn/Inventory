@@ -1,7 +1,14 @@
 const path = require('path');
 
-const app_dir = path.join(__dirname, '..');
-const pref_default_path = path.join(__dirname,'..', 'res/data/pref_default.json');
-const pref_user_path =  path.join(__dirname, '..', 'res/data/pref_user.json');
+var settings = (function settings() {
 
-module.exports = { app_dir, pref_default_path, pref_user_path };
+    //app main directory
+    const appDir = path.join(__dirname, '..');
+    //default preferences
+    const defaultPref = path.join(__dirname, '..', 'res/data/pref_default.json');
+    //user preferences
+    const userPref = path.join(__dirname, '..', 'res/data/pref_user.json');
+
+})();
+
+module.exports = { settings };

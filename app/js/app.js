@@ -4,6 +4,7 @@
 
 'use strict';
 
+const { require } = require('@electron/remote');
 const { UUID } = require('builder-util-runtime');
 const { dir, Console } = require('console');
 const { create } = require('domain');
@@ -23,9 +24,8 @@ const internal = require('stream');
 
     const { dialogs } = require('./js/dialogs');
     const { filterInt } = require('./js/utils');
-    const {app_dir, pref_default_path, pref_user_path } = require('./js/settings');
-    
-    console.log(pref_user_path)
+    const {settings} = require('./js/settings');
+
     //var to hold app preferences
     var app_prefs = Object.create(null),
         //temp pats db -- global
@@ -34,10 +34,10 @@ const internal = require('stream');
         partsJsonIDs = [],
         //get resources directory to fetch data from
         getResDir = (src) => {
-            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
+            var a_dir = ((app_prefs.default === true) ? `${settings.appDir}\\${app_prefs.dir}` : app_prefs.dir),
                 s_dir = `${a_dir}\\${src}`;
             const exists = fs.pathExistsSync(s_dir);
-            if (exists === false) s_dir = `${app_dir}\\res\\${src}`;
+            if (exists === false) s_dir = `${settings.appDir}\\res\\${src}`;
             return s_dir;
         };
 
@@ -65,8 +65,8 @@ const internal = require('stream');
          */
         function dbConnect() {
             //check if to switch to user db
-            var db_url = `${app_dir}/res/data/${db_name}`;
-            var file = `${app_dir}/res/data/phi_inventory_user.db`;
+            var db_url = `${settings.appDir}/res/data/${db_name}`;
+            var file = `${settings.appDir}/res/data/phi_inventory_user.db`;
             const exists = fs.pathExistsSync(file);
             if (exists) db_url = file;
             //connect db
@@ -250,10 +250,10 @@ const internal = require('stream');
          * create user db
          */
         async function createUserDb() {
-            var file = `${app_dir}/res/data/phi_inventory_user.db`;
+            var file = `${settings.appDir}/res/data/phi_inventory_user.db`;
             const exists = await fs.pathExists(file);
             if (exists !== true) {
-                await fs.copy(`${app_dir}/res/data/phi_inventory.db`, `${app_dir}/res/data/phi_inventory_user.db`);
+                await fs.copy(`${settings.appDir}/res/data/phi_inventory.db`, `${settings.appDir}/res/data/phi_inventory_user.db`);
                 db_name = 'phi_inventory_user.db';
                 db = null;
             }
@@ -1545,7 +1545,7 @@ const internal = require('stream');
             //create cad folder
             fs.ensureDirSync(dir + '/cad/');
             //write to preferencess folder
-            var pref_path = pref_user_path;
+            var pref_path = settings.userPref;
             //fs.outputFileSync(pref_path, JSON.stringify(prefs));
             fs.outputFile(pref_path, JSON.stringify(prefs))
                 .then(() => fs.readJson(pref_path))
@@ -1695,8 +1695,8 @@ const internal = require('stream');
      * read user preferences
      */
     async function readPreferences() {
-        const u_path = await fs.pathExists(pref_user_path);
-        var pref_path = u_path ? pref_user_path : pref_default_path;
+        const u_path = await fs.pathExists(settings.userPref);
+        var pref_path = u_path ? settings.userPref : settings.defaultPref;
         const d_path = await fs.pathExists(pref_path);
         if (d_path === true) {
             try {
