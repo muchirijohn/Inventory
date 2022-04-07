@@ -282,9 +282,7 @@ const internal = require('stream');
                 }).then((willDelete) => {
                     if (willDelete) {
                         partAddEditUi.partClearFields();
-                        swal("Contents cleared!", {
-                            icon: "success",
-                        });
+                        dialogs.showNotify(['', "Contents cleared!", "success"]);
                     }
                 });
             });
@@ -774,7 +772,7 @@ const internal = require('stream');
                         partsShowNotes(partsShowJson.notes)
                     }
                 } catch (err) {
-                    swal('', 'Failed to show part data', 'error');
+                    dialogs.showNotify(['', 'Failed to show part data', 'error']);
                 }
             },
             //edit part data - show edit modal
@@ -1200,7 +1198,7 @@ const internal = require('stream');
                 try {
                     e.preventDefault();
                     if (partsShowJson.cad.indexOf('.') === -1) {
-                        swal('CAD', 'Cad File not set', 'error');
+                        dialogs.showNotify(['CAD', 'Cad File not set', 'error']);
                         return;
                     }
                     var url = getResDir(`\\cad\\${partsShowJson.cad}`);
@@ -1262,7 +1260,7 @@ const internal = require('stream');
             //check if directory valid
             const exists = fs.pathExistsSync(dir);
             if (exists === false) {
-                swal('Preferences', 'Please set app directory', 'error');
+                dialogs.showNotify(['Preferences', 'Please set app directory', 'error']);
                 return false
             }
             //dir
@@ -1298,10 +1296,10 @@ const internal = require('stream');
                 .then(pref => {
                     app_prefs = pref;
                     partAddEditUi.initAllSelections(true);
-                    swal('Preferences', 'Saved successfully!', 'success');
+                    dialogs.showNotify(['Preferences', 'Saved successfully!', 'success']);
                 })
                 .catch(err => {
-                    swal('Preferences', 'An error occured!', 'error');
+                    dialogs.showNotify(['Preferences', 'An error occured!', 'error']);
                 });
             //close dialog
             return true;
@@ -1315,7 +1313,7 @@ const internal = require('stream');
                 properties: ['openDirectory']
             });
             if (dg === undefined) {
-                swal('', 'Please select a directory', 'error');
+                dialogs.showNotify(['', 'Please select a directory', 'error']);
             } else {
                 $('#app-config-dir').val(dg[0]);
             }
@@ -1451,11 +1449,11 @@ const internal = require('stream');
                 //$('#div-main-load span').text('Finalizing...');  
             } catch (err) {
                 $('#div-main-load span').text('Error...');
-                swal('Error', 'Ops! Something under the hood fried!', 'error');
+                dialogs.showNotify(['Error', 'Ops! Something under the hood fried!', 'error']);
             }
         } else {
             $('#div-main-load span').text('Error...');
-            swal('Error', 'Application preferences file is missing!', 'error');
+            dialogs.showNotify(['Error', 'Application preferences file is missing!', 'error']);
         }
     }
 
