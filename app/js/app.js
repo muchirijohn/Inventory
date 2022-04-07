@@ -260,6 +260,46 @@ const internal = require('stream');
             }
         }
 
+        /**
+         * set part storage location
+         * @param {String} sql 
+         */
+        async function dbSetPartStorage(sql) {
+            var saveStorage = ()=>{
+                db.run(sql, [], (err) => {
+                    if (err) {
+                        swal("Error", "Failed to set storage.", "error");
+                    } else {
+                        swal("Success", "Storage set successfully.", "success");
+                    }
+                });
+            };
+
+            if (db === null) dbConnect();
+            db.serialize(function () {
+                //check db
+                let csql  = `SELECT * FROM parts WHERE limit = 1`;
+                db.run(sql, [], (err, rows) => {
+                    if (err) {
+                        swal("Error", "Failed to set storage.", "error");
+                    } else {
+                        if(rows.storage == undefined){
+                            csql = 'ALTER table parts ADD COLUMN storage TEXT';
+                            db.run(csql, [], (err) => {
+                                if (err) {
+                                    swal("Error", "Failed to set storage.", "error");
+                                } else {
+                                   saveStorage();
+                                }
+                            });
+                        }else{
+                        saveStorage();
+                        }
+                    }
+                });
+            });
+        }
+
         function init() {
             createUserDb();
         }
@@ -270,6 +310,7 @@ const internal = require('stream');
             dbFetchParts: dbFetchParts,
             dbSearch: dbSearch,
             dbRunSavePartQuery: dbRunSavePartQuery,
+            dbSetPartStorage: dbSetPartStorage,
             dbDeletePart: dbDeletePart,
             dbFetchLogs: dbFetchLogs,
             dbRunSaveLog: dbRunSaveLog,
