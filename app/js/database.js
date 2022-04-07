@@ -8,7 +8,6 @@ const path = require('path'),
      */
 var database = (function database() {
     var sqlite3 = require('sqlite3').verbose();
-    //{ open } = require('sqlite');
     var db = null;
 
     /**
@@ -37,12 +36,13 @@ var database = (function database() {
      * fetch all parts from the database
      * @param {String} sql 
      */
-    function dbFetchParts(sql) {
+    function dbFetchParts(sql, fxn) {
         if (db === null) dbConnect();
         db.serialize(function () {
             db.all(sql, [], (err, rows) => {
                 if (!err) {
-                    listUi.generateList(rows);
+                    //listUi.generateList(rows);
+                    fxn(rows);
                 }
             });
         });
@@ -52,7 +52,7 @@ var database = (function database() {
      * find/search parts
      * @param {manufacturer part number} manf 
      */
-    function dbSearch(part, key) {
+    function dbSearch(part, key, fxn) {
         var sql = "";
         if (db === null) dbConnect();
         db.serialize(function () {
@@ -62,7 +62,8 @@ var database = (function database() {
             db.all(sql, [], (err, rows) => {
                 if (!err) {
                     //console.log(rows);
-                    listUi.generateList(rows);
+                    //listUi.generateList(rows);
+                    fxn(rows);
                 }
             });
         });
@@ -91,13 +92,14 @@ var database = (function database() {
      * fetch log from db matching the given id
      * @param {string} id 
      */
-    function dbFetchLogs(id) {
+    function dbFetchLogs(id, fxn) {
         if (db === null) dbConnect();
         db.serialize(function () {
             let sql = `SELECT * FROM logs WHERE part_id='${id}'`;
             db.all(sql, [], (err, rows) => {
                 if (!err) {
-                    partAddEditUi.createDBLogs(rows);
+                    fxn(rows);
+                    //partAddEditUi.createDBLogs(rows);
                 }
             });
         });
@@ -118,7 +120,8 @@ var database = (function database() {
                 if (err) {
                     swal("Error", "Failed to save log.", "error");
                 } else {
-                    partAddEditUi.createlog(log);
+                    fxn(log);
+                    //partAddEditUi.createlog(log);
                 }
             });
             if (stock !== -1) {
@@ -135,9 +138,9 @@ var database = (function database() {
     /**
      * delete a log from part logs
      * @param {array} qry 
-     * @param {function} callback 
+     * @param {function} fxn 
      */
-    function dbDeleteLog(qry, callback) {
+    function dbDeleteLog(qry, fxn) {
         if (db === null) dbConnect();
         var sql = `DELETE FROM logs WHERE
         part_id='${qry[0]}' AND date='${qry[1]}'`;
@@ -146,7 +149,7 @@ var database = (function database() {
                 if (err) {
                     swal("Error", "Failed to delete log.", "error");
                 } else {
-                    callback();
+                    fxn();
                 }
             });
         });
@@ -155,9 +158,9 @@ var database = (function database() {
     /**
      * delete part from db
      * @param {string} id 
-     * @param {function} callback 
+     * @param {function} fxn 
      */
-    function dbDeletePart(id, callback) {
+    function dbDeletePart(id, fxn) {
         if (db === null) dbConnect();
         //delete part
         var sql = `DELETE FROM parts WHERE id='${id}'`;
@@ -173,7 +176,7 @@ var database = (function database() {
                             if (err) {
                                 swal("Error", "Failed to delete logs.", "error");
                             } else {
-                                callback();
+                                fxn();
                             }
                         });
                     });
