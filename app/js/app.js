@@ -722,8 +722,11 @@ const internal = require('stream');
                 swal('Error', 'Part ID cannot be null!', 'error');
                 return;
             }
-            let storage = `${data.shelf},${data.box}`;
-            console.log(storage)
+            let storage = JSON.stringify({
+                'shelf': data.shelf,
+                'box': data.box
+            }).replace(/\"/g,"\"\"");
+            console.log(storage);
             if (isPartNew === true) {
                 sql = `INSERT INTO parts 
                     (id, stock, type, manf, manf_part_no, package, pins_no, datasheet, description, icon, 
@@ -1033,11 +1036,15 @@ const internal = require('stream');
                 }
                 var keys = Object.keys(pEl),
                     pkeys = Object.keys(partsShowJson),
-                    cat = categoriesUi.categories();
+                    cat = categoriesUi.categories(),
+                    storage = JSON.parse(partsShowJson.storage);
                 for (var i = 0; i < keys.length; i++) {
                     if (keys[i] === 'type' || keys[i] === 'package') {
                         var val = partsShowJson[pkeys[i]];
                         pEl[keys[i]].dropdown('set exactly', [val]);
+                    }else if(keys[i] == 'shelf' || keys[i] == 'box'){
+                        let value = storage !== null ? storage[keys[i]] : '';
+                        pEl[keys[i]].val(value);
                     } else {
                         pEl[keys[i]].val(partsShowJson[pkeys[i]]);
                     }
