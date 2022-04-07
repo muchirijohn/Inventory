@@ -2,7 +2,7 @@
 /* SPDX-License-Identifier: MIT */
 /* SnippetCopyrightText: Copyright © 2022 peanut inventory, muchirijohn */
 
-'use strict';
+
 
 const { UUID } = require('builder-util-runtime');
 const { dir } = require('console');
@@ -10,6 +10,7 @@ const { create } = require('domain');
 const { each, data } = require('jquery');
 const { off } = require('process');
 const internal = require('stream');
+
 
 (function () {
     const { electron, shell, ipcRenderer } = require('electron');
@@ -20,6 +21,9 @@ const internal = require('stream');
         swal = require('sweetalert'),
         moment = require('moment');
 
+    const { dialogs } = require('./js/dialogs');
+    const { filterInt } = require('./js/utils');
+
     //app dir
     const app_dir = __dirname,
         pref_default_path = `${app_dir}/res/data/pref_default.json`,
@@ -29,23 +33,23 @@ const internal = require('stream');
         //temp pats db -- global
         partsJsonDb = Object.create(null),
         //part ids
-        partsJsonIDs = [],
-        //parse ints
-        filterInt = (value) => {
-            if (/^[-+]?(\d+|Infinity)$/.test(value)) {
-                return Number(value)
-            } else {
-                return NaN
-            }
-        },
-        //get resources directory to fetch data from
-        getResDir = (src) => {
-            var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
-                s_dir = `${a_dir}\\${src}`;
-            const exists = fs.pathExistsSync(s_dir);
-            if (exists === false) s_dir = `${app_dir}\\res\\${src}`;
-            return s_dir;
-        };
+        partsJsonIDs = [];
+    //parse ints
+    /*filterInt = (value) => {
+        if (/^[-+]?(\d+|Infinity)$/.test(value)) {
+            return Number(value)
+        } else {
+            return NaN
+        }
+    },*/
+    //get resources directory to fetch data from
+    getResDir = (src) => {
+        var a_dir = ((app_prefs.default === true) ? `${app_dir}\\${app_prefs.dir}` : app_prefs.dir),
+            s_dir = `${a_dir}\\${src}`;
+        const exists = fs.pathExistsSync(s_dir);
+        if (exists === false) s_dir = `${app_dir}\\res\\${src}`;
+        return s_dir;
+    };
 
     /**
      * Shorten string
@@ -56,29 +60,6 @@ const internal = require('stream');
         if (this.length > len) return this.substring(0, len) + '...';
         else return this;
     }
-
-    /**
-     * alert dialogs
-     */
-    var dialogs = (function dialogs() {
-
-
-        function showTimerMsg(msg) {
-            swal({
-                title: msg[0],
-                text: msg[1],
-                icon: msg[2],
-                timer: msg[3],
-                showConfirmButton: false,
-                allowOutsideClick: true,
-                buttons: false
-            })
-        }
-
-        return {
-            showTimerMsg: showTimerMsg
-        }
-    })();
 
     /**
      * database
@@ -1312,7 +1293,7 @@ const internal = require('stream');
             manf_type.index = 0;
             //get a manufacturer from the manf list
             var getManf = () => {
-                if (manf_type.index == (manf_type.manfs.length-1)) manf_type.index = 0;
+                if (manf_type.index == (manf_type.manfs.length - 1)) manf_type.index = 0;
                 else manf_type.index++;
                 manf_el.html(manf_type.manfs[manf_type.index]);
             }
