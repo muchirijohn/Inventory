@@ -4,9 +4,8 @@
 
 'use strict';
 
-const { require } = require('@electron/remote');
 const { UUID } = require('builder-util-runtime');
-const { dir, Console } = require('console');
+const { dir } = require('console');
 const { create } = require('domain');
 const { each, data } = require('jquery');
 const { off } = require('process');
@@ -57,16 +56,17 @@ const internal = require('stream');
     var database = (function database() {
         var sqlite3 = require('sqlite3').verbose();
         //{ open } = require('sqlite');
-        var db = null,
-            db_name = 'phi_inventory.db';
+        var db = null;
 
         /**
          * connect database
          */
         function dbConnect() {
             //check if to switch to user db
-            var db_url = `${settings.appDir}/res/data/${db_name}`;
-            var file = `${settings.appDir}/res/data/phi_inventory_user.db`;
+            var db_url = settings.defaultDbPath;
+            //file
+            var file = settings.userDbPath;
+            //path exists
             const exists = fs.pathExistsSync(file);
             if (exists) db_url = file;
             //connect db
@@ -250,11 +250,10 @@ const internal = require('stream');
          * create user db
          */
         async function createUserDb() {
-            var file = `${settings.appDir}/res/data/phi_inventory_user.db`;
+            var file = settings.userDbPath;
             const exists = await fs.pathExists(file);
             if (exists !== true) {
-                await fs.copy(`${settings.appDir}/res/data/phi_inventory.db`, `${settings.appDir}/res/data/phi_inventory_user.db`);
-                db_name = 'phi_inventory_user.db';
+                await fs.copy(settings.defaultDbPath, settings.userDbPath);
                 db = null;
             }
         }

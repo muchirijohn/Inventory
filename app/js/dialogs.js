@@ -1,10 +1,9 @@
-const swal = require('sweetalert');
-
 /**
 * alert dialogs
 */
 var dialogs = (function dialogs() {
-
+    //use sweetalert
+    const swal = require('sweetalert');
     /**
      * show a timed dialog message
      * @param {String} msg  message to display
