@@ -23,11 +23,9 @@ const internal = require('stream');
 
     const { dialogs } = require('./js/dialogs');
     const { filterInt } = require('./js/utils');
-
-    //app dir
-    const app_dir = __dirname,
-        pref_default_path = `${app_dir}/res/data/pref_default.json`,
-        pref_user_path = `${app_dir}/res/data/pref_user.json`;
+    const {app_dir, pref_default_path, pref_user_path } = require('./js/settings');
+    
+    console.log(pref_user_path)
     //var to hold app preferences
     var app_prefs = Object.create(null),
         //temp pats db -- global
