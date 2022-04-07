@@ -126,6 +126,7 @@ const internal = require('stream');
             db.serialize(function () {
                 db.run(sql, [], (err) => {
                     if (err) {
+                        console.log(err)
                         swal("Error", "Failed to save Part. Please verify all the fields", "error");
                     } else {
                         swal("Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success");
@@ -721,10 +722,8 @@ const internal = require('stream');
                 swal('Error', 'Part ID cannot be null!', 'error');
                 return;
             }
-            let storage = JSON.stringify({
-                shelf: data.shelf,
-                box: data.box
-            });
+            let storage = `${data.shelf},${data.box}`;
+            console.log(storage)
             if (isPartNew === true) {
                 sql = `INSERT INTO parts 
                     (id, stock, type, manf, manf_part_no, package, pins_no, datasheet, description, icon, 
