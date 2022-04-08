@@ -153,8 +153,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Acknowledgments
 
 credits to:
-* <a href="https://twitter.com/ngoirimercy" target="_blank">Mercy Ngoiri</a>. She is the inspiration behind this project for our lab and she tests every commit.
-* <a href="https://twitter.com/mwaush6" target="_blank">Evans Mwaura</a> for preparing an excel dataset
-* <a href="https://twitter.com/thekaruri" target="_blank">Karuri Gakure</a> for early dev testing
+* <a href="https://twitter.com/ngoirimercy" target="_blank">Mercy Ngoiri</a> every commit.
+* <a href="https://twitter.com/mwaush6" target="_blank">Evans Mwaura</a>
+* <a href="https://twitter.com/thekaruri" target="_blank">Karuri Gakure</a>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
