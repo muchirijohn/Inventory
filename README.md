@@ -153,7 +153,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Acknowledgments
 
 credits to:
-* <a href="https://twitter.com/ngoirimercy" target="_blank">Mercy Ngoiri</a> every commit.
+* <a href="https://twitter.com/ngoirimercy" target="_blank">Mercy Ngoiri</a>
 * <a href="https://twitter.com/mwaush6" target="_blank">Evans Mwaura</a>
 * <a href="https://twitter.com/thekaruri" target="_blank">Karuri Gakure</a>
 
