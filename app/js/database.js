@@ -33,7 +33,8 @@ var database = (function database() {
 
     /**
      * fetch all parts from the database
-     * @param {String} sql 
+     * @param {*} sql query
+     * @param {*} fxn callback
      */
     function dbFetchParts(sql, fxn) {
         if (db === null) dbConnect();
@@ -49,7 +50,9 @@ var database = (function database() {
 
     /**
      * find/search parts
-     * @param {manufacturer part number} manf 
+     * @param {*} part filter by category
+     * @param {*} key filter by keyword
+     * @param {*} fxn callback
      */
     function dbSearch(part, key, fxn) {
         var sql = "";
