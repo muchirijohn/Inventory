@@ -33,8 +33,8 @@ var database = (function database() {
 
     /**
      * fetch all parts from the database
-     * @param {*} sql query
-     * @param {*} fxn callback
+     * @param {String} sql query
+     * @param {Function} fxn callback
      */
     function dbFetchParts(sql, fxn) {
         if (db === null) dbConnect();
@@ -50,9 +50,9 @@ var database = (function database() {
 
     /**
      * find/search parts
-     * @param {*} part filter by category
-     * @param {*} key filter by keyword
-     * @param {*} fxn callback
+     * @param {String} part filter by category
+     * @param {String} key filter by keyword
+     * @param {Function} fxn callback
      */
     function dbSearch(part, key, fxn) {
         var sql = "";
@@ -74,7 +74,8 @@ var database = (function database() {
 
     /**
      * execute sql statement
-     * @param {string} sql 
+     * @param {String} sql query
+     * @param {Boolean} isNew add/edit part
      */
     function dbRunSavePartQuery(sql, isNew) {
         if (db === null) dbConnect();
@@ -92,7 +93,8 @@ var database = (function database() {
 
     /**
      * fetch log from db matching the given id
-     * @param {string} id 
+     * @param {String} id part id to fetch log for
+     * @param {Function} fxn callback
      */
     function dbFetchLogs(id, fxn) {
         if (db === null) dbConnect();
@@ -141,8 +143,8 @@ var database = (function database() {
 
     /**
      * delete a log from part logs
-     * @param {array} qry 
-     * @param {function} fxn 
+     * @param {array} qry query
+     * @param {function} fxn callback
      */
     function dbDeleteLog(qry, fxn) {
         if (db === null) dbConnect();
