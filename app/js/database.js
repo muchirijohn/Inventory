@@ -163,8 +163,8 @@ var database = (function database() {
 
     /**
      * delete part from db
-     * @param {string} id 
-     * @param {function} fxn 
+     * @param {string} id part id to delete
+     * @param {function} fxn callback
      */
     function dbDeletePart(id, fxn) {
         if (db === null) dbConnect();
@@ -220,10 +220,9 @@ var database = (function database() {
         }
     }
 
-    /**
-     * set part storage location
-     * @param {String} sql 
-     */
+   /**
+    * create inventory storage field - to store shelf and box data
+    */
     async function dbSetPartStorage() {
         if (db === null) dbConnect();
         db.serialize(function () {
@@ -245,6 +244,9 @@ var database = (function database() {
         });
     }
 
+    /**
+     * init
+     */
     function init() {
         createUserDb();
         dbSetPartStorage();
