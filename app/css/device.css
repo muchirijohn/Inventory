@@ -244,7 +244,7 @@ p{
     /*border-radius: 50%;*/
     border: 2px solid transparent;
     outline: 2px solid #08f2fa;
-    border-radius: 10px !important;
+    border-radius: 4px !important;
     margin-top: 6px;
 }
 #part-show-images-info{
@@ -266,7 +266,7 @@ p{
 #part-show-images img{
     max-height: 450px !important;
     max-width: 450px !important;
-    border-radius: 12px;
+    border-radius: 6px;
 }
 #part-icon-info #part-show-stock{
     font-size: 16px;

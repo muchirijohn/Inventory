@@ -167,6 +167,8 @@ const internal = require('stream');
             list_data.forEach(part_data => {
                 addNewPartItem(part_data);
             });
+            prevListClicked = null;
+            //init parts
             partAddEditUi.initPartShow();
         }
 
@@ -253,8 +255,8 @@ const internal = require('stream');
             //search components button event
             $('#btn-part-sc').on('click', (e) => {
                 e.preventDefault();
-                prevListClicked = null;
                 swal("Please Enter Search Query", {
+                    title: 'Search',
                     content: "input",
                 }).then((val) => {
                     if (val) {
@@ -1016,6 +1018,7 @@ const internal = require('stream');
             if (partsJsonIDs.length > 0) {
                 //partShowData(partsJsonDb[partsIds[0]]);
                 $(`#list-panel #${partsJsonIDs[0]}`).trigger('click');
+                console.log(partsJsonIDs[0])
             }
         }
 

@@ -56,7 +56,8 @@ var database = (function database() {
         if (db === null) dbConnect();
         db.serialize(function () {
             //search part number and description
-            if (part) sql = `SELECT * FROM parts WHERE manf_part_no LIKE '%${key}%' OR description LIKE '%${key}%' OR specs LIKE '%${key}%'`;
+            if (part) sql = `SELECT * FROM parts WHERE manf_part_no LIKE '%${key}%' OR description LIKE '%${key}%' 
+                                OR specs LIKE '%${key}%' OR notes LIKE '%${key}%'`;
             else sql = `SELECT * FROM parts WHERE type='${key}'`;
             db.all(sql, [], (err, rows) => {
                 if (!err) {
@@ -86,7 +87,6 @@ var database = (function database() {
         });
     }
 
-
     /**
      * fetch log from db matching the given id
      * @param {string} id 
@@ -106,7 +106,9 @@ var database = (function database() {
 
     /**
      * save part log
-     * @param {sql statement} sql 
+     * @param {Array} log data to create
+     * @param {Integer} stock stock quantity added/removed
+     * @param {Function} fxn callback
      */
     function dbRunSaveLog(log, stock = -1, fxn) {
         if (db === null) dbConnect();
