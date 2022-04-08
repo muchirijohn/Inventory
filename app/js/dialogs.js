@@ -8,7 +8,7 @@ var dialogs = (function dialogs() {
      * show notofication dialog
      * @param {Array} msg 
      */
-     function showNotify(msg) {
+     function notify(msg) {
         let title = msg[0], 
         message = msg[1],
         icon = msg[2];
@@ -21,7 +21,7 @@ var dialogs = (function dialogs() {
      * show a timed dialog message
      * @param {String} msg  message to display
      */
-    function showTimerMsg(msg) {
+    function msgTimer(msg) {
         swal({
             title: msg[0],
             text: msg[1],
@@ -34,8 +34,8 @@ var dialogs = (function dialogs() {
     }
 
     return {
-        showNotify: showNotify,
-        showTimerMsg: showTimerMsg
+        notify: notify,
+        msgTimer: msgTimer
     }
 })();
 

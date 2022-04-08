@@ -156,7 +156,7 @@ const internal = require('stream');
          */
         function generateList(list_data) {
             if (list_data.length == 0) {
-                dialogs.showNotify(["Inventory", "Part(s) not found!", "error"]);
+                dialogs.notify(["Inventory", "Part(s) not found!", "error"]);
                 return;
             }
             //clear list if any
@@ -202,7 +202,7 @@ const internal = require('stream');
                         prevListClicked = null;
                     }
                     //complete dialog
-                    dialogs.showTimerMsg(['', 'Part deleted succesfully!', 'success', 1500]);
+                    dialogs.msgTimer(['', 'Part deleted succesfully!', 'success', 1500]);
                 };
             //delete part
             database.dbDeletePart(id, fnDelete);
@@ -284,7 +284,7 @@ const internal = require('stream');
                 }).then((willDelete) => {
                     if (willDelete) {
                         partAddEditUi.partClearFields();
-                        dialogs.showNotify(['', "Contents cleared!", "success"]);
+                        dialogs.notify(['', "Contents cleared!", "success"]);
                     }
                 });
             });
@@ -466,7 +466,7 @@ const internal = require('stream');
                 sql = '';
             //updateFields = ()=>{}
             if (data.id.length == 0) {
-                dialogs.showNotify(['Error', 'Part ID cannot be null!', 'error']);
+                dialogs.notify(['Error', 'Part ID cannot be null!', 'error']);
                 return;
             }
             let storage = JSON.stringify({
@@ -774,13 +774,13 @@ const internal = require('stream');
                         partsShowNotes(partsShowJson.notes)
                     }
                 } catch (err) {
-                    dialogs.showNotify(['', 'Failed to show part data', 'error']);
+                    dialogs.notify(['', 'Failed to show part data', 'error']);
                 }
             },
             //edit part data - show edit modal
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
-                    dialogs.showNotify(['', 'Please select part!', 'error']);
+                    dialogs.notify(['', 'Please select part!', 'error']);
                     return false;
                 }
                 var keys = Object.keys(pEl),
@@ -869,7 +869,7 @@ const internal = require('stream');
             //edit part stock
             if (new_log === true) {
                 //ttr.scrollIntoView();
-                dialogs.showTimerMsg(['Log', 'log added succesfully', 'success', 1500]);
+                dialogs.msgTimer(['Log', 'log added succesfully', 'success', 1500]);
             }
 
         };
@@ -884,7 +884,7 @@ const internal = require('stream');
                 dt_ = moment().format(),
                 date = dt_.substring(0, dt_.lastIndexOf('+'));
             if (partsShowJson === undefined) {
-                dialogs.showNotify(['', 'Please select part!', 'error']);
+                dialogs.notify(['', 'Please select part!', 'error']);
                 return false;
             }
             var partStock = partsShowJson.stock;
@@ -893,18 +893,18 @@ const internal = require('stream');
                 desc = $('#part-log-desc').val();
             //check if quantity not empty
             if (isNaN(qty) || qty.length === 0) {
-                dialogs.showNotify(['', 'Quantity should be a numeric value!', 'error']);
+                dialogs.notify(['', 'Quantity should be a numeric value!', 'error']);
                 return false;
             }
             //console.log(partStock.length)
             //check if quantity available
             if ((partStock.length === 0 || parseInt(qty) > parseInt(partStock)) && !trs) {
-                dialogs.showNotify(['', `Quantity(${qty}) greater than available stock(${partStock})!`, 'error']);
+                dialogs.notify(['', `Quantity(${qty}) greater than available stock(${partStock})!`, 'error']);
                 return false;
             }
             //check if desc empty
             if (desc.length === 0) {
-                dialogs.showNotify(['', 'Description cannot be empty!', 'error']);
+                dialogs.notify(['', 'Description cannot be empty!', 'error']);
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
@@ -931,7 +931,7 @@ const internal = require('stream');
          */
         var deleteLogNotify = () => {
             if (prevLogEl === null) {
-                dialogs.showNotify(['Error', 'The part has no logs', 'error']);
+                dialogs.notify(['Error', 'The part has no logs', 'error']);
                 return;
             }
             //show confirmation
@@ -972,11 +972,11 @@ const internal = require('stream');
                             //remove prev selected log object
                             if (partsJsonDb[selectedID].logs.length === 0) prevLogEl = null;
                             //log delete success message
-                            dialogs.showTimerMsg(['', 'Log deleted succesfully!', 'success', 1500]);
+                            dialogs.msgTimer(['', 'Log deleted succesfully!', 'success', 1500]);
                         }
                     database.dbDeleteLog(qr, callback);
                 } catch (err) {
-                    dialogs.showNotify(['Error', 'Failed to delete log!', 'error']);
+                    dialogs.notify(['Error', 'Failed to delete log!', 'error']);
                 }
             }
 
@@ -990,7 +990,7 @@ const internal = require('stream');
             if (exists === true) {
                 (cad === false) ? shell.openPath(file) : shell.openExternal(file);
             } else {
-                dialogs.showNotify(['', 'file not found', 'error']);
+                dialogs.notify(['', 'file not found', 'error']);
             }
         }
 
@@ -1018,7 +1018,7 @@ const internal = require('stream');
             if (partsJsonIDs.length > 0) {
                 //partShowData(partsJsonDb[partsIds[0]]);
                 $(`#list-panel #${partsJsonIDs[0]}`).trigger('click');
-                console.log(partsJsonIDs[0])
+                //console.log(partsJsonIDs[0])
             }
         }
 
@@ -1027,8 +1027,8 @@ const internal = require('stream');
          */
         function deletePart() {
             swal({
-                title: "Delete part",
-                text: "Are you sure you want to delete part?",
+                title: `Part  : ${selectedID}`,
+                text: 'Are you sure you want to delete part?',
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -1081,7 +1081,7 @@ const internal = require('stream');
                 e.preventDefault();
                 getManf();
                 /*const manf = partsJsonDb[selectedID].manf;
-                dialogs.showTimerMsg(['', `${manf}`, 'success', 1500]);
+                dialogs.msgTimer(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
             });
         }
@@ -1177,7 +1177,7 @@ const internal = require('stream');
                 try {
                     e.preventDefault();
                     if (partsShowJson.datasheet.indexOf('.') === -1) {
-                        dialogs.showNotify(['Datasheet', 'Datasheet File not set', 'error']);
+                        dialogs.notify(['Datasheet', 'Datasheet File not set', 'error']);
                         return;
                     }
                     var url = getResDir(`\\datasheets\\${partsShowJson.datasheet}`);
@@ -1191,7 +1191,7 @@ const internal = require('stream');
                     if (curVendor.link !== undefined) {
                         shell.openExternal(curVendor.link, 'info');
                     } else {
-                        dialogs.showTimerMsg(['', 'No distributor set!', 'error', 1500]);
+                        dialogs.msgTimer(['', 'No distributor set!', 'error', 1500]);
                     }
                 } catch (e) { }
             });
@@ -1201,7 +1201,7 @@ const internal = require('stream');
                 try {
                     e.preventDefault();
                     if (partsShowJson.cad.indexOf('.') === -1) {
-                        dialogs.showNotify(['CAD', 'Cad File not set', 'error']);
+                        dialogs.notify(['CAD', 'Cad File not set', 'error']);
                         return;
                     }
                     var url = getResDir(`\\cad\\${partsShowJson.cad}`);
@@ -1263,7 +1263,7 @@ const internal = require('stream');
             //check if directory valid
             const exists = fs.pathExistsSync(dir);
             if (exists === false) {
-                dialogs.showNotify(['Preferences', 'Please set app directory', 'error']);
+                dialogs.notify(['Preferences', 'Please set app directory', 'error']);
                 return false
             }
             //dir
@@ -1299,10 +1299,10 @@ const internal = require('stream');
                 .then(pref => {
                     app_prefs = pref;
                     partAddEditUi.initAllSelections(true);
-                    dialogs.showNotify(['Preferences', 'Saved successfully!', 'success']);
+                    dialogs.notify(['Preferences', 'Saved successfully!', 'success']);
                 })
                 .catch(err => {
-                    dialogs.showNotify(['Preferences', 'An error occured!', 'error']);
+                    dialogs.notify(['Preferences', 'An error occured!', 'error']);
                 });
             //close dialog
             return true;
@@ -1316,7 +1316,7 @@ const internal = require('stream');
                 properties: ['openDirectory']
             });
             if (dg === undefined) {
-                dialogs.showNotify(['', 'Please select a directory', 'error']);
+                dialogs.notify(['', 'Please select a directory', 'error']);
             } else {
                 $('#app-config-dir').val(dg[0]);
             }
@@ -1452,11 +1452,11 @@ const internal = require('stream');
                 //$('#div-main-load span').text('Finalizing...');  
             } catch (err) {
                 $('#div-main-load span').text('Error...');
-                dialogs.showNotify(['Error', 'Ops! Something under the hood fried!', 'error']);
+                dialogs.notify(['Error', 'Ops! Something under the hood fried!', 'error']);
             }
         } else {
             $('#div-main-load span').text('Error...');
-            dialogs.showNotify(['Error', 'Application preferences file is missing!', 'error']);
+            dialogs.notify(['Error', 'Application preferences file is missing!', 'error']);
         }
     }
 

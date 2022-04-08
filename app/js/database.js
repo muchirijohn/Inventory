@@ -2,9 +2,10 @@ const path = require('path'),
     fs = require('fs-extra'),
     { settings } = require('./settings'),
     { dialogs } = require('./dialogs');
+
 /**
-     * database
-     */
+ * database
+*/
 var database = (function database() {
     var sqlite3 = require('sqlite3').verbose();
     var db = null;
