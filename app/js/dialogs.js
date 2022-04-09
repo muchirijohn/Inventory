@@ -33,7 +33,7 @@ var dialogs = (function dialogs() {
         })
     }
 
-    function confirm(msg){
+    function confirm(msg, fxn_confirm, fxn_cancel=()=>{}) {
         swal({
             title:msg.title,
             test:msg.text,
