@@ -46,7 +46,7 @@ var dialogs = (function dialogs() {
             icon: msg.icon,
             buttons: msg.buttons,
             dangerMode: msg.dangerMode,
-        }).then((cofirm_) => {
+        }).then((confirm_) => {
             if (confirm_) {
                 fxn_confirm();
             } else {

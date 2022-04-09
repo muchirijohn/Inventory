@@ -1026,17 +1026,13 @@ const internal = require('stream');
          * delete part
          */
         function deletePart() {
-            swal({
+            dialogs.confirm({
                 title: `Part  : ${selectedID}`,
                 text: 'Are you sure you want to delete part?',
                 icon: "warning",
                 buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
-                    listUi.listDeletePart();
-                }
-            });
+                dangerMode: true
+            }, listUi.listDeletePart);
         }
 
         /**
