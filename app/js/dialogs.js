@@ -8,10 +8,10 @@ var dialogs = (function dialogs() {
      * show notofication dialog
      * @param {Array} msg 
      */
-     function notify(msg) {
-        let title = msg[0], 
-        message = msg[1],
-        icon = msg[2];
+    function notify(msg) {
+        let title = msg[0],
+            message = msg[1],
+            icon = msg[2];
         //show notification
         swal(title, message, icon);
     }
@@ -33,18 +33,26 @@ var dialogs = (function dialogs() {
         })
     }
 
-    function confirm(msg, fxn_confirm, fxn_cancel=()=>{}) {
+    /**
+     * show a confirm notification
+     * @param {Array} msg Array object containing the message to display
+     * @param {Function} fxn_confirm confirm function
+     * @param {Function} fxn_cancel cancel function
+     */
+    function confirm(msg, fxn_confirm, fxn_cancel = null) {
         swal({
-            title:msg.title,
-            test:msg.text,
+            title: msg.title,
+            test: msg.text,
             icon: msg.icon,
             buttons: msg.buttons,
             dangerMode: msg.dangerMode,
         }).then((cofirm_) => {
             if (confirm_) {
                 fxn_confirm();
-            }else{
-                fxn_cancel();
+            } else {
+                if (typeof (fxn_cancel) === 'function') {
+                    fxn_cancel();
+                }
             }
         });
     }
