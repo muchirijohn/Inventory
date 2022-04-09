@@ -84,9 +84,9 @@ var database = (function database() {
             db.run(sql, [], (err) => {
                 if (err) {
                     console.log(err)
-                    dialogs.showNotify(["Error", "Failed to save Part. Please verify all the fields", "error"]);
+                    dialogs.notify(["Error", "Failed to save Part. Please verify all the fields", "error"]);
                 } else {
-                    dialogs.showNotify(["Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success"]);
+                    dialogs.notify(["Success", `Successfully ${isNew ? 'added' : 'edited'} part`, "success"]);
                 }
             });
         });
@@ -125,7 +125,7 @@ var database = (function database() {
         db.serialize(function () {
             db.run(sql, [], (err) => {
                 if (err) {
-                    dialogs.showNotify(["Error", "Failed to save log.", "error"]);
+                    dialogs.notify(["Error", "Failed to save log.", "error"]);
                 } else {
                     fxn(log);
                     //partAddEditUi.createlog(log);
@@ -135,7 +135,7 @@ var database = (function database() {
                 sql = `UPDATE parts SET stock='${stock}' WHERE id='${log[0]}'`;
                 db.run(sql, [], (err) => {
                     if (err) {
-                        dialogs.showNotify(["Error", "Failed to update stock.", "error"]);
+                        dialogs.notify(["Error", "Failed to update stock.", "error"]);
                     }
                 });
             }
@@ -154,7 +154,7 @@ var database = (function database() {
         db.serialize(function () {
             db.run(sql, [], (err) => {
                 if (err) {
-                    dialogs.showNotify(["Error", "Failed to delete log.", "error"]);
+                    dialogs.notify(["Error", "Failed to delete log.", "error"]);
                 } else {
                     fxn();
                 }
@@ -174,14 +174,14 @@ var database = (function database() {
         db.serialize(function () {
             db.run(sql, [], (err) => {
                 if (err) {
-                    dialogs.showNotify(["Error", "Failed to delete part.", "error"]);
+                    dialogs.notify(["Error", "Failed to delete part.", "error"]);
                 } else {
                     //delete logs
                     var sql = `DELETE FROM logs WHERE part_id='${id}'`;
                     db.serialize(function () {
                         db.run(sql, [], (err) => {
                             if (err) {
-                                dialogs.showNotify(["Error", "Failed to delete logs.", "error"]);
+                                dialogs.notify(["Error", "Failed to delete logs.", "error"]);
                             } else {
                                 fxn();
                             }
@@ -237,7 +237,7 @@ var database = (function database() {
                         if (err) {
                             console.log(err);
                         } else {
-                            dialogs.showNotify(["Success", "Database updated. Please Restart application!", "success"]);
+                            dialogs.notify(["Success", "Database updated. Please Restart application!", "success"]);
                         }
                     });
                 }
