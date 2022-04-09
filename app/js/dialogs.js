@@ -33,9 +33,26 @@ var dialogs = (function dialogs() {
         })
     }
 
+    function confirm(msg){
+        swal({
+            title:msg.title,
+            test:msg.text,
+            icon: msg.icon,
+            buttons: msg.buttons,
+            dangerMode: msg.dangerMode,
+        }).then((cofirm_) => {
+            if (confirm_) {
+                fxn_confirm();
+            }else{
+                fxn_cancel();
+            }
+        });
+    }
+
     return {
         notify: notify,
-        msgTimer: msgTimer
+        msgTimer: msgTimer,
+        confirm: confirm
     }
 })();
 
