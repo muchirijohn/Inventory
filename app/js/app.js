@@ -284,8 +284,7 @@ const internal = require('stream');
                 }, () => {
                     partAddEditUi.partClearFields();
                     dialogs.notify(['', "Contents cleared!", "success"]);
-                }
-                );
+                });
             });
         }
 
@@ -934,17 +933,13 @@ const internal = require('stream');
                 return;
             }
             //show confirmation
-            swal({
+            dialogs.confirm({
                 title: "Delete Log",
                 text: "Are you sure you want to delete log?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
-                    deleteLog();
-                }
-            });
+            },  deleteLog);
         },
             deleteLog = () => {
                 try {
