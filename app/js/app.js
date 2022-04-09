@@ -23,8 +23,8 @@ const internal = require('stream');
 
     const { dialogs } = require('./js/dialogs');
     const { utils } = require('./js/utils');
-    const {settings} = require('./js/settings');
-    const {database} = require('./js/database');
+    const { settings } = require('./js/settings');
+    const { database } = require('./js/database');
 
     //var to hold app preferences
     var app_prefs = Object.create(null),
@@ -275,18 +275,17 @@ const internal = require('stream');
 
             $('#btn-part-clear').on('click', (e) => {
                 e.preventDefault();
-                swal({
+                dialogs.confirm({
                     title: "Clear contents",
                     text: "Are you sure you want to clear contents?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
-                }).then((willDelete) => {
-                    if (willDelete) {
-                        partAddEditUi.partClearFields();
-                        dialogs.notify(['', "Contents cleared!", "success"]);
-                    }
-                });
+                }, () => {
+                    partAddEditUi.partClearFields();
+                    dialogs.notify(['', "Contents cleared!", "success"]);
+                }
+                );
             });
         }
 
@@ -473,7 +472,7 @@ const internal = require('stream');
                 'shelf': data.shelf,
                 'box': data.box
             }),
-            storageDb = storage.replace(/\"/g,"\"\"");
+                storageDb = storage.replace(/\"/g, "\"\"");
             //console.log(storage);
             if (isPartNew === true) {
                 sql = `INSERT INTO parts 
@@ -787,12 +786,12 @@ const internal = require('stream');
                     pkeys = Object.keys(partsShowJson),
                     cat = categoriesUi.categories(),
                     storage = JSON.parse(partsShowJson.storage);
-                    //console.log(storage)
+                //console.log(storage)
                 for (var i = 0; i < keys.length; i++) {
                     if (keys[i] === 'type' || keys[i] === 'package') {
                         var val = partsShowJson[pkeys[i]];
                         pEl[keys[i]].dropdown('set exactly', [val]);
-                    }else if(keys[i] == 'shelf' || keys[i] == 'box'){
+                    } else if (keys[i] == 'shelf' || keys[i] == 'box') {
                         let value = (storage !== null) ? storage[keys[i]] : '';
                         pEl[keys[i]].val(value);
                     } else {
