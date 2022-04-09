@@ -42,7 +42,7 @@ var dialogs = (function dialogs() {
     function confirm(msg, fxn_confirm, fxn_cancel = null) {
         swal({
             title: msg.title,
-            test: msg.text,
+            text: msg.text,
             icon: msg.icon,
             buttons: msg.buttons,
             dangerMode: msg.dangerMode,
