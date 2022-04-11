@@ -27,9 +27,9 @@ var dialogs = (function dialogs() {
             text: msg[1],
             icon: msg[2],
             timer: msg[3],
-            showConfirmButton: false,
-            allowOutsideClick: true,
-            buttons: false
+            showConfirmButton: (msg[4] === undefined) ? false : msg[4],
+            allowOutsideClick: (msg[5] === undefined) ? true : msg[5],
+            buttons: (msg[6] === undefined) ? false : msg[6]
         })
     }
 
