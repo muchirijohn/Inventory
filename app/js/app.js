@@ -760,7 +760,8 @@ const internal = require('stream');
                     //stock
                     if (partsShowJson.stock == 0) slv = 2;
                     else if (utils.filterInt(partsShowJson.stock) < utils.filterInt(partsShowJson.stock_limit)) slv = 1;
-                    pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]} - Qty : ${partsShowJson.stock}</span>`);
+                    pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">
+                                        ${stock[slv][0]} - Qty : ${partsShowJson.stock}</span>`);
                     //show stock
                     partShowStock(partsShowJson.stock);
                     //if updating data
