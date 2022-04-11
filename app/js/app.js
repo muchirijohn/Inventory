@@ -732,8 +732,11 @@ const internal = require('stream');
             },
             //show stock
             partShowStock = (stock) => {
-                pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>${stock}&nbsp;&nbsp;
-                                        <i class="dollar icon" style="color: #ff2335"></i>${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
+               // console.table(curVendor)
+                pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>
+                                    ${((curVendor.stock !== undefined) ? curVendor.stock : '0')}&nbsp;&nbsp;
+                                    <i class="dollar icon" style="color: #ff2335"></i>
+                                    ${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
             },
             /*show part info*/
             partShowData = (pData, tb_update = true) => {
@@ -757,7 +760,7 @@ const internal = require('stream');
                     //stock
                     if (partsShowJson.stock == 0) slv = 2;
                     else if (utils.filterInt(partsShowJson.stock) < utils.filterInt(partsShowJson.stock_limit)) slv = 1;
-                    pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]}</span>`);
+                    pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">${stock[slv][0]} - Qty : ${partsShowJson.stock}</span>`);
                     //show stock
                     partShowStock(partsShowJson.stock);
                     //if updating data
