@@ -1,7 +1,7 @@
 {
   "name": "inventory",
   "version": "1.0.6",
-  "description": "Componwnts inventory",
+  "description": "Electronics Components inventory",
   "main": "main.js",
   "type": "commonjs",
   "scripts": {
