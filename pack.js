@@ -19,7 +19,7 @@ var options = {
     'out': './releases',
     'overwrite': true,
     'prune': true,
-    'version': '1.0.6',
+    'version': '1.0.7',
     'version-string':{
       'CompanyName': 'Muchiri John',
       'FileDescription': 'Inventory',
