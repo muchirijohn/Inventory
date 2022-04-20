@@ -3,7 +3,7 @@
  */
 const path = require('path');
 
-const resPath__ = path.join(__dirname, '..', '\\res\\data'),
+const resPath__ = path.join(__dirname, '..', '/res/data'),
     userPrefs__ = {
         default: 'pref_default.json',
         user: 'pref_user.json'
@@ -34,12 +34,12 @@ const settings = {
     /**
      * default preferences
      */
-    defaultPref: path.join(resPath__, `\\${userPrefs__.default}`),
+    defaultPref: path.join(resPath__, `/${userPrefs__.default}`),
 
     /**
      * /user preferences
      */
-    userPref: path.join(resPath__, `\\${userPrefs__.user}`),
+    userPref: path.join(resPath__, `/${userPrefs__.user}`),
 
     /**
      * user and default databases
@@ -47,10 +47,10 @@ const settings = {
     userDbs: userDbs__,
 
     //default db
-    defaultDbPath: path.join(resPath__, `\\${userDbs__.default}`),
+    defaultDbPath: path.join(resPath__, `/${userDbs__.default}`),
 
     //user db
-    userDbPath: path.join(resPath__, `\\${userDbs__.user}`)
+    userDbPath: path.join(resPath__, `/${userDbs__.user}`)
 };
 
 module.exports = { settings };
