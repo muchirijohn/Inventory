@@ -10,7 +10,7 @@ var options = {
     'platform': 'win32',
     'dir': './',
     'app-copyright': 'Muchiri John',
-    'app-version': '1.0.6',
+    'app-version': '1.0.7',
     'appname': 'Inventory',
     'asar': false,
     'icon': './app/res/data/icon.png',
@@ -18,7 +18,7 @@ var options = {
     'ignore': ['./releases', './.git', './dist'],
     'out': './releases',
     'overwrite': true,
-    'prune': true,
+    'prune': false,
     'version': '1.0.7',
     'version-string':{
       'CompanyName': 'Muchiri John',
