@@ -9,7 +9,7 @@
     "start": "electron .",
     "clean": "rm -rf ./dist",
     "clean:win": "IF EXIST dist rmdir /s /q dist",
-    "pack:win": "electron-packager . inventory --overwrite --out=dist --name=inventory --app-copyright=\"(c) 2022 Muchirijohn\" --platform=win32 --arch=x64 --app-version=1.0.0 --electron-version=17.1.0 --icon=app/res/data/icon.ico --ignore=versions --ignore=release --ignore=docs --win32metadata.CompanyName=\"muchirijohn\" --win32metadata.ProductName=\"inventory\" --win32metadata.FileDescription=\"inventory\" --win32metadata.OriginalFilename=\"inventory.exe\""
+    "pack:win": "electron-packager . inventory --overwrite --out=dist --appname=inventory --app-copyright=\"(c) 2022 Muchirijohn\" --platform=win32 --arch=x64 --app-version=1.0.0 --electron-version=17.1.0 --icon=app/res/data/icon.png --ignore=versions --ignore=release --ignore=docs --win32metadata.CompanyName=\"muchirijohn\" --win32metadata.ProductName=\"inventory\" --win32metadata.FileDescription=\"inventory\" --win32metadata.OriginalFilename=\"inventory.exe\""
   },
   "repository": {
     "type": "git",
