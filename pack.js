@@ -1,4 +1,10 @@
+/**
+ * script to package electron app
+ * run >> node pack.js
+ */
+
 var packager = require('electron-packager');
+//package options
 var options = {
     'arch': 'x64',
     'platform': 'win32',
@@ -23,6 +29,10 @@ var options = {
       'InternalName': 'Inventory'
     }
 };
+
+/**
+ * packager
+ */
 packager(options, function callback(err, appPaths) {
     console.log(err);
     console.log(appPaths);
