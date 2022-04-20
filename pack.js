@@ -15,12 +15,11 @@ var options = {
     'asar': false,
     'icon': './app/res/data/icon.png',
     'name': 'Inventory',
-    'ignore': ['./releases', './.git'],
+    'ignore': ['./releases', './.git', './dist'],
     'out': './releases',
     'overwrite': true,
     'prune': true,
     'version': '1.0.6',
-    'electron-version': '17.1.0',
     'version-string':{
       'CompanyName': 'Muchiri John',
       'FileDescription': 'Inventory',
