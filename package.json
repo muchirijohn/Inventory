@@ -27,22 +27,23 @@
   },
   "homepage": "https://github.com/muchirijohn/inventory#readme",
   "devDependencies": {
-    "electron": "^17.1.0",
-    "electron-builder": "^22.14.13",
-    "electron-packager": "^15.4.0",
+    "electron": "^18.0.4",
+    "electron-builder": "^23.0.3",
+    "electron-packager": "^15.5.0",
     "electron-rebuild": "^3.2.7"
   },
   "dependencies": {
-    "@electron/remote": "^2.0.5",
-    "builder-util-runtime": "^9.0.0",
+    "@electron/remote": "^2.0.8",
+    "builder-util-runtime": "^9.0.1",
     "chance": "^1.1.8",
-    "fs-extra": "^10.0.1",
+    "fs-extra": "^10.1.0",
     "i": "^0.3.7",
     "jquery": "^3.6.0",
     "mkdirp": "^1.0.4",
-    "moment": "^2.29.1",
+    "moment": "^2.29.3",
+    "npm": "^8.7.0",
     "os-homedir": "^2.0.0",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.0.4",
     "sweetalert": "^2.1.2"
   }
 }
