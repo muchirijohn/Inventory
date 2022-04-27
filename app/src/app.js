@@ -408,13 +408,15 @@ const internal = require('stream');
                 box: $('#part-add-box')
             };
         //preiovus shown id
-        var selectedID = '',
+        let selectedID = '',
             //distributors array object
             distObj = [],
             //current vendor info
-            curVendor = {};
-        //manufacturers array object
-        var manf_type = { index: 0, manfs: [] };
+            curVendor = {},
+            //manufacturers array object
+            manf_type = { index: 0, manfs: [] },
+            //qr code image
+            qr_data = '';
         /**
          * clear modal part fields
          */
@@ -777,6 +779,7 @@ const internal = require('stream');
                         //notes
                         partsShowNotes(partsShowJson.notes)
                     }
+                    qr_data = '';
                 } catch (err) {
                     dialogs.notify(['', 'Failed to show part data', 'error']);
                 }
@@ -1055,6 +1058,8 @@ const internal = require('stream');
                 $('#part-show-dist .stock').text(curVendor.stock);
                 partShowStock(partsJsonDb[selectedID].stock);
                 $('#part-show-seller').attr('data-tooltip', `Open ${curVendor.dist} Link`);
+                //clear qr data  image
+                qr_data = '';
             }
         }
 
@@ -1062,45 +1067,43 @@ const internal = require('stream');
          * set manufacturer info
          */
         function setManfWebsite(manf) {
-            /*let manf_el = $('#part-show-table-1 #part-manf-fab');
+            let manf_el = $('#part-show-table-1 #part-manf-fab');
             //get manfs
-            manf_type.manfs = manf.split(',');*/
+            manf_type.manfs = manf.split(',');
             manf_type.index = 1;
-            let qr_data = '';
-
+            //manf
+            manf_el.html(manf_type.manfs[0]);
+            //generate qr
             async function qr_w() {
                 qr_data = await Qrc_async(curVendor.link);
-                //console.log(qr_data);
                 if (qr_data !== 'error') {
-                    //pElShow.icon.html(`<img src="${qr_data}" class="img-fluid" alt="${partsShowJson.id}">`);
+                    //console.log(qr_data);
                     $('#part-show-icon>img').attr("src", qr_data);
                 } else {
-                    dialogs.msgTimer(['', 'Failed to generate QR code! Set the manu', 'error', 1500]);
+                    dialogs.msgTimer(['', 'Failed to generate QR code! Set Vendor', 'error', 1500]);
                 }
             }
+
             //get a manufacturer from the manf list
             var getManf = () => {
                 if (manf_type.index === 1 /*(manf_type.manfs.length - 1)*/) manf_type.index = 0;
                 else manf_type.index++;
-                
-                // manf_el.html(manf_type.manfs[manf_type.index]);
-                console.log(manf_type.index);
-                
-                if(manf_type.index === 0){
-                    if(qr_data.indexOf('data:image') !== -1) $('#part-show-icon>img').attr("src", qr_data);
+                //manf_el.html(manf_type.manfs[manf_type.index]);
+
+                if (manf_type.index === 0) {
+                    if (qr_data.indexOf('data:image') !== -1) $('#part-show-icon>img').attr("src", qr_data);
                     else qr_w();
-                }else if(manf_type.index === 1){
+                } else if (manf_type.index === 1) {
                     $('#part-show-icon>img').attr("src", getResDir(`\\images\\${partsShowJson.icon}`));
                 }
             }
-           // getManf();
+            // getManf();
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
                 getManf();
                 /*const manf = partsJsonDb[selectedID].manf;
                 dialogs.msgTimer(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
-
             });
         }
         /**

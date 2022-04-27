@@ -1,5 +1,16 @@
 const QRCode = require('qrcode')
 
+const options = {
+    errorCorrectionLevel: 'H',
+    type: 'image/jpeg',
+    quality: 0.3,
+    margin: 1,
+    color: {
+      dark:"#036574ff",
+      light:"#fafafaff"
+    }
+  }
+
 function Qrc(data) {
     QRCode.toDataURL(data)
         .then(url => {
@@ -14,7 +25,7 @@ function Qrc(data) {
 
 async function Qrc_async(data) {
     try {
-        return await QRCode.toDataURL(data);
+        return await QRCode.toDataURL(data, options);
     } catch (err) {
         return 'error';
     }
