@@ -25,7 +25,7 @@ const internal = require('stream');
     const { utils } = require('./src/utils');
     const { settings } = require('./src/settings');
     const { database } = require('./src/database');
-    const { Qrc } = require('./src/qr');
+    const { Qrc, Qrc_async } = require('./src/qr');
 
     //var to hold app preferences
     var app_prefs = Object.create(null),
@@ -1072,6 +1072,16 @@ const internal = require('stream');
                 manf_el.html(manf_type.manfs[manf_type.index]);
             }
             getManf();
+
+            async function qr_w() {
+                var qr_data = await Qrc_async(curVendor.link);
+                console.log(qr_data);
+                if (qr_data !== 'error') {
+                    pElShow.icon.html(`<img src="${qr_data}" class="img-fluid" alt="${partsShowJson.id}">`);
+                }else{
+                    dialogs.msgTimer(['', 'Failed to generate QR code!', 'error', 1500]);
+                }
+            }
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
                 //getManf();
@@ -1079,9 +1089,8 @@ const internal = require('stream');
                 /*const manf = partsJsonDb[selectedID].manf;
                 dialogs.msgTimer(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
+                qr_w();
 
-                var qr_data = Qrc("Hello world");
-                console.log(qr_data);
             });
         }
         /**

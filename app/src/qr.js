@@ -12,4 +12,12 @@ function Qrc(data) {
         });
 }
 
-module.exports = { Qrc };
+async function Qrc_async(data) {
+    try {
+        return await QRCode.toDataURL(data);
+    } catch (err) {
+        return 'error';
+    }
+}
+
+module.exports = { Qrc, Qrc_async};
