@@ -1,11 +1,15 @@
-var QRCode = require('qrcode')
+const QRCode = require('qrcode')
 
-export function Qr_code(data) {
+function Qrc(data) {
     QRCode.toDataURL(data)
         .then(url => {
+            console.log(url);
             return url;
         })
         .catch(err => {
+            console.log('error')
             return 'error';
         });
 }
+
+module.exports = { Qrc };

@@ -25,7 +25,7 @@ const internal = require('stream');
     const { utils } = require('./src/utils');
     const { settings } = require('./src/settings');
     const { database } = require('./src/database');
-    const { Qr_code } = require('./src/qr');
+    const { Qrc } = require('./src/qr');
 
     //var to hold app preferences
     var app_prefs = Object.create(null),
@@ -1074,10 +1074,14 @@ const internal = require('stream');
             getManf();
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
-                getManf();
+                //getManf();
+
                 /*const manf = partsJsonDb[selectedID].manf;
                 dialogs.msgTimer(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
+
+                var qr_data = Qrc("Hello world");
+                console.log(qr_data);
             });
         }
         /**
