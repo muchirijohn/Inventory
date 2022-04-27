@@ -25,7 +25,7 @@ function Qrc(data) {
 
 async function Qrc_async(data) {
     try {
-        return await QRCode.toDataURL(data, options);
+        return QRCode.toDataURL(data, options);
     } catch (err) {
         return 'error';
     }

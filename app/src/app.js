@@ -1089,7 +1089,7 @@ const internal = require('stream');
                 if (manf_type.index === 1 /*(manf_type.manfs.length - 1)*/) manf_type.index = 0;
                 else manf_type.index++;
                 //manf_el.html(manf_type.manfs[manf_type.index]);
-
+                ///toggle part icon or qr code
                 if (manf_type.index === 0) {
                     if (qr_data.indexOf('data:image') !== -1) $('#part-show-icon>img').attr("src", qr_data);
                     else qr_w();
