@@ -1065,7 +1065,7 @@ const internal = require('stream');
             /*let manf_el = $('#part-show-table-1 #part-manf-fab');
             //get manfs
             manf_type.manfs = manf.split(',');*/
-            manf_type.index = 0;
+            manf_type.index = 1;
             let qr_data = '';
 
             async function qr_w() {
