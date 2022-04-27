@@ -25,6 +25,7 @@ const internal = require('stream');
     const { utils } = require('./src/utils');
     const { settings } = require('./src/settings');
     const { database } = require('./src/database');
+    const { Qr_code } = require('./src/qr');
 
     //var to hold app preferences
     var app_prefs = Object.create(null),
@@ -732,7 +733,7 @@ const internal = require('stream');
             },
             //show stock
             partShowStock = (stock) => {
-               // console.table(curVendor)
+                // console.table(curVendor)
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>
                                     ${((curVendor.stock !== undefined) ? curVendor.stock : '0')}&nbsp;&nbsp;
                                     <i class="dollar icon" style="color: #ff2335"></i>
@@ -943,7 +944,7 @@ const internal = require('stream');
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
-            },  deleteLog);
+            }, deleteLog);
         },
             deleteLog = () => {
                 try {

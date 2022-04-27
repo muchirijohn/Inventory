@@ -1,6 +1,6 @@
 var QRCode = require('qrcode')
 
-export function getQr(data) {
+export function Qr_code(data) {
     QRCode.toDataURL(data)
         .then(url => {
             return url;
