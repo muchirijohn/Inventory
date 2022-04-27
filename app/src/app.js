@@ -21,10 +21,10 @@ const internal = require('stream');
         swal = require('sweetalert'),
         moment = require('moment');
 
-    const { dialogs } = require('./js/dialogs');
-    const { utils } = require('./js/utils');
-    const { settings } = require('./js/settings');
-    const { database } = require('./js/database');
+    const { dialogs } = require('./src/dialogs');
+    const { utils } = require('./src/utils');
+    const { settings } = require('./src/settings');
+    const { database } = require('./src/database');
 
     //var to hold app preferences
     var app_prefs = Object.create(null),
