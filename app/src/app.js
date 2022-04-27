@@ -7,6 +7,7 @@
 const { UUID } = require('builder-util-runtime');
 const { dir } = require('console');
 const { create } = require('domain');
+const { string } = require('i/lib/util');
 const { each, data } = require('jquery');
 const { off } = require('process');
 const internal = require('stream');
@@ -1061,35 +1062,44 @@ const internal = require('stream');
          * set manufacturer info
          */
         function setManfWebsite(manf) {
-            let manf_el = $('#part-show-table-1 #part-manf-fab');
+            /*let manf_el = $('#part-show-table-1 #part-manf-fab');
             //get manfs
-            manf_type.manfs = manf.split(',');
+            manf_type.manfs = manf.split(',');*/
             manf_type.index = 0;
-            //get a manufacturer from the manf list
-            var getManf = () => {
-                if (manf_type.index == (manf_type.manfs.length - 1)) manf_type.index = 0;
-                else manf_type.index++;
-                manf_el.html(manf_type.manfs[manf_type.index]);
-            }
-            getManf();
+            let qr_data = '';
 
             async function qr_w() {
-                var qr_data = await Qrc_async(curVendor.link);
-                console.log(qr_data);
+                qr_data = await Qrc_async(curVendor.link);
+                //console.log(qr_data);
                 if (qr_data !== 'error') {
-                    pElShow.icon.html(`<img src="${qr_data}" class="img-fluid" alt="${partsShowJson.id}">`);
-                }else{
-                    dialogs.msgTimer(['', 'Failed to generate QR code!', 'error', 1500]);
+                    //pElShow.icon.html(`<img src="${qr_data}" class="img-fluid" alt="${partsShowJson.id}">`);
+                    $('#part-show-icon>img').attr("src", qr_data);
+                } else {
+                    dialogs.msgTimer(['', 'Failed to generate QR code! Set the manu', 'error', 1500]);
                 }
             }
+            //get a manufacturer from the manf list
+            var getManf = () => {
+                if (manf_type.index === 1 /*(manf_type.manfs.length - 1)*/) manf_type.index = 0;
+                else manf_type.index++;
+                
+                // manf_el.html(manf_type.manfs[manf_type.index]);
+                console.log(manf_type.index);
+                
+                if(manf_type.index === 0){
+                    if(qr_data.indexOf('data:image') !== -1) $('#part-show-icon>img').attr("src", qr_data);
+                    else qr_w();
+                }else if(manf_type.index === 1){
+                    $('#part-show-icon>img').attr("src", getResDir(`\\images\\${partsShowJson.icon}`));
+                }
+            }
+           // getManf();
             $('.part-manf.icon').on('click', (e) => {
                 e.preventDefault();
-                //getManf();
-
+                getManf();
                 /*const manf = partsJsonDb[selectedID].manf;
                 dialogs.msgTimer(['', `${manf}`, 'success', 1500]);
                 //shell.openExternal(partsJsonDb[selectedID].manf_url);*/
-                qr_w();
 
             });
         }
