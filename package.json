@@ -43,6 +43,7 @@
     "moment": "^2.29.3",
     "npm": "^8.7.0",
     "os-homedir": "^2.0.0",
+    "qrcode": "^1.5.0",
     "sqlite3": "^5.0.4",
     "sweetalert": "^2.1.2"
   }
