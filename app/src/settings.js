@@ -44,8 +44,7 @@ let getUserData = {
     uDb: () => {
         wDir = workingDir();
         wDir = path.join(wDir, '/data', `/${userDbs__.user}`);
-        console.log(wDir);
-        //let url = path.join(resPath__, `/${userDbs__.user}`);
+        //console.log(wDir);
         return wDir;
     }
 }
