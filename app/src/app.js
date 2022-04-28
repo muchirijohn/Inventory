@@ -1316,14 +1316,14 @@ const internal = require('stream');
             fs.ensureDirSync(dir + '/data/');
             //write to preferencess folder
             var pref_path = settings.userPref;
-            //copy userDb
-            settings.copyUDb(dir);
             //fs.outputFileSync(pref_path, JSON.stringify(prefs));
             fs.outputFile(pref_path, JSON.stringify(prefs))
                 .then(() => fs.readJson(pref_path))
                 .then(pref => {
                     app_prefs = pref;
                     partAddEditUi.initAllSelections(true);
+                    //copy userDb
+                    settings.copyUDb(dir);
                     dialogs.notify(['Preferences', 'Saved successfully!', 'success']);
                 })
                 .catch(err => {

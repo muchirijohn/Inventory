@@ -2,6 +2,7 @@ const path = require('path'),
     fs = require('fs-extra'),
     { settings } = require('./settings'),
     { dialogs } = require('./dialogs');
+const { serialize } = require('v8');
 
 /**
  * database
