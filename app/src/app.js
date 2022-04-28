@@ -1324,7 +1324,6 @@ const internal = require('stream');
                     partAddEditUi.initAllSelections(true);
                     //copy userDb
                     settings.copyUDb(dir);
-                    database.dbClose();
                     dialogs.notify(['Preferences', 'Saved successfully!', 'success']);
                 })
                 .catch(err => {
