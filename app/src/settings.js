@@ -1,6 +1,7 @@
 /**
  * app settings
  */
+const { url } = require('inspector');
 const path = require('path');
 
 const resPath__ = path.join(__dirname, '..', '/res/data'),
@@ -13,6 +14,17 @@ const resPath__ = path.join(__dirname, '..', '/res/data'),
         user: 'phi_inventory_user.db'
     };
 
+let  getUserData = {
+    uPref: ()=>{
+        let url = path.join(resPath__, `/${userPrefs__.user}`);
+        return url;
+    },
+
+    uDb: ()=>{
+        let url = path.join(resPath__, `/${userDbs__.user}`);
+        return url;
+    }
+}
 
 const settings = {
 
@@ -39,7 +51,7 @@ const settings = {
     /**
      * /user preferences
      */
-    userPref: path.join(resPath__, `/${userPrefs__.user}`),
+    userPref:  getUserData.uPref(),
 
     /**
      * user and default databases
@@ -50,7 +62,7 @@ const settings = {
     defaultDbPath: path.join(resPath__, `/${userDbs__.default}`),
 
     //user db
-    userDbPath: path.join(resPath__, `/${userDbs__.user}`)
+    userDbPath: getUserData.uDb()
 };
 
 module.exports = { settings };

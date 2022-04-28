@@ -189,8 +189,6 @@ var database = (function database() {
                     });
                 }
             });
-
-
         });
     }
 

@@ -1285,7 +1285,7 @@ const internal = require('stream');
             const exists = fs.pathExistsSync(dir);
             if (exists === false) {
                 dialogs.notify(['Preferences', 'Please set app directory', 'error']);
-                return false
+                return false;
             }
             //dir
             prefs["dir"] = dir;
@@ -1312,6 +1312,8 @@ const internal = require('stream');
             fs.ensureDirSync(dir + '/images/');
             //create cad folder
             fs.ensureDirSync(dir + '/cad/');
+            //create data folder
+            fs.ensureDirSync(dir + '/data/');
             //write to preferencess folder
             var pref_path = settings.userPref;
             //fs.outputFileSync(pref_path, JSON.stringify(prefs));
@@ -1485,6 +1487,6 @@ const internal = require('stream');
      * on window load
      */
     $(function () {
-        readPreferences(mainUi.init);
+        readPreferences();
     });
 })({});
