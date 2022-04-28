@@ -29,7 +29,6 @@ async function copyUserDb(dir = '') {
     var dpath = path.join(resPath__, `/${userDbs__.user}`);
     var wDir = (dir.length > 1 ) ? dir :  workingDir();
     wDir = path.join(wDir, '/data', `/${userDbs__.user}`);
-    console.log(wDir)
     const exists = await fs.pathExists(wDir);
     if (exists !== true) {
         await fs.copy(dpath, wDir);
