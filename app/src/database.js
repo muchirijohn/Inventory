@@ -197,14 +197,17 @@ var database = (function database() {
      * close db
      */
     function dbClose() {
+        console.log('trying to close db...');
         if (db !== null) {
-            db.close((err) => {
-                if (err) {
-                    return console.error(err.message);
-                }
-                console.log('Database closed.');
-                db = null;
-            });
+            try {
+                db.close((err) => {
+                    if (err) {
+                        return console.error(err.message);
+                    }
+                    console.log('Database closed.');
+                    db = null;
+                });
+            } catch (err) { console.log(err) }
         }
     }
 
@@ -220,9 +223,9 @@ var database = (function database() {
         }
     }
 
-   /**
-    * create inventory storage field - to store shelf and box data
-    */
+    /**
+     * create inventory storage field - to store shelf and box data
+     */
     async function dbSetPartStorage() {
         if (db === null) dbConnect();
         db.serialize(function () {
