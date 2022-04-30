@@ -296,6 +296,7 @@ const internal = require('stream');
             setListHeight: setListHeight,
             addNewPartItem: addNewPartItem,
             generateList: generateList,
+            listFilterParts: listFilterParts,
             listItemContent: listItemContent,
             listDeletePart: listDeletePart
         }
@@ -307,7 +308,8 @@ const internal = require('stream');
      */
     var categoriesUi = (function categoriesUi() {
         //selection element
-        var cat_el = $('#sel-device');
+        var cat_el = $('#sel-device'),
+            selectedValue = '';
 
         /**
          * get categpry selection value
@@ -347,7 +349,7 @@ const internal = require('stream');
                 cat_el.dropdown({
                     values: options,
                     onChange: function (value, text, $selectedItem) {
-                        console.log(value)
+                        selectedValue = value;
                         /*if (value !== undefined && init_cat === true) {
                             if (init_cat) database.dbSearch(false, value);
                         }
@@ -362,6 +364,20 @@ const internal = require('stream');
          * read its selected value when changed
          */
         function init() {
+            //search by category button
+            $('#sel-cat-search').on('click', (e) => {
+                e.preventDefault();
+                if (selectedValue !== '') {
+                    console.log(selectedValue);
+                    if (selectedValue.toLowerCase() === 'all') {
+                        //get all parts
+                        listUi.listFilterParts(1);
+                    } else {
+                        //get parts filtered by category
+                        database.dbSearch(false, selectedValue, listUi.generateList);
+                    }
+                }
+            });
             //read and create categories
             //createCategoriesOptions();
         }

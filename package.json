@@ -1,6 +1,6 @@
 {
   "name": "inventory",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Electronics Components inventory",
   "main": "main.js",
   "type": "commonjs",

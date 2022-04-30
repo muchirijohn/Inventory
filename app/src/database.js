@@ -66,7 +66,6 @@ var database = (function database() {
             else sql = `SELECT * FROM parts WHERE type='${key}'`;
             db.all(sql, [], (err, rows) => {
                 if (!err) {
-                    //console.log(rows);
                     //listUi.generateList(rows);
                     fxn(rows);
                 }
