@@ -116,14 +116,14 @@ p{
 }*/
 
 #form-category .button{
-    border-radius: 10px !important;
+    border-radius: 6px !important;
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
     background-color: #4ee7da;
 }
 
 #form-category .dropdown{
-    border-radius: 10px !important;
+    border-radius: 6px !important;
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
     background-color: #4ee7da;
