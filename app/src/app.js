@@ -330,8 +330,7 @@ const internal = require('stream');
          * @returns none
          */
         var createCategoriesOptions = (init = false) => {
-            var parent = $('#sel-device'),
-                catgs = app_prefs.categories;
+            var catgs = app_prefs.categories;
             if (catgs === undefined || catgs.length === 0) return;
             var options = [];
             var all = true;
@@ -343,14 +342,14 @@ const internal = require('stream');
             });
 
             if (init === true) {
-                parent.dropdown('change values', options);
+                cat_el.dropdown('change values', options);
             } else {
                 //create category selection list
-                parent.dropdown({
+                cat_el.dropdown({
                     values: options,
                     onChange: function (value, text, $selectedItem) {
-                        /*console.log(value)
-                        if (value !== undefined && init_cat === true) {
+                        console.log(value)
+                        /*if (value !== undefined && init_cat === true) {
                             if (init_cat) database.dbSearch(false, value);
                         }
                         if (value.length > 0) init_cat = true;*/
