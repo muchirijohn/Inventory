@@ -307,8 +307,7 @@ const internal = require('stream');
      */
     var categoriesUi = (function categoriesUi() {
         //selection element
-        var cat_el = $('#sel-device'),
-            init_cat = false;
+        var cat_el = $('#sel-device');
 
         /**
          * get categpry selection value
