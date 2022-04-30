@@ -106,13 +106,27 @@ p{
     color: #979797 !important;
 }
 
-#sel-device {
+/*#sel-device {
     position: relative;
     color: #024242;
     font-size: 20px;
     background-color: #fff;
     border: #ccc solid 1px !important;
-    border-radius: 2px;
+    border-radius: 10px;
+}*/
+
+#form-category .button{
+    border-radius: 10px !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    background-color: #4ee7da;
+}
+
+#form-category .dropdown{
+    border-radius: 10px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    background-color: #4ee7da;
 }
 
 #list-panel {
