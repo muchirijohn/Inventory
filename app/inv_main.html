@@ -38,9 +38,12 @@
                 <button id="btn-part-add" class="ui labelled icon button"><i class="plus icon"></i> Add Part</button>
             </div>
             <div class="ui horizontal divider">Categories</div>
-            <select id="sel-device" name="Category" class="ui fluid search selection dropdown row"></select>
+            <div class="fluid row">
+                <select id="sel-device" name="Category" class="ui search selection dropdown"></select>
+                <div class="ui button"><i class="search icon"></i></div>
+            </div>
             <div class="ui hidden divider"></div>
-            <div id="list-panel" class="ui divided items"></div>
+            <div id="list-panel" class="ui divided items row"></div>
         </div>
         <!--info section-->
         <div class="seven wide column dev-desc scroll-style">
@@ -50,12 +53,12 @@
                     <div id="part-show-id" class="eight wide column left aligned"></div>
                     <div class="eight wide column right aligned">
                         <div class="ui buttons">
-                            <button id="part-show-btn-del" class="ui icon button" data-tooltip="Delete" data-position="bottom left"><i
-                                    class="trash icon"></i></button>
-                            <button id="part-show-btn-edit" class="ui orange icon button" data-tooltip="Edit"  data-position="bottom right"><i
-                                    class="edit icon"></i></button>
-                            <button id="part-show-btn-pref" class="ui teal icon button" data-tooltip="Settings"  data-position="bottom right"><i
-                                    class="cog icon"></i></button>
+                            <button id="part-show-btn-del" class="ui icon button" data-tooltip="Delete"
+                                data-position="bottom left"><i class="trash icon"></i></button>
+                            <button id="part-show-btn-edit" class="ui orange icon button" data-tooltip="Edit"
+                                data-position="bottom right"><i class="edit icon"></i></button>
+                            <button id="part-show-btn-pref" class="ui teal icon button" data-tooltip="Settings"
+                                data-position="bottom right"><i class="cog icon"></i></button>
                         </div>
                     </div>
                 </div>
@@ -67,18 +70,21 @@
                     </div>
                     <div class="ten wide column right aligned">
                         <div class="row">
-                            <a id="part-show-dsheet" class="ui icon label" data-tooltip="Open Datasheet" data-position="top left"><i class="file pdf icon"></i>
-                                </a>
-                            <a id="part-show-seller" class="ui label icon" data-tooltip="Open Distributor Link" data-position="top left">
+                            <a id="part-show-dsheet" class="ui icon label" data-tooltip="Open Datasheet"
+                                data-position="top left"><i class="file pdf icon"></i>
+                            </a>
+                            <a id="part-show-seller" class="ui label icon" data-tooltip="Open Distributor Link"
+                                data-position="top left">
                                 <i class="cart icon"></i>
-                                </a>
+                            </a>
                             <a id="part-show-dist" class="ui icon tag label dropdown">
                                 <div class="stock floating circular ui label">0</div>
                                 <span class="text">Dist</span>
                                 <div class="menu">
                                 </div>
                             </a>
-                            <a id="part-show-cad" class="ui icon label" data-tooltip="Get CAD file" data-position="top right"><i class="file archive icon"></i>
+                            <a id="part-show-cad" class="ui icon label" data-tooltip="Get CAD file"
+                                data-position="top right"><i class="file archive icon"></i>
                                 CAD</a>
                         </div>
                     </div>
