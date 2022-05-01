@@ -733,8 +733,27 @@ const internal = require('stream');
                     appendPartImage(img);
                 }
             },
-            //show distributors
+
+            /**
+             * Distributor info. dist-link-cost
+             * @param {String} distb 
+             */
+            getDistInfo = (distb) => {
+                if (distObj.length > 0) {
+                    const index = distObj.findIndex((vd) => (vd.dist) === distb);
+                    curVendor = distObj[index];
+                    $('#part-show-dist .stock').text(curVendor.stock);
+                    partShowStock(partsJsonDb[selectedID].stock);
+                    $('#part-show-seller').attr('data-tooltip', `Open ${curVendor.dist} Link`);
+                    //clear qr data  image
+                    qr_data = '';
+                }
+            },
+            /**
+             * show distributors
+             */
             partShowDistbs = (p_dist) => {
+                console.log(p_dist)
                 try {
                     curVendor = {};
                     var options = [],
@@ -1062,22 +1081,6 @@ const internal = require('stream');
         }
 
         /**
-         * Distributor info. dist-link-cost
-         * @param {String} distb 
-         */
-        function getDistInfo(distb) {
-            if (distObj.length > 0) {
-                const index = distObj.findIndex((vd) => (vd.dist) === distb);
-                curVendor = distObj[index];
-                $('#part-show-dist .stock').text(curVendor.stock);
-                partShowStock(partsJsonDb[selectedID].stock);
-                $('#part-show-seller').attr('data-tooltip', `Open ${curVendor.dist} Link`);
-                //clear qr data  image
-                qr_data = '';
-            }
-        }
-
-        /**
          * set manufacturer info
          */
         function setManfWebsite(manf) {
@@ -1157,15 +1160,6 @@ const internal = require('stream');
             });
             //init categories
             initAllSelections();
-            //distributors dropdown
-            $('#part-show-dist').dropdown({
-                values: [],
-                onChange: function (value, text, $selectedItem) {
-                    if (value.length > 0) {
-                        getDistInfo(value);
-                    }
-                }
-            });
             //init modal tabs
             $('#modal-part-add .ui.tabular.menu .item').tab();
             $('#div-part-img-spec .ui.tabular.menu .item').tab();
