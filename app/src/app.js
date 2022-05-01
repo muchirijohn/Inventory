@@ -792,7 +792,9 @@ const internal = require('stream');
                     return 0;
                 }
             },
-            //show stock
+            /**
+             * show stock
+             */
             partShowStock = (stock) => {
                 // console.table(curVendor)
                 pElShow.stock.html(`Stock : <i class="cart arrow down icon" style="color: #47ff56"></i>
@@ -800,7 +802,9 @@ const internal = require('stream');
                                     <i class="dollar icon" style="color: #ff2335"></i>
                                     ${((curVendor.cost !== undefined) ? curVendor.cost : '0.00')}`);
             },
-            /*show part info*/
+            /**
+             * get part data nd show/display it
+             */
             partShowData = (pData, tb_update = true) => {
                 try {
                     partsShowJson = Object.assign({}, pData);
@@ -819,9 +823,8 @@ const internal = require('stream');
                     pElShow.icon.html(`<img src="${getResDir(`\\images\\${partsShowJson.icon}`)}" class="img-fluid" alt="${partsShowJson.id}">`);
                     //description
                     pElShow.desc.html(`<span class="column sixteen wide">${partsShowJson.description}</span>`);
-                    //stock
+                    //stock - total stock from distributors
                     partsShowJson.stock = totalStock;
-                    console.log(totalStock)
                     if (partsShowJson.stock == 0) slv = 2;
                     else if (utils.filterInt(partsShowJson.stock) < utils.filterInt(partsShowJson.stock_limit)) slv = 1;
                     pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">
@@ -844,7 +847,9 @@ const internal = require('stream');
                     dialogs.notify(['', 'Failed to show part data', 'error']);
                 }
             },
-            //edit part data - show edit modal
+            /**
+             * edit part data
+             */
             partEditData = () => { //edit part
                 if (partsShowJson === undefined) {
                     dialogs.notify(['', 'Please select part!', 'error']);
