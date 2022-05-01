@@ -687,6 +687,7 @@ const internal = require('stream');
          * show part info - view port
          */
         var partsShowJson = Object.null,
+            initDistr_ = false,
             //elements
             pElShow = {
                 id: $('#part-show-id'),
@@ -764,7 +765,21 @@ const internal = require('stream');
                         options.push(item);
                         init = false;
                     });
-                    $('#part-show-dist').dropdown('change values', options);
+                    //init distributor list
+                    if (initDistr_ === false)
+                        $('#part-show-dist').dropdown('change values', options);
+                    else {
+                        //distributors dropdown
+                        $('#part-show-dist').dropdown({
+                            values: options,
+                            onChange: function (value, text, $selectedItem) {
+                                if (value.length > 0) {
+                                    getDistInfo(value);
+                                }
+                            }
+                        });
+                        initDistr_ = true;
+                    }
                 } catch (err) { }
             },
             //show stock
