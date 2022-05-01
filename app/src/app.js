@@ -1178,8 +1178,9 @@ const internal = require('stream');
                 //blurring: true,
                 closable: false,
                 onShow: () => {
-                    $('#part-log-qty').val('');
+                    $('#part-log-qty').val('0');
                     $('#part-log-desc').val('');
+                    console.log(distObj)
                 },
                 onDeny: function () {
                     return true;
