@@ -119,12 +119,18 @@ p{
     border-radius: 6px !important;
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
+    margin-top: 4px !important;
+    height: 42px;
+    border-color: rgb(7, 200, 200) !important;
 }
 
 #form-category .dropdown{
     border-radius: 6px !important;
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
+    border-width: 2px !important;
+    border-color: rgb(8, 225, 225) !important;
+    height: 42px;
 }
 
 #list-panel {
