@@ -688,6 +688,7 @@ const internal = require('stream');
          */
         var partsShowJson = Object.null,
             initDistr_ = false,
+            totalStock = 0,
             //elements
             pElShow = {
                 id: $('#part-show-id'),
@@ -754,19 +755,24 @@ const internal = require('stream');
              * show distributors
              */
             partShowDistbs = (p_dist) => {
-                console.log(p_dist)
+                var options = [],
+                    init = true;
+                //console.log(p_dist)
                 try {
+                    totalStock = 0;
                     curVendor = {};
-                    var options = [],
-                        init = true;
                     p_dist.forEach(vd => {
-                        const val = vd.dist;//.shortenString(12);
-                        const item = { name: val, value: vd.dist, selected: init };
-                        options.push(item);
-                        init = false;
+                        if (vd.stock !== undefined) {
+                            const val = vd.dist;//.shortenString(12);
+                            const item = { name: val, value: vd.dist, selected: init };
+                            options.push(item);
+                            console.log(vd.stock)
+                            totalStock += utils.filterInt(vd.stock);
+                            init = false;
+                        }
                     });
                     //init distributor list
-                    if (initDistr_ === false)
+                    if (initDistr_ === true)
                         $('#part-show-dist').dropdown('change values', options);
                     else {
                         //distributors dropdown
@@ -778,9 +784,13 @@ const internal = require('stream');
                                 }
                             }
                         });
-                        initDistr_ = true;
+                        initDistr_ = false;
                     }
-                } catch (err) { }
+                    return totalStock;
+                } catch (err) {
+                    console.log(err);
+                    return 0;
+                }
             },
             //show stock
             partShowStock = (stock) => {
@@ -810,6 +820,8 @@ const internal = require('stream');
                     //description
                     pElShow.desc.html(`<span class="column sixteen wide">${partsShowJson.description}</span>`);
                     //stock
+                    partsShowJson.stock = totalStock;
+                    console.log(totalStock)
                     if (partsShowJson.stock == 0) slv = 2;
                     else if (utils.filterInt(partsShowJson.stock) < utils.filterInt(partsShowJson.stock_limit)) slv = 1;
                     pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">
