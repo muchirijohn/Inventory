@@ -152,7 +152,7 @@
         <div class="five wide column dev-logs">
             <div class="ui two column grid">
                 <div class="row">
-                    <div id="part-log-btn-desc" class="six wide column left aligned">Part Logs</div>
+                    <div id="part-log-btn-desc" class="six wide column left aligned">Stock Logs</div>
                     <div class="ten wide column right aligned">
                         <div class="ui buttons">
                             <button id="part-log-btn-add" class="ui green icon button"><i
@@ -335,12 +335,37 @@
     </div>
     <!--modal new log-->
     <div id="modal-log-add" class="mini ui modal">
-        <div class="header"><i class="cogs icon"></i> Add New Log</div>
+        <div class="header"><i class="cogs icon"></i> Add New Stock Log</div>
         <div class="content">
             <div class="ui fluid form">
                 <div class="fields">
                     <div class="sixteen wide field">
-                        <label><i class="cart icon"></i> Quantity</label>
+                        <label><i class="industry icon"></i> Distributor</label>
+                        <div id="part-log-dist-dp" class="ui fluid floating labeled icon dropdown button">
+                            <span class="text">Distributors</span>
+                            <div class="menu">
+                                <div class="header"> Select Distributor </div>
+                                <div class="divider"></div>
+                                <div class="item">
+                                    <span class="description">2 new</span>
+                                    <span class="description">2 new</span>
+                                    <span class="text">Important</span>
+                                </div>
+                                <div class="item">
+                                    <span class="description">10 new</span>
+                                    <span class="text">Hopper</span>
+                                </div>
+                                <div class="item">
+                                    <span class="description">5 new</span>
+                                    <span class="text">Discussion</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fields">
+                    <div class="sixteen wide field">
+                        <label><i class="cart arrow down icon"></i> Quantity</label>
                         <div class="ui right labeled input">
                             <input id="part-log-qty" type="text" placeholder="Quantity">
                             <div id="part-log-tr-cbk" class="ui toggle checkbox label">

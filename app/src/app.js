@@ -438,7 +438,7 @@ const internal = require('stream');
             var keys = Object.keys(pEl);
             keys.forEach(key => {
                 if (key === 'id' && !isPartNew) return;
-                pEl[key].val(key === 'stock' ? 0: '');
+                pEl[key].val(key === 'stock' ? 0 : '');
             });
             pEl.type.dropdown('clear');
             pEl.package.dropdown('clear');
@@ -784,6 +784,7 @@ const internal = require('stream');
                             }
                         });
                         initDistr_ = false;
+                        $('#part-log-dist-dp').dropdown();
                     }
                     return totalStock;
                 } catch (err) {
