@@ -438,7 +438,7 @@ const internal = require('stream');
             var keys = Object.keys(pEl);
             keys.forEach(key => {
                 if (key === 'id' && !isPartNew) return;
-                pEl[key].val('');
+                pEl[key].val(key === 'stock' ? 0: '');
             });
             pEl.type.dropdown('clear');
             pEl.package.dropdown('clear');
@@ -766,7 +766,6 @@ const internal = require('stream');
                             const val = vd.dist;//.shortenString(12);
                             const item = { name: val, value: vd.dist, selected: init };
                             options.push(item);
-                            console.log(vd.stock)
                             totalStock += utils.filterInt(vd.stock);
                             init = false;
                         }
@@ -828,7 +827,7 @@ const internal = require('stream');
                     if (partsShowJson.stock == 0) slv = 2;
                     else if (utils.filterInt(partsShowJson.stock) < utils.filterInt(partsShowJson.stock_limit)) slv = 1;
                     pElShow.inStock.html(`<span style="color:#${stock[slv][1]};animation:${(slv === 2) ? 'text-flicker 0.5s infinite alternate' : 'none'}">
-                                        ${stock[slv][0]} - Qty : ${partsShowJson.stock}</span>`);
+                                        Total [ ${stock[slv][0]} ] Qty : ${partsShowJson.stock}</span>`);
                     //show stock
                     partShowStock(partsShowJson.stock);
                     //if updating data
