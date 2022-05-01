@@ -131,6 +131,7 @@ p{
     border-width: 2px !important;
     border-color: rgb(8, 225, 225) !important;
     height: 42px;
+    text-align: center;
 }
 
 #list-panel {
