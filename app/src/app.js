@@ -877,7 +877,10 @@ const internal = require('stream');
         var prevLogEl = null,
             getLogId = (id) => {
                 return `log-${id.replaceAll(':', '_')}`;
-            }
+            },
+            initLogVendors = () => {
+
+            };
         /**
          * show/create log data
          */
