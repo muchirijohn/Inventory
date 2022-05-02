@@ -889,18 +889,24 @@ const internal = require('stream');
                 $('#part-log-dist-dp').dropdown({
                     values: []
                 });
-                //check if we have vendors
-                if (distObj[0].stock === undefined) return;
+                //create vendors
                 distObj.forEach(vd => {
                     menuItems += `
-                        <div class="item ${init_ ? 'active': ''}">
+                        <div class="item ${init_ ? 'active' : ''}">
                             <span class="description"><i class="dollar icon"></i>${vd.cost}</span>
                             <span class="description"><i class="cart arrow down icon"></i>${vd.stock}</span>
                             <span class="text"><i class="industry icon"></i>${vd.dist}</span>
                         </div>`;
-                        init_ = false;
+                    init_ = false;
                 });
                 menuEl.html(menuItems);
+            },
+            logShowCheck = () => {
+                if (distObj[0].stock !== undefined) {
+                    $('#modal-log-add').modal('show');
+                } else {
+                    dialogs.msgTimer()
+                }
             };
         /**
          * show/create log data
@@ -1301,7 +1307,7 @@ const internal = require('stream');
             //show add log modal
             $('#part-log-btn-add').on('click', (e) => {
                 e.preventDefault();
-                $('#modal-log-add').modal('show');
+                logShowCheck();
             });
             //image van prev
             $('#part-show-images-prev').on('click', (e) => {
