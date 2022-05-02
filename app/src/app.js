@@ -899,7 +899,6 @@ const internal = require('stream');
                 menuEl.html(menuItems);
             },
             logShowCheck = () => {
-                console.log(distObj);
                 if (distObj.length === 0 || distObj[0].stock === undefined) {
                     dialogs.msgTimer(['Log', 'Part has no vendor set!', 'error', 1500]);
                 } else {
