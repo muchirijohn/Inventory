@@ -761,9 +761,7 @@ const internal = require('stream');
                     totalStock_ = 0;
                 try {
                     curVendor = {};
-                    $('#part-show-dist').dropdown({
-                        values: options
-                    });
+                    $('#part-show-dist').dropdown('clear');
                     if ( p_dist.length === 0 || p_dist[0].stock === undefined) return totalStock_;
                     p_dist.forEach(vd => {
                         const val = vd.dist;//.shortenString(12);
@@ -887,9 +885,7 @@ const internal = require('stream');
                     init_ = true;
 
                 //clear menu items
-                $('#part-log-dist-dp').dropdown({
-                    values: []
-                });
+                $('#part-log-dist-dp').dropdown('clear');
                 //create vendors
                 distObj.forEach(vd => {
                     menuItems += `
@@ -903,10 +899,16 @@ const internal = require('stream');
                 menuEl.html(menuItems);
             },
             logShowCheck = () => {
-                if (distObj.length !== 0 || distObj[0].stock !== undefined) {
-                    $('#modal-log-add').modal('show');
-                } else {
+                console.log(distObj);
+                if (distObj.length === 0 || distObj[0].stock === undefined) {
                     dialogs.msgTimer(['Log', 'Part has no vendor set!', 'error', 1500]);
+                } else {
+                    //init modal fields
+                    initLogVendors();
+                    $('#part-log-qty').val('0');
+                    $('#part-log-desc').val('');
+                    //show modal
+                    $('#modal-log-add').modal('show');
                 }
             };
         /**
@@ -1208,9 +1210,7 @@ const internal = require('stream');
                 //blurring: true,
                 closable: false,
                 onShow: () => {
-                    initLogVendors();
-                    $('#part-log-qty').val('0');
-                    $('#part-log-desc').val('');
+                    //on modal show
                 },
                 onDeny: function () {
                     return true;
