@@ -896,7 +896,7 @@ const internal = require('stream');
                         <div class="item ${init_ ? 'active': ''}">
                             <span class="description"><i class="dollar icon"></i>${vd.cost}</span>
                             <span class="description"><i class="cart arrow down icon"></i>${vd.stock}</span>
-                            <span class="text">${vd.dist}</span>
+                            <span class="text"><i class="industry icon"></i>${vd.dist}</span>
                         </div>`;
                         init_ = false;
                 });
