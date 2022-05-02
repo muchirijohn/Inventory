@@ -889,7 +889,7 @@ const internal = require('stream');
                 //create vendors
                 distObj.forEach(vd => {
                     menuItems += `
-                        <div class="item ${init_ ? 'active' : ''}">
+                        <div class="item ${init_ === true? 'active selected' : ''}">
                             <span class="description"><i class="dollar icon"></i>${vd.cost}</span>
                             <span class="description"><i class="cart arrow down icon"></i>${vd.stock}</span>
                             <span class="text"><i class="industry icon"></i>${vd.dist}</span>
@@ -1219,7 +1219,9 @@ const internal = require('stream');
                     return false;
                 }
             });
-            $('#part-log-dist-dp').dropdown();
+            $('#part-log-dist-dp').dropdown({
+                transition: 'horizontal flip',
+            });
             //init categories
             initAllSelections();
             //init modal tabs
