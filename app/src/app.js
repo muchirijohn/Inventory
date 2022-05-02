@@ -760,6 +760,9 @@ const internal = require('stream');
                     totalStock_ = 0;
                 try {
                     curVendor = {};
+                    $('#part-show-dist').dropdown({
+                        values: options
+                    });
                     if (p_dist[0].stock === undefined) return totalStock_;
                     p_dist.forEach(vd => {
                         const val = vd.dist;//.shortenString(12);
@@ -782,7 +785,6 @@ const internal = require('stream');
                             }
                         });
                         initDistr_ = false;
-                        $('#part-log-dist-dp').dropdown();
                     }
                     return totalStock_;
                 } catch (err) {
@@ -879,26 +881,26 @@ const internal = require('stream');
                 return `log-${id.replaceAll(':', '_')}`;
             },
             initLogVendors = () => {
-                /*
-                <div class="item">
-                    <span class="description">2 new</span>
-                    <span class="text">Important</span>
-                </div>
-                */
-                // var lvd_ = Object.assign({}, distObj);
                 var menuItems = '',
-                    menuEl = $('#part-log-dist-dp .menu');
+                    menuEl = $('#part-log-dist-dp .menu'),
+                    init_ = true;
+
                 //clear menu items
-                menuEl.innerHTML = '';
+                $('#part-log-dist-dp').dropdown({
+                    values: []
+                });
                 //check if we have vendors
                 if (distObj[0].stock === undefined) return;
                 distObj.forEach(vd => {
-                    const val = vd.dist;//.shortenString(12);
-                    const item = { name: val, value: vd.dist, selected: init };
-                    options.push(item);
-                    init = false;
+                    menuItems += `
+                        <div class="item ${init_ ? 'active': ''}">
+                            <span class="description"><i class="dollar icon"></i>${vd.cost}</span>
+                            <span class="description"><i class="cart arrow down icon"></i>${vd.stock}</span>
+                            <span class="text">${vd.dist}</span>
+                        </div>`;
+                        init_ = false;
                 });
-                menuEl.innerHTML = menuItems;
+                menuEl.html(menuItems);
             };
         /**
          * show/create log data
@@ -1199,9 +1201,9 @@ const internal = require('stream');
                 //blurring: true,
                 closable: false,
                 onShow: () => {
+                    initLogVendors();
                     $('#part-log-qty').val('0');
                     $('#part-log-desc').val('');
-                    console.log(distObj)
                 },
                 onDeny: function () {
                     return true;
@@ -1211,6 +1213,7 @@ const internal = require('stream');
                     return false;
                 }
             });
+            $('#part-log-dist-dp').dropdown();
             //init categories
             initAllSelections();
             //init modal tabs
