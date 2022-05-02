@@ -452,6 +452,7 @@ const internal = require('stream');
         function getDistData(p_dist) {
             try {
                 var d_ = [];
+                if(p_dist === null || p_dist.trim() === '') return d_;
                 const dists = p_dist.split('\n');
                 dists.forEach(dist => {
                     var slc = dist.split(';');
@@ -763,7 +764,7 @@ const internal = require('stream');
                     $('#part-show-dist').dropdown({
                         values: options
                     });
-                    if (p_dist[0].stock === undefined) return totalStock_;
+                    if ( p_dist.length === 0 || p_dist[0].stock === undefined) return totalStock_;
                     p_dist.forEach(vd => {
                         const val = vd.dist;//.shortenString(12);
                         const item = { name: val, value: vd.dist, selected: init };
@@ -902,7 +903,7 @@ const internal = require('stream');
                 menuEl.html(menuItems);
             },
             logShowCheck = () => {
-                if (distObj[0].stock !== undefined) {
+                if (distObj.length !== 0 || distObj[0].stock !== undefined) {
                     $('#modal-log-add').modal('show');
                 } else {
                     dialogs.msgTimer(['Log', 'Part has no vendor set!', 'error', 1500]);
