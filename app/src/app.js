@@ -756,19 +756,17 @@ const internal = require('stream');
              */
             partShowDistbs = (p_dist) => {
                 var options = [],
-                    init = true;
-                //console.log(p_dist)
+                    init = true,
+                    totalStock_ = 0;
                 try {
-                    totalStock = 0;
                     curVendor = {};
+                    if (p_dist[0].stock === undefined) return totalStock_;
                     p_dist.forEach(vd => {
-                        if (vd.stock !== undefined) {
-                            const val = vd.dist;//.shortenString(12);
-                            const item = { name: val, value: vd.dist, selected: init };
-                            options.push(item);
-                            totalStock += utils.filterInt(vd.stock);
-                            init = false;
-                        }
+                        const val = vd.dist;//.shortenString(12);
+                        const item = { name: val, value: vd.dist, selected: init };
+                        options.push(item);
+                        totalStock_ += utils.filterInt(vd.stock);
+                        init = false;
                     });
                     //init distributor list
                     if (initDistr_ === true)
@@ -786,7 +784,7 @@ const internal = require('stream');
                         initDistr_ = false;
                         $('#part-log-dist-dp').dropdown();
                     }
-                    return totalStock;
+                    return totalStock_;
                 } catch (err) {
                     console.log(err);
                     return 0;
@@ -818,7 +816,7 @@ const internal = require('stream');
                     //distributors
                     $('#part-show-dist .stock').text('0'); //init original stock
                     distObj = getDistData(partsShowJson.dist); //set distributor
-                    partShowDistbs(distObj);
+                    totalStock = partShowDistbs(distObj);
                     //icon
                     pElShow.icon.html(`<img src="${getResDir(`\\images\\${partsShowJson.icon}`)}" class="img-fluid" alt="${partsShowJson.id}">`);
                     //description
