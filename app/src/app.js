@@ -905,7 +905,7 @@ const internal = require('stream');
                 if (distObj[0].stock !== undefined) {
                     $('#modal-log-add').modal('show');
                 } else {
-                    dialogs.msgTimer()
+                    dialogs.msgTimer(['Log', 'Part has no vendor set!', 'error', 1500]);
                 }
             };
         /**
