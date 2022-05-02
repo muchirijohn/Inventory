@@ -879,7 +879,26 @@ const internal = require('stream');
                 return `log-${id.replaceAll(':', '_')}`;
             },
             initLogVendors = () => {
-
+                /*
+                <div class="item">
+                    <span class="description">2 new</span>
+                    <span class="text">Important</span>
+                </div>
+                */
+                // var lvd_ = Object.assign({}, distObj);
+                var menuItems = '',
+                    menuEl = $('#part-log-dist-dp .menu');
+                //clear menu items
+                menuEl.innerHTML = '';
+                //check if we have vendors
+                if (distObj[0].stock === undefined) return;
+                distObj.forEach(vd => {
+                    const val = vd.dist;//.shortenString(12);
+                    const item = { name: val, value: vd.dist, selected: init };
+                    options.push(item);
+                    init = false;
+                });
+                menuEl.innerHTML = menuItems;
             };
         /**
          * show/create log data
