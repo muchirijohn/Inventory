@@ -896,7 +896,7 @@ const internal = require('stream');
                     let name_ = `
                             <i class="industry icon"></i>${vd.dist} :&nbsp
                             <i class="cart arrow down icon"></i>${vd.stock}&nbsp&nbsp
-                            <i class="dollar icon"></i>${vd.cost}`;
+                            <i class="dollar icon"></i> ${vd.cost}`;
                     //create item object
                     var item = { name: name_, value: vd.dist, selected: init_ };
                     menuItems.push(item);
