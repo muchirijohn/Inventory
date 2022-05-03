@@ -892,13 +892,15 @@ const internal = require('stream');
                 $('#part-log-dist-dp').dropdown('clear');
                 //create vendors
                 distObj.forEach(vd => {
+                    //item description
                     let name_ = `
                             <i class="industry icon"></i>${vd.dist} :&nbsp
                             <i class="cart arrow down icon"></i>${vd.stock}&nbsp&nbsp
                             <i class="dollar icon"></i>${vd.cost}`;
-
+                    //create item object
                     var item = { name: name_, value: vd.dist, selected: init_ };
                     menuItems.push(item);
+                    //select only first item
                     init_ = false;
                 });
                 $('#part-log-dist-dp').dropdown('change values', menuItems);
@@ -908,6 +910,7 @@ const internal = require('stream');
              * vendor dropdown select
              */
             logVendorChange = (value) => {
+                //find the vendor index
                 const index = distObj.findIndex((dist_) => (dist_.dist === value));
                 console.log([value, index, distObj[index]]);
             },
