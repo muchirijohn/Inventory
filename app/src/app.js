@@ -896,13 +896,20 @@ const internal = require('stream');
                             <i class="industry icon"></i>${vd.dist} :&nbsp
                             <i class="cart arrow down icon"></i>${vd.stock}&nbsp&nbsp
                             <i class="dollar icon"></i>${vd.cost}`;
-                            
+
                     var item = { name: name_, value: vd.dist, selected: init_ };
                     menuItems.push(item);
                     init_ = false;
                 });
                 $('#part-log-dist-dp').dropdown('change values', menuItems);
                 //menuEl.html(menuItems);
+            },
+            /**
+             * vendor dropdown select
+             */
+            logVendorChange = (value) => {
+                const index = distObj.findIndex((dist_) => (dist_.dist === value));
+                console.log([value, index, distObj[index]]);
             },
             /**
              * init log modal and validate fields on show
@@ -1232,7 +1239,7 @@ const internal = require('stream');
                 options: [],
                 transition: 'horizontal flip',
                 onChange: function (value, text, $selectedItem) {
-                    if(value.length > 0)
+                    if (value.length > 0)
                         logVendorChange(value);
                 }
             });
