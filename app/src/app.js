@@ -912,7 +912,9 @@ const internal = require('stream');
             logVendorChange = (value) => {
                 //find the vendor index
                 const index = distObj.findIndex((dist_) => (dist_.dist === value));
-                console.log([value, index, distObj[index]]);
+                if (index !== -1) {
+                    console.log([value, index, distObj[index]]);
+                }
             },
             /**
              * init log modal and validate fields on show
