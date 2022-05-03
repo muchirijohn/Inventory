@@ -452,7 +452,7 @@ const internal = require('stream');
         function getDistData(p_dist) {
             try {
                 var d_ = [];
-                if(p_dist === null || p_dist.trim() === '') return d_;
+                if (p_dist === null || p_dist.trim() === '') return d_;
                 const dists = p_dist.split('\n');
                 dists.forEach(dist => {
                     var slc = dist.split(';');
@@ -762,7 +762,7 @@ const internal = require('stream');
                 try {
                     curVendor = {};
                     $('#part-show-dist').dropdown('clear');
-                    if ( p_dist.length === 0 || p_dist[0].stock === undefined) return totalStock_;
+                    if (p_dist.length === 0 || p_dist[0].stock === undefined) return totalStock_;
                     p_dist.forEach(vd => {
                         const val = vd.dist;//.shortenString(12);
                         const item = { name: val, value: vd.dist, selected: init };
@@ -879,8 +879,12 @@ const internal = require('stream');
             getLogId = (id) => {
                 return `log-${id.replaceAll(':', '_')}`;
             },
+            /**
+             * init log vendors 
+             * populate dropdown
+             */
             initLogVendors = () => {
-                var menuItems = '',
+                var menuItems = [],
                     menuEl = $('#part-log-dist-dp .menu'),
                     init_ = true;
 
@@ -888,21 +892,26 @@ const internal = require('stream');
                 $('#part-log-dist-dp').dropdown('clear');
                 //create vendors
                 distObj.forEach(vd => {
-                    menuItems += `
-                        <div class="item ${init_ === true? 'active selected' : ''}">
-                            <span class="description"><i class="dollar icon"></i>${vd.cost}</span>
-                            <span class="description"><i class="cart arrow down icon"></i>${vd.stock}</span>
-                            <span class="text"><i class="industry icon"></i>${vd.dist}</span>
-                        </div>`;
+                    let name_ = `
+                            <i class="industry icon"></i>${vd.dist} :&nbsp
+                            <i class="cart arrow down icon"></i>${vd.stock}&nbsp&nbsp
+                            <i class="dollar icon"></i>${vd.cost}`;
+                            
+                    var item = { name: name_, value: vd.dist, selected: init_ };
+                    menuItems.push(item);
                     init_ = false;
                 });
-                menuEl.html(menuItems);
+                $('#part-log-dist-dp').dropdown('change values', menuItems);
+                //menuEl.html(menuItems);
             },
+            /**
+             * init log modal and validate fields on show
+             */
             logShowCheck = () => {
                 if (distObj.length === 0 || distObj[0].stock === undefined) {
                     dialogs.msgTimer(['Log', 'Part has no vendor set!', 'error', 1500]);
                 } else {
-                    //init modal fields
+                    //init log modal fields
                     initLogVendors();
                     $('#part-log-qty').val('0');
                     $('#part-log-desc').val('');
@@ -1220,7 +1229,12 @@ const internal = require('stream');
                 }
             });
             $('#part-log-dist-dp').dropdown({
+                options: [],
                 transition: 'horizontal flip',
+                onChange: function (value, text, $selectedItem) {
+                    if(value.length > 0)
+                        logVendorChange(value);
+                }
             });
             //init categories
             initAllSelections();
