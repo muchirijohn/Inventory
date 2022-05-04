@@ -882,6 +882,7 @@ const internal = require('stream');
             }
 
         var prevLogEl = null,
+            selectedDistIndex = -1,
             getLogId = (id) => {
                 return `log-${id.replaceAll(':', '_')}`;
             },
@@ -895,6 +896,7 @@ const internal = require('stream');
                     init_ = true;
 
                 //clear menu items
+                selectedDistIndex = -1;
                 $('#part-log-dist-dp').dropdown('clear');
                 //create vendors
                 partsJsonDb[selectedID].distObj.forEach(vd => {
@@ -920,6 +922,7 @@ const internal = require('stream');
                 //find the vendor index
                 const index = dist_.findIndex((dist_) => (dist_.dist === value));
                 if (index !== -1) {
+                    selectedDistIndex = index;
                     console.log([value, index, dist_[index]]);
                 }
             },
@@ -1013,12 +1016,15 @@ const internal = require('stream');
             var uid = 'Admin',//chance.string({ length: 4, casing: 'upper', alpha: true, numeric: true }),
                 qty = chance.natural({ min: 1, max: 5000 }),
                 dt_ = moment().format(),
-                date = dt_.substring(0, dt_.lastIndexOf('+'));
+                date = dt_.substring(0, dt_.lastIndexOf('+')),
+                id_ = partsShowJson.id;
+            //get distributor list
+            let dist_ = partsJsonDb[id_].distObj[selectedDistIndex];
             if (partsShowJson === undefined) {
                 dialogs.notify(['', 'Please select part!', 'error']);
                 return false;
             }
-            var partStock = partsShowJson.stock;
+            var partStock = dist_.stock;
             var qty = $('#part-log-qty').val(),
                 trs = $('#part-log-tr-cbk.ui.checkbox').checkbox('is checked'),
                 desc = $('#part-log-desc').val();
@@ -1039,13 +1045,16 @@ const internal = require('stream');
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
-            var id_ = partsShowJson.id,
-                log = [id_, uid, date, qty, (trs ? 1 : 0), desc],
-                lstk = utils.filterInt(qty);
+            var log = [id_, uid, date, qty, (trs ? 1 : 0), desc],
+                lstk = utils.filterInt(qty),
+                stock = 0;
             if (lstk !== NaN) {
-                var stock = partsJsonDb[id_].stock;
+                /*var stock = partsJsonDb[id_].stock;
                 stock = utils.filterInt(stock) + utils.filterInt(lstk);
-                partsJsonDb[id_].stock = stock;
+                partsJsonDb[id_].stock = stock;*/
+                console.log(dist_);
+                stock = utils.filterInt(dist_.stock) + utils.filterInt(lstk);
+                dist_.stock = stock;
                 partShowData(partsJsonDb[id_], false);
             }
             //createlog(log, true);
