@@ -113,10 +113,10 @@ var database = (function database() {
     /**
      * save part log
      * @param {Array} log data to create
-     * @param {Integer} stock stock quantity added/removed
+     * @param {Integer} update stock quantity added/removed and dist info
      * @param {Function} fxn callback
      */
-    function dbRunSaveLog(log, stock = -1, fxn) {
+    function dbRunSaveLog(log, update = null, fxn) {
         if (db === null) dbConnect();
         var sql = `INSERT INTO logs
             (part_id,user,date,quantity,state,desc)
@@ -131,8 +131,8 @@ var database = (function database() {
                     //partAddEditUi.createlog(log);
                 }
             });
-            if (stock !== -1) {
-                sql = `UPDATE parts SET stock='${stock}' WHERE id='${log[0]}'`;
+            if (update !== null) {
+                sql = `UPDATE parts SET stock='${update[0]}', dist='${update[1]}' WHERE id='${log[0]}'`;
                 db.run(sql, [], (err) => {
                     if (err) {
                         dialogs.notify(["Error", "Failed to update stock.", "error"]);
