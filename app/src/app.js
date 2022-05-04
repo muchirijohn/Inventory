@@ -424,7 +424,7 @@ const internal = require('stream');
         //preiovus shown id
         let selectedID = '',
             //distributors array object
-            distObj = [],
+            //distObj = [],
             //current vendor info
             curVendor = {},
             //manufacturers array object
@@ -742,9 +742,9 @@ const internal = require('stream');
              * @param {String} distb 
              */
             getDistInfo = (distb) => {
-                if (distObj.length > 0) {
-                    const index = distObj.findIndex((vd) => (vd.dist) === distb);
-                    curVendor = distObj[index];
+                if (partsJsonDb[selectedID]['distObj'].length > 0) {
+                    const index = partsJsonDb[selectedID]['distObj'].findIndex((vd) => (vd.dist) === distb);
+                    curVendor = partsJsonDb[selectedID]['distObj'][index];
                     $('#part-show-dist .stock').text(curVendor.stock);
                     partShowStock(partsJsonDb[selectedID].stock);
                     $('#part-show-seller').attr('data-tooltip', `Open ${curVendor.dist} Link`);
@@ -809,15 +809,19 @@ const internal = require('stream');
                     partsShowJson = Object.assign({}, pData);
                     var stock = [['In Stock', '5aff0e'], [`Low Stock - Limit is ${partsShowJson.stock_limit}`, 'ffcb22'], ['Out of Stock', 'ff0e0e']],
                         slv = 0;
-                    //show data only once
                     //if (prevID === partsShowJson.id) return;
                     selectedID = partsShowJson.id;
+                    //show data only once
+                    if (partsShowJson.distObj === undefined) {
+                        let distObj = getDistData(partsShowJson.dist); //set distributor
+                        partsShowJson['distObj'] = distObj;
+                        partsJsonDb[selectedID]['distObj'] = distObj;
+                    }
                     //id+manf+mNum
                     pElShow.id.html(`<span class='hd-inv-id'>${partsShowJson.id}</span><br><span class='hd-manf-id'>${partsShowJson.manf_part_no}</span`);
                     //distributors
                     $('#part-show-dist .stock').text('0'); //init original stock
-                    distObj = getDistData(partsShowJson.dist); //set distributor
-                    totalStock = partShowDistbs(distObj);
+                    totalStock = partShowDistbs(partsShowJson.distObj);
                     //icon
                     pElShow.icon.html(`<img src="${getResDir(`\\images\\${partsShowJson.icon}`)}" class="img-fluid" alt="${partsShowJson.id}">`);
                     //description
@@ -843,6 +847,7 @@ const internal = require('stream');
                     }
                     qr_data = '';
                 } catch (err) {
+                    console.log(err);
                     dialogs.notify(['', 'Failed to show part data', 'error']);
                 }
             },
@@ -891,7 +896,7 @@ const internal = require('stream');
                 //clear menu items
                 $('#part-log-dist-dp').dropdown('clear');
                 //create vendors
-                distObj.forEach(vd => {
+                partsJsonDb[selectedID]['distObj'].forEach(vd => {
                     //item description
                     let name_ = `
                             <i class="industry icon"></i>${vd.dist} :&nbsp
@@ -911,16 +916,16 @@ const internal = require('stream');
              */
             logVendorChange = (value) => {
                 //find the vendor index
-                const index = distObj.findIndex((dist_) => (dist_.dist === value));
+                const index = partsJsonDb[selectedID]['distObj'].findIndex((dist_) => (dist_.dist === value));
                 if (index !== -1) {
-                    console.log([value, index, distObj[index]]);
+                    console.log([value, index, partsJsonDb[selectedID]['distObj'][index]]);
                 }
             },
             /**
              * init log modal and validate fields on show
              */
             logShowCheck = () => {
-                if (distObj.length === 0 || distObj[0].stock === undefined) {
+                if (partsJsonDb[selectedID]['distObj'].length === 0 || partsJsonDb[selectedID]['distObj'][0].stock === undefined) {
                     dialogs.msgTimer(['Log', 'Part has no vendor set!', 'error', 1500]);
                 } else {
                     //init log modal fields
