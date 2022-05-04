@@ -890,17 +890,18 @@ const internal = require('stream');
              * init log vendors 
              * populate dropdown
              */
-            initLogVendors = () => {
+            initLogVendors = (index = 0) => {
                 var menuItems = [],
                     menuEl = $('#part-log-dist-dp .menu'),
-                    init_ = true;
-
+                    init_ = index === 0 ? true : false,
+                    cindex = 0;
                 //clear menu items
-                selectedDistIndex = -1;
                 $('#part-log-dist-dp').dropdown('clear');
                 //create vendors
                 partsJsonDb[selectedID].distObj.forEach(vd => {
                     //item description
+                    if(index === cindex) init_ = true;
+                    console.log([index, cindex, init_])
                     let name_ = `
                             <i class="industry icon"></i>${vd.dist} :&nbsp
                             <i class="cart arrow down icon"></i>${vd.stock}&nbsp&nbsp
@@ -910,6 +911,7 @@ const internal = require('stream');
                     menuItems.push(item);
                     //select only first item
                     init_ = false;
+                    cindex += 1;
                 });
                 $('#part-log-dist-dp').dropdown('change values', menuItems);
                 //menuEl.html(menuItems);
@@ -923,7 +925,7 @@ const internal = require('stream');
                 const index = dist_.findIndex((dist_) => (dist_.dist === value));
                 if (index !== -1) {
                     selectedDistIndex = index;
-                    console.log([value, index, dist_[index]]);
+                    //console.log([value, index, dist_[index]]);
                 }
             },
             /**
@@ -1045,24 +1047,23 @@ const internal = require('stream');
                 return false;
             }
             qty = (trs ? '+' : '-') + qty;
-            var log = [id_, uid, date, qty, (trs ? 1 : 0), desc],
+            let log = [id_, uid, date, qty, (trs ? 1 : 0), desc],
                 lstk = utils.filterInt(qty),
                 stock = 0;
             if (lstk !== NaN) {
-                /*var stock = partsJsonDb[id_].stock;
-                stock = utils.filterInt(stock) + utils.filterInt(lstk);
-                partsJsonDb[id_].stock = stock;*/
-                console.log(dist_);
                 stock = utils.filterInt(dist_.stock) + utils.filterInt(lstk);
                 dist_.stock = stock;
+                log[1] = dist_.dist;
                 partShowData(partsJsonDb[id_], false);
             }
             //createlog(log, true);
-            var logObj = { part_id: log[0], user: log[1], date: log[2], quantity: utils.filterInt(log[3]), state: log[4], desc: log[5] };
+            let logObj = { part_id: log[0], user: log[1], date: log[2], quantity: utils.filterInt(log[3]), state: log[4], desc: log[5] };
             //save logs to array object
             if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
             //save to logs to db
             database.dbRunSaveLog(log, stock, createlog);
+            //init dropdown vendor list
+            initLogVendors(selectedDistIndex);
         }
 
         /**
