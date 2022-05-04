@@ -1068,10 +1068,10 @@ const internal = require('stream');
             let logObj = { part_id: log[0], user: log[1], date: log[2], quantity: utils.filterInt(log[3]), state: log[4], desc: log[5] };
             //save logs to array object
             if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
-            let v_ = logSaveVendors();
-            console.log(v_);
+            //get updated vendors
+            let vendors = logSaveVendors();
             //save to logs to db
-            database.dbRunSaveLog(log, [stock, v_], createlog);
+            database.dbRunSaveLog(log, [stock, vendors], createlog);
         }
 
         /**
