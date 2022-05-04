@@ -886,7 +886,7 @@ const internal = require('stream');
             getLogId = (id) => {
                 return `log-${id.replaceAll(':', '_')}`;
             },
-            logSaveVendors = () => {
+            logStringifyVendors = () => {
                 let s_ = '';
                 const dist_ = partsJsonDb[selectedID].distObj;
                 dist_.forEach(vd => {
@@ -1023,55 +1023,62 @@ const internal = require('stream');
          * @returns none
          */
         function partNewLog() {
-            var uid = 'Admin',//chance.string({ length: 4, casing: 'upper', alpha: true, numeric: true }),
-                qty = chance.natural({ min: 1, max: 5000 }),
-                dt_ = moment().format(),
-                date = dt_.substring(0, dt_.lastIndexOf('+')),
-                id_ = partsShowJson.id;
-            //get distributor list
-            let dist_ = partsJsonDb[id_].distObj[selectedDistIndex];
-            if (partsShowJson === undefined) {
-                dialogs.notify(['', 'Please select part!', 'error']);
-                return false;
+            try {
+                var uid = 'Admin',//chance.string({ length: 4, casing: 'upper', alpha: true, numeric: true }),
+                    qty = chance.natural({ min: 1, max: 5000 }),
+                    dt_ = moment().format(),
+                    date = dt_.substring(0, dt_.lastIndexOf('+')),
+                    id_ = partsShowJson.id;
+                //get distributor list
+                let dist_ = partsJsonDb[id_].distObj[selectedDistIndex];
+                if (partsShowJson === undefined) {
+                    dialogs.notify(['', 'Please select part!', 'error']);
+                    return false;
+                }
+                var partStock = dist_.stock;
+                var qty = $('#part-log-qty').val(),
+                    trs = $('#part-log-tr-cbk.ui.checkbox').checkbox('is checked'),
+                    desc = $('#part-log-desc').val();
+                //check if quantity not empty
+                if (isNaN(qty) || qty.length === 0) {
+                    dialogs.notify(['', 'Quantity should be a numeric value!', 'error']);
+                    return false;
+                }
+                //console.log(partStock.length)
+                //check if quantity available
+                if ((partStock.length === 0 || parseInt(qty) > parseInt(partStock)) && !trs) {
+                    dialogs.notify(['', `Quantity(${qty}) greater than available stock(${partStock})!`, 'error']);
+                    return false;
+                }
+                //check if desc empty
+                if (desc.length === 0) {
+                    dialogs.notify(['', 'Description cannot be empty!', 'error']);
+                    return false;
+                }
+                qty = (trs ? '+' : '-') + qty;
+                let log = [id_, uid, date, qty, (trs ? 1 : 0), desc],
+                    lstk = utils.filterInt(qty),
+                    stock = 0;
+                if (lstk !== NaN) {
+                    stock = utils.filterInt(dist_.stock) + utils.filterInt(lstk);
+                    dist_.stock = stock;
+                    log[1] = dist_.dist;
+                    partShowData(partsJsonDb[id_], false);
+                }
+                //createlog(log, true);
+                let logObj = { part_id: log[0], user: log[1], date: log[2], quantity: utils.filterInt(log[3]), state: log[4], desc: log[5] };
+                //save logs to array object
+                if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
+                //get updated vendors
+                let vendors = logStringifyVendors();
+                partsJsonDb[id_].dist = vendors;
+                partsShowJson.dist = vendors;
+                //save to logs to db
+                database.dbRunSaveLog(log, [stock, vendors], createlog);
+            } catch (err) {
+                console.log(err);
+                dialogs.msgTimer(['Log', 'Error creating log!', 'error', 1500]);
             }
-            var partStock = dist_.stock;
-            var qty = $('#part-log-qty').val(),
-                trs = $('#part-log-tr-cbk.ui.checkbox').checkbox('is checked'),
-                desc = $('#part-log-desc').val();
-            //check if quantity not empty
-            if (isNaN(qty) || qty.length === 0) {
-                dialogs.notify(['', 'Quantity should be a numeric value!', 'error']);
-                return false;
-            }
-            //console.log(partStock.length)
-            //check if quantity available
-            if ((partStock.length === 0 || parseInt(qty) > parseInt(partStock)) && !trs) {
-                dialogs.notify(['', `Quantity(${qty}) greater than available stock(${partStock})!`, 'error']);
-                return false;
-            }
-            //check if desc empty
-            if (desc.length === 0) {
-                dialogs.notify(['', 'Description cannot be empty!', 'error']);
-                return false;
-            }
-            qty = (trs ? '+' : '-') + qty;
-            let log = [id_, uid, date, qty, (trs ? 1 : 0), desc],
-                lstk = utils.filterInt(qty),
-                stock = 0;
-            if (lstk !== NaN) {
-                stock = utils.filterInt(dist_.stock) + utils.filterInt(lstk);
-                dist_.stock = stock;
-                log[1] = dist_.dist;
-                partShowData(partsJsonDb[id_], false);
-            }
-            //createlog(log, true);
-            let logObj = { part_id: log[0], user: log[1], date: log[2], quantity: utils.filterInt(log[3]), state: log[4], desc: log[5] };
-            //save logs to array object
-            if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
-            //get updated vendors
-            let vendors = logSaveVendors();
-            //save to logs to db
-            database.dbRunSaveLog(log, [stock, vendors], createlog);
         }
 
         /**
