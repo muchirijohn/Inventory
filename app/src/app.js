@@ -886,6 +886,14 @@ const internal = require('stream');
             getLogId = (id) => {
                 return `log-${id.replaceAll(':', '_')}`;
             },
+            logSaveVendors = () => {
+                let s_ = '';
+                const dist_ = partsJsonDb[selectedID].distObj;
+                dist_.forEach(vd => {
+                    s_ += `${vd.dist};${vd.link};${vd.stock};${vd.cost}\n`;
+                });
+                return s_.trim();
+            },
             /**
              * init log vendors 
              * populate dropdown
@@ -900,8 +908,7 @@ const internal = require('stream');
                 //create vendors
                 partsJsonDb[selectedID].distObj.forEach(vd => {
                     //item description
-                    if(index === cindex) init_ = true;
-                    console.log([index, cindex, init_])
+                    if (index === cindex) init_ = true;
                     let name_ = `
                             <i class="industry icon"></i>${vd.dist} :&nbsp
                             <i class="cart arrow down icon"></i>${vd.stock}&nbsp&nbsp
@@ -1007,7 +1014,8 @@ const internal = require('stream');
                 //ttr.scrollIntoView();
                 dialogs.msgTimer(['Log', 'log added succesfully', 'success', 1500]);
             }
-
+            //init dropdown vendor list
+            initLogVendors(selectedDistIndex);
         };
 
         /**
@@ -1060,10 +1068,10 @@ const internal = require('stream');
             let logObj = { part_id: log[0], user: log[1], date: log[2], quantity: utils.filterInt(log[3]), state: log[4], desc: log[5] };
             //save logs to array object
             if (partsJsonDb[selectedID].logs !== undefined) { partsJsonDb[selectedID].logs.push(logObj); }
+            let v_ = logSaveVendors();
+            console.log(v_);
             //save to logs to db
-            database.dbRunSaveLog(log, stock, createlog);
-            //init dropdown vendor list
-            initLogVendors(selectedDistIndex);
+            database.dbRunSaveLog(log, [stock, v_], createlog);
         }
 
         /**
