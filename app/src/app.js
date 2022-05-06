@@ -1044,6 +1044,13 @@ const internal = require('stream');
                     dialogs.notify(['', 'Quantity should be a numeric value!', 'error']);
                     return false;
                 }
+
+                qty = utils.filterInt(qty);
+                if(qty <= 0){
+                    dialogs.notify(['', `Quantity(${qty}) should be greater than 0!`, 'error']);
+                    return false;
+                }
+
                 //console.log(partStock.length)
                 //check if quantity available
                 if ((partStock.length === 0 || parseInt(qty) > parseInt(partStock)) && !trs) {
