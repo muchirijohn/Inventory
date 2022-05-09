@@ -77,7 +77,7 @@ const internal = require('stream');
             if (win_height != $(window).height()) {
                 win_height = $(window).height();
             }
-            list_elm.css('height', (win_height - 175) + 'px');
+            list_elm.css('height', (win_height - 180) + 'px');
         }
 
         /**
