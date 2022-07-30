@@ -152,10 +152,10 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-credits to:
+Inspiration, feedback, and testing:
 * <a href="https://twitter.com/ngoirimercy" target="_blank">Mercy Ngoiri</a>
 * <a href="https://twitter.com/mwaush6" target="_blank">Evans Mwaura</a>
 * <a href="https://twitter.com/thekaruri" target="_blank">Karuri Gakure</a>
-<a href="https://github.com/mevolkan" target="_blank">Mevolkan</a>
+* <a href="https://github.com/mevolkan" target="_blank">Mevolkan</a>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
