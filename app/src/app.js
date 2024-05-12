@@ -1220,7 +1220,7 @@ const internal = require('stream');
                     //console.log(qr_data);
                     $('#part-show-icon>img').attr("src", qr_data);
                 } else {
-                    dialogs.msgTimer(['', 'Failed to generate QR code! Set Vendor', 'error', 1500]);
+                    dialogs.msgTimer(['', 'Failed to generate QR code! Please Set Manufacturer\'s Link', 'error', 1500]);
                 }
             }
 
